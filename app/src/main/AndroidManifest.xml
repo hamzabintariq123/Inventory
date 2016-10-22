@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hamza.inventory">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Activities.Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.Customers" />
+        <activity android:name=".Activities.Add_New_Customer" />
+        <activity android:name=".Activities.Add_Products" />
+        <activity android:name=".Activities.Products" />
+        <activity android:name=".Activities.Payment" />
+        <activity android:name=".Activities.Recovery" />
+        <activity android:name=".Activities.Sample" />
+        <activity android:name=".Activities.Expence" />
+        <activity android:name=".Activities.Supply" />
+        <activity android:name=".Activities.Supply_details" />
+    </application>
+
+</manifest>

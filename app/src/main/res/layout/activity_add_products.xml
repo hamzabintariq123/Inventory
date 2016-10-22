@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
+    tools:context=".Activities.Add_Products">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar">
+
+    </include>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Select Product : "
+        android:id="@+id/textView7"
+        android:layout_below="@+id/app_bar"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="42dp"
+        android:layout_margin="10dp"
+        android:textColor="#000"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_spinner"
+        android:layout_below="@+id/textView7"
+        android:layout_alignStart="@+id/textView7"
+        android:layout_marginRight="10dp" />
+
+    <EditText
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:ems="10"
+        android:background="@drawable/edittext_style"
+        android:hint="Rate"
+        android:id="@+id/rate"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/radioGroup"
+        android:layout_alignEnd="@+id/product_spinner" />
+
+    <EditText
+        android:layout_width="190dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:ems="10"
+        android:background="@drawable/edittext_style"
+        android:hint="Quantity"
+        android:id="@+id/quantity"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/rate"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Total Amount      ="
+        android:id="@+id/textView8"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textColor="#000"
+        android:background="#bdbdbd"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/discount_sppiner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="5000"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textColor="#000"
+        android:background="#bdbdbd"
+        android:id="@+id/total"
+        android:layout_alignTop="@+id/textView8"
+        android:layout_alignStart="@+id/rate" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="ADD ITEM"
+
+        android:background="@drawable/edittext_style"
+        android:id="@+id/add_item"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/product_spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/radioGroup">
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retail Price"
+            android:id="@+id/radioButton2"
+            android:layout_below="@+id/product_spinner"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="right"
+            android:layout_marginLeft="70dp"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trade Price"
+            android:id="@+id/radioButton"
+            android:checked="false"
+            android:layout_marginLeft="30dp" />
+    </RadioGroup>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/discount_sppiner"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/rate"
+        android:layout_alignStart="@+id/add_item" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Discount : "
+        android:id="@+id/textView13"
+        android:layout_alignTop="@+id/discount_sppiner"
+        android:layout_alignParentStart="true"
+        android:layout_margin="20dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textColor="#000000" />
+
+
+</RelativeLayout>

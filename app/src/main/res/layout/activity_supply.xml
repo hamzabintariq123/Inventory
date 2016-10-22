@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hamza.inventory.Activities.Supply">
+
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar">
+
+    </include>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="supply Screen "
+        android:id="@+id/from_screen"
+        android:layout_below="@+id/app_bar"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="RETURN FORM Customers"
+        android:id="@+id/ret_customer"
+        android:textSize="20sp"
+        android:background="@drawable/edittext_style"
+        android:padding="20dp"
+        android:layout_below="@+id/from_screen"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp" />
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="REMAINING SUPPLY"
+        android:id="@+id/remaining"
+        android:textSize="20sp"
+        android:background="@drawable/edittext_style"
+        android:padding="20dp"
+        android:layout_below="@+id/ret_customer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="UPDATE"
+        android:id="@+id/button"
+        android:textSize="20sp"
+        android:background="@drawable/edittext_style"
+        android:padding="20dp"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/remaining"
+        android:layout_alignStart="@+id/from_screen" />
+
+</RelativeLayout>

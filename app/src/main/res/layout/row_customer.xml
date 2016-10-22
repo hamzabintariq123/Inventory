@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Bussiness Name"
+        android:paddingTop="5dp"
+        android:layout_margin="5dp"
+        android:textColor="#000"
+        android:textSize="15sp"
+        android:id="@+id/breakfast"
+        android:layout_weight="2"
+        android:paddingLeft="10dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Address"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:textSize="15sp"
+        android:id="@+id/dinnet"
+        android:layout_margin="5dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Mobile"
+        android:textColor="#000"
+        android:textSize="15sp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:id="@+id/fuel"
+        android:layout_margin="5dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
