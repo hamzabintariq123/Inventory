@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -43,6 +44,8 @@ public class Products extends AppCompatActivity {
     ImageView add;
     ListView product_list;
     CheckBox checkBox;
+    TextView total;
+    int total_am;
     JSONObject jObjSaleModel =  new JSONObject();
     Product_Addapter product_addapter = null;
     Sale_model objSaleModel = new Sale_model();
@@ -67,23 +70,25 @@ public class Products extends AppCompatActivity {
         int rate = i.getIntExtra("rate",0);
         int quantity = i.getIntExtra("quantity",0);
         String strProduct = i.getStringExtra("productName");
+        String strTotal = i.getStringExtra("total");
 
         add = (ImageView) findViewById(R.id.add);
         send = (Button) findViewById(R.id.send_rec);
         checkBox = (CheckBox) findViewById(R.id.pay_check);
         product_list = (ListView) findViewById(R.id.sample_list);
+        total = (TextView) findViewById(R.id.total_amount);
 
         if(i.hasExtra("rate"))
         {
             objSaleModel.setProductName(strProduct);
             objSaleModel.setProductRate(String.valueOf(rate));
-            objSaleModel.setProductAmount(String.valueOf(rate*quantity));
+            objSaleModel.setProductAmount(String.valueOf(strTotal));
             objSaleModel.setProductQuantity(String.valueOf(quantity));
 
             try {
                 jObjSaleModel.put("product_name" , strProduct);
                 jObjSaleModel.put("product_rate" , String.valueOf(rate));
-                jObjSaleModel.put("product_amount" , String.valueOf(rate*quantity));
+                jObjSaleModel.put("product_amount" , String.valueOf(strTotal));
                 jObjSaleModel.put("product_quantity" , String.valueOf(quantity));
 
             } catch (JSONException e) {
@@ -92,6 +97,14 @@ public class Products extends AppCompatActivity {
             arrSaleData.add(objSaleModel);
             arrJsonSaleData.put(jObjSaleModel);
 
+
+            for (int j=0;j<arrSaleData.size();j++)
+            {
+                total_am = total_am+Integer.parseInt(arrSaleData.get(j).getProductAmount());
+
+            }
+
+            total.setText(total_am+"");
 
        /* String[] product = new String[] {"Product 1","Product 2"};
         String[] quantity = new String[] {"50","40"};

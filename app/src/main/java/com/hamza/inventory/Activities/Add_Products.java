@@ -25,7 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hamza.inventory.Date_Models.Products_model;
-import com.hamza.inventory.Date_Models.Sale_model;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
 
@@ -40,14 +39,15 @@ import java.util.Map;
 
 public class Add_Products extends AppCompatActivity {
 
-    Spinner product,discount;
+    Spinner product, discount_sppiner;
     Toolbar toolbar;
-    Button add_item;
+    Button add_item,calculate;
     String heading,price;
     EditText productQuantity,productRate;
     TextView Total;
     RadioGroup productsRate;
-
+    String discount;
+    String total;
     ProgressDialog ringProgressDialog;
     String  strProduct;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -72,15 +72,49 @@ public class Add_Products extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
         product = (Spinner) findViewById(R.id.product_spinner);
-        add_item = (Button) findViewById(R.id.add_item);
+        add_item = (Button) findViewById(R.id.additem);
+        calculate = (Button) findViewById(R.id.calculate);
         productQuantity = (EditText) findViewById(R.id.quantity);
         productRate = (EditText) findViewById(R.id.rate);
         Total = (TextView) findViewById(R.id.total);
-        discount= (Spinner) findViewById(R.id.discount_sppiner);
+        discount_sppiner = (Spinner) findViewById(R.id.discount_sppiner);
+
 
 
         getProducts();
 
+        calculate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                int rate = Integer.parseInt(productRate.getText().toString());
+                int quantity = Integer.parseInt(productQuantity.getText().toString());
+
+                // Calculating Discount
+                if(discount != "0")
+                {
+                    int amount  = rate*quantity;
+                    int discount_calculate = Integer.parseInt(discount);
+                    discount_calculate = ((amount)/100)*discount_calculate;
+                    amount = amount-discount_calculate;
+                     total = String.valueOf(amount);
+                     Total.setText(total);
+
+                }
+                else
+                {
+                    int amount  = rate*quantity;
+                     total = String.valueOf(amount);
+                     Total.setText(total);
+                }
+
+
+
+
+
+            }
+        });
 
         add_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +127,7 @@ public class Add_Products extends AppCompatActivity {
                 Intent intent = new Intent(Add_Products.this,Products.class);
                 intent.putExtra("from",heading);
                 intent.putExtra("rate",rate);
+                intent.putExtra("total",total);
                 intent.putExtra("quantity",quantity);
                 intent.putExtra("productName",productName);
                 startActivity(intent);
@@ -109,11 +144,12 @@ public class Add_Products extends AppCompatActivity {
         List<String> product_list = new ArrayList<String>();
         List<String> discount_list = new ArrayList<String>();
 
-        discount_list.add("10%");
-        discount_list.add("20%");
-        discount_list.add("30%");
-        discount_list.add("40%");
-        discount_list.add("50%");
+        discount_list.add("0");
+        discount_list.add("10");
+        discount_list.add("20");
+        discount_list.add("30");
+        discount_list.add("40");
+        discount_list.add("50");
 
 
         for (int i = 0; i < list.size(); i++) {
@@ -132,16 +168,16 @@ public class Add_Products extends AppCompatActivity {
         product.setOnItemSelectedListener(new CustomOnItemSelectedListener_Product());
 
 
-        //  setting discount spinner
+        //  setting discount_sppiner spinner
         ArrayAdapter<String> discountAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_spinner_item, discount_list);
 
         discountAdapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
 
-        discount.setAdapter(discountAdapter);
+        discount_sppiner.setAdapter(discountAdapter);
 
-        discount.setOnItemSelectedListener(new CustomOnItemSelectedListener_discount());
+        discount_sppiner.setOnItemSelectedListener(new CustomOnItemSelectedListener_discount());
     }
 
     public class CustomOnItemSelectedListener_Product implements AdapterView.OnItemSelectedListener {
@@ -188,7 +224,7 @@ public class Add_Products extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
 
-            String  discount = parent.getItemAtPosition(pos).toString();
+              discount = parent.getItemAtPosition(pos).toString();
 
 
         }

@@ -117,8 +117,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="30000"
-        android:id="@+id/textView12"
+        android:text="0000"
+        android:id="@+id/total_amount"
         android:layout_marginLeft="5dp"
         android:textColor="#000"
         android:layout_alignParentRight="true"
@@ -141,7 +141,7 @@
         android:id="@+id/add"
         android:background="@drawable/plus"
         android:layout_alignBottom="@+id/sample_list"
-        android:layout_alignEnd="@+id/textView12"
+        android:layout_alignEnd="@+id/total_amount"
         android:layout_margin="10dp" />
 
 
