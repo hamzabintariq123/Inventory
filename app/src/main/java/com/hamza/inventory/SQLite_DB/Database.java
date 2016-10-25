@@ -10,16 +10,17 @@ import java.sql.SQLException;
 
 public class Database {
 
-    static final String DATABASE_NAME = "Products.db";
+    static final String DATABASE_NAME = "Neelam_Local.db";
     static final int DATABASE_VERSION = 1;
     private static final String DATABASE_TABLE = "Products";
     static final String DATABASE_CREATE = "create table " + "Products" + "( "
             + "ProductID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "Productname  varchar, Quantity INTEGER , Trade_Price INTEGER , Retail_Price INTEGER);); ";
 
-    static final String DATABASE_ACCOUNTS = "create table " + "Account" + "( "
-            + "ProductName" + " varchar, "
-            + " Quantity INTEGER DEFAULT 0 , Total INTERGER , Date varchar , Soldto varchar);); ";
+    static final String DATABASE_ACCOUNTS = "create table " + "Sales" + "( "
+            + "ProductID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "productName  varchar, salesman_id INTEGER , bussines_id INTEGER ,product_price INTEGER ," +
+            "quantity INTEGER ,discount INTEGER , total INTEGER , amount_paid INTEGER , amount_remaining INTEGER);); ";
 
     public static SQLiteDatabase db;
     private final Context context;
