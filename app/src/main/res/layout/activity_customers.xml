@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerlayout"
 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -75,5 +81,26 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/linearLayout" />
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/addcustomer"
+        android:background="@drawable/pluswhite"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp" />
+
 
 </RelativeLayout>
+
+    <fragment
+        android:id="@+id/fragment_navdrawer"
+        android:name="com.hamza.inventory.Fragments.DrawerFragment"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:layout="@layout/fragment_drawer"
+        tools:layout="@layout/fragment_drawer">
+
+    </fragment>
+</android.support.v4.widget.DrawerLayout>

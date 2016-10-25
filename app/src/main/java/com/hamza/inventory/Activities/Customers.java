@@ -3,6 +3,7 @@ package com.hamza.inventory.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hamza.inventory.Adapters.Customer_Addapter;
 import com.hamza.inventory.Date_Models.Customer_model;
+import com.hamza.inventory.Fragments.DrawerFragment;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
 
@@ -40,6 +43,8 @@ public class Customers extends AppCompatActivity {
     Customer_Addapter customer_addapter = null;
     Toolbar toolbar;
     String heading,id;
+    DrawerFragment drawerFragment = new DrawerFragment();
+    ImageView addcustomer;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     private ArrayList<Customer_model> list = new ArrayList<>();
@@ -54,11 +59,13 @@ public class Customers extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Customer");
+        toolbar.setTitle("Customers");
 
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
+
+        drawerFragment.setup((DrawerLayout) findViewById(R.id.drawerlayout), toolbar);
 
         String[] buss_name = new String[] {"Test Bussines 1","Test Bussines 2"};
         String[] mobile = new String[] {"03201234556","03214567891"};
@@ -73,13 +80,22 @@ public class Customers extends AppCompatActivity {
         heading = intent.getStringExtra("from");
 
         listView = (ListView) findViewById(R.id.customer_list);
-
-        customer_addapter = new Customer_Addapter(Customers.this,list);
+        addcustomer = (ImageView) findViewById(R.id.addcustomer);
+        customer_addapter = new Customer_Addapter(getApplicationContext(), R.layout.row_customer, list, this);
 
 
         getCustomer();
 
 
+        addcustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(Customers.this,Add_New_Customer.class);
+                finish();
+                startActivity(intent);
+
+            }
+        });
 
 
 
@@ -154,6 +170,8 @@ public class Customers extends AppCompatActivity {
 
 
                         parseJSONResponce(response);
+
+
 
 
                         listView.setAdapter(customer_addapter);

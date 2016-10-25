@@ -2,6 +2,7 @@ package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -30,7 +32,7 @@ public class Add_New_Customer extends AppCompatActivity {
 
     Toolbar toolbar;
     Button add_customer;
-    String heading;
+    String heading,id;
     EditText bussines,adress,mobile,name,district;
     String sbussines,sadress,smobile,sname,sdistrict;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -61,7 +63,9 @@ public class Add_New_Customer extends AppCompatActivity {
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
 
+        id=  pref.getString("id", null);
 
         add_customer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +74,7 @@ public class Add_New_Customer extends AppCompatActivity {
 
                 getValues();
 
+                newCustomer();
                 Intent intent = new Intent(Add_New_Customer.this,Customers.class);
                 finish();
                 intent.putExtra("from",heading);
@@ -89,7 +94,8 @@ public class Add_New_Customer extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
+        Intent intent = new Intent(Add_New_Customer.this,Customers.class);
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
 
 
@@ -120,6 +126,8 @@ public class Add_New_Customer extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
+                        Toast.makeText(Add_New_Customer.this,response, Toast.LENGTH_SHORT).show();
+
 
                     }
                 }, new Response.ErrorListener() {
@@ -136,6 +144,7 @@ public class Add_New_Customer extends AppCompatActivity {
                 params.put("adresss", sadress);
                 params.put("mobile", smobile);
                 params.put("name", sname);
+                params.put("salesman", id);
                 params.put("district", sdistrict);
 
                 return params;

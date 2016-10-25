@@ -70,7 +70,7 @@ public class DrawerFragment extends Fragment {
 
                 if (position == 0 )
                 {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    Intent intent = new Intent(getActivity(), Customers.class);
                     intent.putExtra("from","sale");
                     getActivity().startActivity(intent);
                     getActivity().finish();
@@ -100,7 +100,7 @@ public class DrawerFragment extends Fragment {
 
                 if (position == 3 )
                 {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    Intent intent = new Intent(getActivity(), Customers.class);
                     intent.putExtra("from","sample");
                     getActivity().startActivity(intent);
                 }

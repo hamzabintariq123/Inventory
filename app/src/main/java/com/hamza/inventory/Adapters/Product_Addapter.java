@@ -5,31 +5,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.hamza.inventory.Date_Models.Sale_model;
 import com.hamza.inventory.R;
 
+import java.util.ArrayList;
 
-public class Product_Addapter  extends ArrayAdapter<String>
+
+public class Product_Addapter extends BaseAdapter
 
 {
-    String product[],rate[],quantity[],amount[];
+    ArrayList<Sale_model> arrSaleData;
 
     Activity context;
 
 
 
-    public Product_Addapter(Activity context, String[] name , String[] adress ,String [] mobile ,String [] amount)
+    public Product_Addapter(Activity context, ArrayList<Sale_model> arrSaleData)
     {
-        super(context, R.layout.row_customer,name);
         this.context=context;
-        this.product = name;
-        this.rate = adress;
-        this.quantity = mobile;
-        this.amount=amount;
+        this.arrSaleData = arrSaleData;
     }
 
+    @Override
+    public int getCount() {
+        return arrSaleData.size();
+    }
 
+    @Override
+    public Object getItem(int position) {
+        return arrSaleData.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
@@ -46,10 +59,10 @@ public class Product_Addapter  extends ArrayAdapter<String>
         TextView Quantity = (TextView) rowView.findViewById(R.id.quantity);
         TextView Amount = (TextView) rowView.findViewById(R.id.amount);
 
-        Product.setText(product[position]);
-        Rate.setText(rate[position]);
-        Quantity.setText(quantity[position]);
-        Amount.setText(amount[position]);
+        Product.setText(arrSaleData.get(position).getProductName());
+        Rate.setText(arrSaleData.get(position).getProductRate());
+        Quantity.setText(arrSaleData.get(position).getProductQuantity());
+        Amount.setText(arrSaleData.get(position).getProductAmount());
 
 
 

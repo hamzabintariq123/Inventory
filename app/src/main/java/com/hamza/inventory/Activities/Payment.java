@@ -57,7 +57,7 @@ public class Payment extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Payment.this,MainActivity.class);
+                Intent intent = new Intent(Payment.this,Customers.class);
                 intent.putExtra("from","sales");
                 startActivity(intent);
             }

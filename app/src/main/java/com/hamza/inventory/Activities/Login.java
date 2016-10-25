@@ -127,7 +127,8 @@ public class Login extends AppCompatActivity {
 
                                 editor.commit();
 
-                                Intent intent= new Intent(Login.this, MainActivity.class);
+                                Intent intent= new Intent(Login.this, Customers.class);
+                                intent.putExtra("from","sale");
                                 startActivity(intent);
                                 finish();
 
@@ -150,8 +151,8 @@ public class Login extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("user_name", name);
-                params.put("password", pass);
+                params.put("user_name", "hamza");
+                params.put("password", "1234");
 
                 return params;
             }

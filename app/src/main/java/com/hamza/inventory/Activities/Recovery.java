@@ -61,7 +61,7 @@ public class Recovery extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Recovery.this,MainActivity.class);
+                Intent intent = new Intent(Recovery.this,Customers.class);
                 startActivity(intent);
             }
         });
