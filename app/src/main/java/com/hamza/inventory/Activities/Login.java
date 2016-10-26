@@ -42,6 +42,21 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
+
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
+        String user_session= pref.getString("remmember_me", null);
+
+
+        if(user_session != null)
+        {
+            Intent intent= new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

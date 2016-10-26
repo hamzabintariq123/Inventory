@@ -3,6 +3,7 @@ package com.hamza.inventory.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,11 +29,13 @@ import com.hamza.inventory.Date_Models.Customer_model;
 import com.hamza.inventory.Fragments.DrawerFragment;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
+import com.hamza.inventory.SQLite_DB.Database;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,13 +51,19 @@ public class Customers extends AppCompatActivity {
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     private ArrayList<Customer_model> list = new ArrayList<>();
+    SQLiteDatabase db;
+    Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customers);
 
-
+        try {
+            database=database.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -237,6 +246,22 @@ public class Customers extends AppCompatActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void addCustomerToLocal()
+    {
+        for (int i = 0; i < list.size(); i++) {
+
+            String bussines_name = list.get(i).getB_name();
+            String  personal_name= list.get(i).getPeronal_name();
+            String address =  list.get(i).getAdress();
+            String mobile = list.get(i).getMobile();
+
+            //TODO
+          //  database.insertProduct(Productname,qauntity,T_price,R_price);
+
+
         }
     }
 }

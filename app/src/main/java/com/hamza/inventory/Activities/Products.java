@@ -60,6 +60,8 @@ public class Products extends AppCompatActivity {
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,11 +147,6 @@ public class Products extends AppCompatActivity {
             public void onClick(View v) {
                 if (checkBox.isChecked()) {
 
-
-                    for (int j=0; j<arrSaleData.size();j++)
-                    {
-                      //  database.insertSales()
-                    }
                     String strJsonSaleData = arrJsonSaleData.toString();
 
                     //send strJsonSaleData in string reques

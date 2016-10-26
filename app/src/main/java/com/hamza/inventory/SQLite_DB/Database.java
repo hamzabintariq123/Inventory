@@ -62,6 +62,17 @@ public class Database {
 
              }
 
+    public void insertBussines(String bussines_name, String personal_name ,String address ,String mobile )
+    {
+        ContentValues newValues = new ContentValues();
+        newValues.put("bussiness_name", bussines_name);
+        newValues.put("personal_name", personal_name);
+        newValues.put("address", address);
+        newValues.put("mobile", mobile);
+        db.insert(PRODUCTS_TABLE, null, newValues);
+
+    }
+
     public ArrayList<Products_model> getAllProductss() {
         ArrayList<Products_model> contactList = new ArrayList<>();
         // Select All Query
@@ -93,14 +104,14 @@ public class Database {
     public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,Integer amount_remaining,
                                String product_name,Integer quantity,Integer discount,Integer amount_paid,Integer total) {
 
-        Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Products" + " WHERE  Productname=?", new String[]{product_name});
+      /*  Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Products" + " WHERE  Productname=?", new String[]{product_name});
         if (mCursor.getCount() > 0) {
             mCursor.moveToFirst();
             int entry;
             entry = mCursor.getInt(mCursor.getColumnIndex("Quantity"));
             entry = entry - quantity;
 
-            if (entry >= 0) {
+            if (entry >= 0) {*/
                 ContentValues newValues = new ContentValues();
                 newValues.put("salesman_id", salesman_id);
                 newValues.put("bussines_id", bussines_id);
@@ -114,7 +125,7 @@ public class Database {
                 newValues.put("Date_added", Date_added);
 
                 db.insert("Account", null, newValues);
-                ContentValues Values = new ContentValues();
+               /* ContentValues Values = new ContentValues();
                 Values.put("Quantity", entry);
                 db.update(PRODUCTS_TABLE, Values, "product_name=?", new String[]{product_name});
                 return 1;
@@ -122,9 +133,9 @@ public class Database {
             }
 
 
-        }
+        }*/
 
-        return 0;
+        return 1;
     }
 
 
