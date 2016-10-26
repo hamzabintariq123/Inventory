@@ -5,7 +5,15 @@ package com.hamza.inventory.Date_Models;
  */
 public class Products_model {
 
-    String id,name,retail,trade;
+    String id,name,retail,trade,quantay;
+
+    public String getQuantay() {
+        return quantay;
+    }
+
+    public void setQuantay(String quantay) {
+        this.quantay = quantay;
+    }
 
     public String getTrade() {
         return trade;

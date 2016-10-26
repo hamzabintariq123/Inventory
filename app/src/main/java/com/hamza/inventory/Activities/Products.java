@@ -2,6 +2,7 @@ package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,11 +28,13 @@ import com.hamza.inventory.Date_Models.Customer_model;
 import com.hamza.inventory.Date_Models.Sale_model;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
+import com.hamza.inventory.SQLite_DB.Database;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +48,8 @@ public class Products extends AppCompatActivity {
     ListView product_list;
     CheckBox checkBox;
     TextView total;
+    SQLiteDatabase db;
+    Database database;
     int total_am;
     JSONObject jObjSaleModel =  new JSONObject();
     Product_Addapter product_addapter = null;
@@ -60,6 +65,12 @@ public class Products extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
 
+
+        try {
+            database=database.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -132,10 +143,15 @@ public class Products extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (checkBox.isChecked()) {
+
+
+                    for (int j=0; j<arrSaleData.size();j++)
+                    {
+                      //  database.insertSales()
+                    }
                     String strJsonSaleData = arrJsonSaleData.toString();
 
-                    //send strJsonSaleData in string request
-
+                    //send strJsonSaleData in string reques
 
                     Intent intent = new Intent(Products.this, Payment.class);
                     startActivity(intent);

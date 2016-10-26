@@ -2,6 +2,7 @@ package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,23 +16,28 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hamza.inventory.Date_Models.Products_model;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
+import com.hamza.inventory.SQLite_DB.Database;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +58,8 @@ public class Add_Products extends AppCompatActivity {
     String  strProduct;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     private ArrayList<Products_model> list = new ArrayList<>();
+    SQLiteDatabase db;
+    Database database;
 
 
     @Override
@@ -79,7 +87,11 @@ public class Add_Products extends AppCompatActivity {
         Total = (TextView) findViewById(R.id.total);
         discount_sppiner = (Spinner) findViewById(R.id.discount_sppiner);
 
-
+        try {
+            database=database.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         getProducts();
 
@@ -156,6 +168,8 @@ public class Add_Products extends AppCompatActivity {
             product_list.add(list.get(i).getName());
         }
 
+
+
         // Setting product spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_spinner_item, product_list);
@@ -226,7 +240,6 @@ public class Add_Products extends AppCompatActivity {
 
               discount = parent.getItemAtPosition(pos).toString();
 
-
         }
 
         @Override
@@ -267,19 +280,28 @@ public class Add_Products extends AppCompatActivity {
 
                         ringProgressDialog.dismiss();
 
-                         parseJSONResponce(response);
+                        parseJSONResponce(response);
 
                         setSpinner();
 
-
-
+                        addProductToLocal();
 
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                ringProgressDialog.dismiss();
+                String message = null;
+                  if (error instanceof NoConnectionError)
+                  {
+
+                       list = database.getAllProductss();
+
+                  } else if (error instanceof TimeoutError) {
+
+                      message = "Connection TimeOut! Please check your internet connection.";
+                      Toast.makeText(Add_Products.this,message, Toast.LENGTH_SHORT).show();
+                }
             }
         }) {
             @Override
@@ -317,6 +339,7 @@ public class Add_Products extends AppCompatActivity {
                 String product_name = Information.getString("product_name");
                 String retail_price = Information.getString("retail_price");
                 String trade_price = Information.getString("trade_price");
+                String quantity = Information.getString("product_quantity");
 
 
 
@@ -326,6 +349,7 @@ public class Add_Products extends AppCompatActivity {
                 data.setName(product_name);
                 data.setRetail(retail_price);
                 data.setTrade(trade_price);
+                data.setQuantay(quantity);
 
                 list.add(data);
 
@@ -333,6 +357,21 @@ public class Add_Products extends AppCompatActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void addProductToLocal()
+    {
+        for (int i = 0; i < list.size(); i++) {
+
+            String Productname = list.get(i).getName();
+            Integer qauntity = java.lang.Integer.valueOf(list.get(i).getQuantay());
+            Integer T_price =   java.lang.Integer.valueOf(list.get(i).getTrade());
+            Integer R_price = java.lang.Integer.valueOf(list.get(i).getRetail());
+
+            database.insertProduct(Productname,qauntity,T_price,R_price);
+
+
         }
     }
 }
