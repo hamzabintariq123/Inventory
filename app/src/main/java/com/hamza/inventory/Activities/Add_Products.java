@@ -367,6 +367,7 @@ public class Add_Products extends AppCompatActivity {
         }
     }
 
+
     public void addProductToLocal()
     {
         for (int i = 0; i < list.size(); i++) {
