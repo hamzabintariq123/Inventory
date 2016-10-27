@@ -2,6 +2,7 @@ package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,12 +15,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -49,7 +53,8 @@ public class Products extends AppCompatActivity {
     CheckBox checkBox;
     TextView total;
     SQLiteDatabase db;
-    Database database;
+    Database database = new Database(this);
+    String Sales = "",user_id,strbuss_id;
     int total_am;
     JSONObject jObjSaleModel =  new JSONObject();
     Product_Addapter product_addapter = null;
@@ -80,10 +85,12 @@ public class Products extends AppCompatActivity {
         toolbar.setTitle("Products");
 
         Intent i = getIntent();
-        int rate = i.getIntExtra("rate",0);
+        int rate = i.getIntExtra("rate", 0);
         int quantity = i.getIntExtra("quantity",0);
         String strProduct = i.getStringExtra("productName");
         String strTotal = i.getStringExtra("total");
+        String strdiscount = i .getStringExtra("discount");
+        strbuss_id = i .getStringExtra("buss_id");
 
         add = (ImageView) findViewById(R.id.add);
         send = (Button) findViewById(R.id.send_rec);
@@ -91,12 +98,17 @@ public class Products extends AppCompatActivity {
         product_list = (ListView) findViewById(R.id.sample_list);
         total = (TextView) findViewById(R.id.total_amount);
 
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
+        user_id = pref.getString("id",null);
+
         if(i.hasExtra("rate"))
         {
             objSaleModel.setProductName(strProduct);
             objSaleModel.setProductRate(String.valueOf(rate));
             objSaleModel.setProductAmount(String.valueOf(strTotal));
             objSaleModel.setProductQuantity(String.valueOf(quantity));
+            objSaleModel.setDiscount(strdiscount);
 
             try {
                 jObjSaleModel.put("product_name" , strProduct);
@@ -117,7 +129,12 @@ public class Products extends AppCompatActivity {
 
             }
 
-            total.setText(total_am+"");
+
+
+
+
+
+            total.setText(total_am + "");
 
        /* String[] product = new String[] {"Product 1","Product 2"};
         String[] quantity = new String[] {"50","40"};
@@ -138,6 +155,7 @@ public class Products extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Products.this, Add_Products.class);
+                intent.putExtra("buss_id",strbuss_id);
                 startActivity(intent);
             }
         });
@@ -145,6 +163,17 @@ public class Products extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                for (int k =0 ; k<arrSaleData.size();k++)
+                {
+
+
+                    Sales= Sales+"{"+strbuss_id+","+user_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
+                            arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+
+                            arrSaleData.get(k).getProductAmount()+"}";
+                }
+
+
                 if (checkBox.isChecked()) {
 
                     String strJsonSaleData = arrJsonSaleData.toString();
@@ -154,8 +183,10 @@ public class Products extends AppCompatActivity {
                     Intent intent = new Intent(Products.this, Payment.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(Products.this, Customers.class);
-                    startActivity(intent);
+
+                    EnterSales();
+                  // Intent intent = new Intent(Products.this, Customers.class);
+                    //startActivity(intent);
                 }
 
             }
@@ -175,12 +206,70 @@ public class Products extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent= new Intent(Products.this, Customers.class);
+        intent.putExtra("from","sale");
+        startActivity(intent);
         finish();
         return super.onOptionsItemSelected(item);
 
 
     }
 
+
+    public void EnterSales() {
+
+        ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        String URL =null;
+
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.BASE_URL+"Welcome/sale",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message = null;
+                if (error instanceof NoConnectionError)
+                {
+
+
+                } else if (error instanceof TimeoutError) {
+
+                    message = "Connection TimeOut! Please check your internet connection.";
+                    Toast.makeText(Products.this, message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("sale",Sales);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+
+    }
 
 
 }

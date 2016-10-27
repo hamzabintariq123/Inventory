@@ -53,13 +53,13 @@ public class Add_Products extends AppCompatActivity {
     TextView Total;
     RadioGroup productsRate;
     String discount;
-    String total;
+    String total,strbuss_id;
     ProgressDialog ringProgressDialog;
     String  strProduct;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     private ArrayList<Products_model> list = new ArrayList<>();
     SQLiteDatabase db;
-    Database database;
+    Database database = new Database(this);
 
 
     @Override
@@ -74,6 +74,11 @@ public class Add_Products extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("Add Products");
+
+
+        Intent i = getIntent();
+        strbuss_id = i .getStringExtra("buss_id");
+
 
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -142,6 +147,9 @@ public class Add_Products extends AppCompatActivity {
                 intent.putExtra("total",total);
                 intent.putExtra("quantity",quantity);
                 intent.putExtra("productName",productName);
+                intent.putExtra("discount",discount);
+                intent.putExtra("buss_id",strbuss_id);
+                finish();
                 startActivity(intent);
             }
         });
@@ -259,7 +267,6 @@ public class Add_Products extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
         return super.onOptionsItemSelected(item);
 
 

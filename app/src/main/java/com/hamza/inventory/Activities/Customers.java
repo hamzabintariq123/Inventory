@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -52,7 +53,7 @@ public class Customers extends AppCompatActivity {
     ProgressDialog ringProgressDialog;
     private ArrayList<Customer_model> list = new ArrayList<>();
     SQLiteDatabase db;
-    Database database;
+    Database database = new Database(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +114,11 @@ public class Customers extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
+                String buss_id = list.get(position).getId();
                 if(heading.equals("sale"))
                 {
                     Intent intent= new Intent(Customers.this,Products.class);
+                    intent.putExtra("buss_id",buss_id);
                     finish();
                     startActivity(intent);
                 }
@@ -189,7 +192,13 @@ public class Customers extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                ringProgressDialog.dismiss();
+
+
+                if (error instanceof NoConnectionError)
+                {
+
+                }
+
             }
         }) {
             @Override

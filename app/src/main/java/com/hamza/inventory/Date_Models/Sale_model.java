@@ -6,7 +6,15 @@ package com.hamza.inventory.Date_Models;
 public class Sale_model {
 
 
-    String ProductName,ProductRate,ProductAmount,ProductQuantity;
+    String ProductName,ProductRate,ProductAmount,ProductQuantity,discount;
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
 
     public String getProductName() {
         return ProductName;

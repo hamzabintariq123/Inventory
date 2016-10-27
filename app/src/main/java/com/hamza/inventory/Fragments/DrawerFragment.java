@@ -3,6 +3,7 @@ package com.hamza.inventory.Fragments;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -126,6 +127,11 @@ public class DrawerFragment extends Fragment {
                 }
                 if (position == 7 )
                 {
+
+                    SharedPreferences pref = getActivity().getSharedPreferences("User Prefs", getActivity().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.clear();
+                    editor.commit();
 
                     Intent i = new Intent(getActivity(), Login.class);
 

@@ -51,7 +51,8 @@ public class Login extends AppCompatActivity {
 
         if(user_session != null)
         {
-            Intent intent= new Intent(Login.this, MainActivity.class);
+            Intent intent= new Intent(Login.this, Customers.class);
+            intent.putExtra("from","sale");
             startActivity(intent);
             finish();
 
