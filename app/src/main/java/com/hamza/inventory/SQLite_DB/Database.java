@@ -26,7 +26,7 @@ public class Database {
     static final String DATABASE_ACCOUNTS = "create table " + "Sales" + "( "
             + "SalesID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "productName  varchar, salesman_id INTEGER , bussines_id INTEGER ,product_price INTEGER ," +
-            "quantity INTEGER ,discount INTEGER , total INTEGER , amount_paid INTEGER , amount_remaining INTEGER);); ";
+            "quantity INTEGER ,discount INTEGER , total INTEGER );); ";
 
     private static final String CUSTOMERS_TABLE = "customers";
     static final String DATABASE_CUSTOMER = "create table " + "customers" + "( "
@@ -53,6 +53,9 @@ public class Database {
 
     public void insertProduct(String Productname, Integer qauntity ,Integer T_price ,Integer R_price )
             {
+
+                db = dbHelper.getReadableDatabase();
+
                     ContentValues newValues = new ContentValues();
                     newValues.put("Productname", Productname);
                     newValues.put("Quantity", qauntity);
@@ -69,7 +72,7 @@ public class Database {
         newValues.put("personal_name", personal_name);
         newValues.put("address", address);
         newValues.put("mobile", mobile);
-        db.insert(PRODUCTS_TABLE, null, newValues);
+        db.insert(DATABASE_CUSTOMER, null, newValues);
 
     }
 
@@ -100,9 +103,14 @@ public class Database {
     }
 
 
+    public void clearTable(String tablename)
+    {
+        db.execSQL("delete from "+ tablename);
+    }
 
-    public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,Integer amount_remaining,
-                               String product_name,Integer quantity,Integer discount,Integer amount_paid,Integer total) {
+
+    public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,
+                               String product_name,Integer quantity,Integer discount,Integer total) {
 
       /*  Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Products" + " WHERE  Productname=?", new String[]{product_name});
         if (mCursor.getCount() > 0) {
@@ -120,8 +128,6 @@ public class Database {
                 newValues.put("quantity", quantity);
                 newValues.put("discount", discount);
                 newValues.put("total", total);
-                newValues.put("amount_remaining", amount_remaining);
-                newValues.put("amount_paid", amount_paid);
                 newValues.put("Date_added", Date_added);
 
                 db.insert("Account", null, newValues);

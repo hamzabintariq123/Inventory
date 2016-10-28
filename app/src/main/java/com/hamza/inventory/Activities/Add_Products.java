@@ -372,6 +372,9 @@ public class Add_Products extends AppCompatActivity {
 
     public void addProductToLocal()
     {
+
+        database.clearTable("Products");
+
         for (int i = 0; i < list.size(); i++) {
 
             String Productname = list.get(i).getName();
