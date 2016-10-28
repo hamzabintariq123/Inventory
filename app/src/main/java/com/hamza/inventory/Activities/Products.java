@@ -113,6 +113,7 @@ public class Products extends AppCompatActivity {
             objSaleModel.setProductQuantity(String.valueOf(quantity));
             objSaleModel.setDiscount(strdiscount);
 
+
             try {
                 jObjSaleModel.put("product_name" , strProduct);
                 jObjSaleModel.put("product_rate" , String.valueOf(rate));
