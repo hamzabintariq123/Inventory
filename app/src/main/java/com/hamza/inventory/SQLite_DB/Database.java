@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.hamza.inventory.Date_Models.Customer_model;
 import com.hamza.inventory.Date_Models.Products_model;
 
 import java.sql.SQLException;
@@ -34,6 +35,8 @@ public class Database {
             + "bussiness_name  varchar, personal_name varchar , address varchar ,distrcit varchar ," +
             "mobile INTEGER ,salesman INTEGER );); ";
 
+
+
     public static SQLiteDatabase db;
     private final Context context;
     private DataBaseHelper dbHelper;
@@ -60,18 +63,24 @@ public class Database {
                     newValues.put("Retail_Price", R_price);
                     db.insert(PRODUCTS_TABLE, null, newValues);
 
+
+
              }
 
-    public void insertBussines(String bussines_name, String personal_name ,String address ,String mobile )
+    public void insertBussines(String bussines_name, String personal_name ,String address ,String mobile,String distrcit )
     {
         ContentValues newValues = new ContentValues();
         newValues.put("bussiness_name", bussines_name);
         newValues.put("personal_name", personal_name);
         newValues.put("address", address);
         newValues.put("mobile", mobile);
-        db.insert(PRODUCTS_TABLE, null, newValues);
-
+        newValues.put("distrcit", distrcit);
+        long test = db.insert(CUSTOMERS_TABLE, null, newValues);
     }
+
+
+
+
 
     public ArrayList<Products_model> getAllProductss() {
         ArrayList<Products_model> contactList = new ArrayList<>();
@@ -99,6 +108,34 @@ public class Database {
         return contactList;
     }
 
+    public ArrayList<Customer_model> getAllCustomers() {
+        ArrayList<Customer_model> contactList = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + CUSTOMERS_TABLE;
+
+        db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Customer_model Customer_model = new Customer_model();
+                Customer_model.setId(cursor.getString(0));
+                Customer_model.setB_name(cursor.getString(1));
+                Customer_model.setPeronal_name(cursor.getString(2));
+                Customer_model.setDistrcit(cursor.getString(3));
+                Customer_model.setAdress(cursor.getString(4));
+                Customer_model.setMobile(cursor.getString(5));
+                Customer_model.setMobile(cursor.getString(6));
+                Customer_model.setSalesman(cursor.getString(7));
+                // Adding contact to list
+                contactList.add(Customer_model);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return contactList;
+    }
 
 
     public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,Integer amount_remaining,

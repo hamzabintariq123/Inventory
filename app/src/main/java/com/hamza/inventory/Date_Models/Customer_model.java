@@ -5,7 +5,15 @@ package com.hamza.inventory.Date_Models;
  */
 public class Customer_model {
 
-    public  String b_name,peronal_name,adress,mobile,distrcit,id;
+    public  String b_name,peronal_name,adress,mobile,distrcit,id,salesman;
+
+    public String getSalesman() {
+        return salesman;
+    }
+
+    public void setSalesman(String salesman) {
+        this.salesman = salesman;
+    }
 
     public String getId() {
         return id;
