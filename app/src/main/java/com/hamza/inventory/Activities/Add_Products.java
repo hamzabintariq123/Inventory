@@ -173,7 +173,7 @@ public class Add_Products extends AppCompatActivity {
                 Intent intent = new Intent(Add_Products.this,Products.class);
                 intent.putExtra("from",heading);
                 intent.putExtra("rate",rate);
-                intent.putExtra("total",total);
+                intent.putExtra("Rotal",total);
                 intent.putExtra("quantity",quantity);
                 intent.putExtra("productName",productName);
                 intent.putExtra("discount",discount);

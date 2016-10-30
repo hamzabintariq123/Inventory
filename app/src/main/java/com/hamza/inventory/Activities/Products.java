@@ -91,7 +91,7 @@ public class Products extends AppCompatActivity {
         int rate = i.getIntExtra("rate", 0);
         int quantity = i.getIntExtra("quantity",0);
         String strProduct = i.getStringExtra("productName");
-        String strTotal = i.getStringExtra("total");
+        String strTotal = i.getStringExtra("Rotal");
         String strdiscount = i .getStringExtra("discount");
         strbuss_id = i .getStringExtra("buss_id");
 
@@ -237,9 +237,6 @@ public class Products extends AppCompatActivity {
 
                         ringProgressDialog.dismiss();
 
-
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -259,7 +256,7 @@ public class Products extends AppCompatActivity {
                     {
 
                         database.insertSales(Integer.valueOf(user_id),Integer.valueOf(strbuss_id),Integer.valueOf(arrSaleData.get(k).getProductRate()),date.toString(),arrSaleData.get(k).getProductName()
-                                ,Integer.valueOf(arrSaleData.get(k).getProductQuantity()),Integer.valueOf(arrSaleData.get(k).getDiscount()),Integer.valueOf(arrSaleData.get(k).getProductAmount()));
+                                ,Integer.valueOf(arrSaleData.get(k).getProductQuantity()),Integer.valueOf(arrSaleData.get(k).getDiscount()),"sales",Integer.valueOf(arrSaleData.get(k).getProductAmount()));
                     }
 
                 } else if (error instanceof TimeoutError) {

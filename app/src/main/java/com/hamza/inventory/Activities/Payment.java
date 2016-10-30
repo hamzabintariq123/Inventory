@@ -114,7 +114,7 @@ public class Payment extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("amount", sAmount);
-                params.put("remaining", sRemianing);
+                params.put("Remaining", sRemianing);
 
                 return params;
             }

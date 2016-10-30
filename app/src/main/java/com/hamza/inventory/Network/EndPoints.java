@@ -11,5 +11,7 @@ public class EndPoints
     public static String GET_CUSTOMER=BASE_URL+"Welcome/getCustomer";
     public static String ADD_EXPENCE=BASE_URL+"Welcome/addExpence";
     public static String GET_PRODUCTS=BASE_URL+"Welcome/getProducts";
+    public static String GET_BALANCE=BASE_URL+"Welcome/getBalance";
+    public static String SEND_RECOVRY=BASE_URL+"Welcome/subtractRemaining";
 
 }

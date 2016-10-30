@@ -28,7 +28,7 @@ public class Database {
     static final String DATABASE_ACCOUNTS = "create table " + "Sales" + "( "
             + "SalesID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "productName  varchar, salesman_id INTEGER , bussines_id INTEGER ,product_price INTEGER ," +
-            "quantity INTEGER ,discount INTEGER , total INTEGER );); ";
+            "quantity INTEGER ,discount INTEGER , total INTEGER ,type varhar);); ";
 
     private static final String CUSTOMERS_TABLE = "customers";
     static final String DATABASE_CUSTOMER = "create table " + "customers" + "( "
@@ -147,7 +147,7 @@ public class Database {
 
 
     public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,
-                               String product_name,Integer quantity,Integer discount,Integer total) {
+                               String product_name,Integer quantity,Integer discount,String type,Integer total) {
 
       /*  Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Products" + " WHERE  Productname=?", new String[]{product_name});
         if (mCursor.getCount() > 0) {
@@ -165,6 +165,7 @@ public class Database {
                 newValues.put("quantity", quantity);
                 newValues.put("discount", discount);
                 newValues.put("total", total);
+                newValues.put("type", type);
                 newValues.put("Date_added", Date_added);
 
                 db.insert("Account", null, newValues);

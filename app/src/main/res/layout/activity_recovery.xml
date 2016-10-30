@@ -18,26 +18,12 @@
         android:id="@+id/name"
         android:hint="Recovry Amount"
         android:padding="10dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/edittext_style"
-        android:layout_marginTop="162dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
 
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/password"
-        android:layout_marginTop="20dp"
-        android:hint="Remaining Amount"
-        android:background="@drawable/edittext_style"
-        android:padding="10dp"
-        android:layout_below="@+id/name"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
 
     <Button
         android:layout_width="140dp"
@@ -48,8 +34,92 @@
         android:textSize="20dp"
         android:padding="20dp"
         android:background="@drawable/edittext_style"
-        android:layout_below="@+id/password"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="110dp" />
+        android:layout_marginBottom="46dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/imageView3"
+        android:layout_below="@+id/app_bar"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:background="#bdbdbd" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Remaining Amount    : "
+        android:id="@+id/textView14"
+        android:layout_alignTop="@+id/imageView3"
+        android:layout_alignStart="@+id/imageView3"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/remaining"
+        android:textColor="#000000"
+        android:textStyle="bold"
+
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/textView14"
+        android:layout_alignStart="@+id/paid" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Paid Amount               : "
+        android:id="@+id/textView16"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/paid"
+        android:layout_alignStart="@+id/imageView3"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/paid"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textView14"
+        android:layout_toEndOf="@+id/textView14" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Total Bill                      : "
+        android:id="@+id/textView18"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/textView16"
+        android:layout_alignStart="@+id/textView16"
+        android:layout_marginTop="14dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/total"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/textView18"
+        android:layout_alignStart="@+id/paid" />
 
 </RelativeLayout>

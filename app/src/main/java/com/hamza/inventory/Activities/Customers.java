@@ -122,6 +122,7 @@ public class Customers extends AppCompatActivity {
                 if(heading.equals("recovry"))
                 {
                     Intent intent= new Intent(Customers.this,Recovery.class);
+                    intent.putExtra("bussid",buss_id);
                     finish();
                     startActivity(intent);
                 }
