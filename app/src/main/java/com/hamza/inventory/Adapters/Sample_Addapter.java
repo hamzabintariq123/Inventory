@@ -5,39 +5,50 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.hamza.inventory.Date_Models.Sale_model;
 import com.hamza.inventory.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Harry on 10/5/2016.
  */
-public class Sample_Addapter  extends ArrayAdapter<String>
-
+public class Sample_Addapter  extends BaseAdapter
 {
-    String product[],rate[],quantity[];
+    ArrayList<Sale_model> arrSaleData;
 
     Activity context;
 
 
 
-    public Sample_Addapter(Activity context, String[] name , String[] adress ,String [] mobile )
+    public Sample_Addapter(Activity context, ArrayList<Sale_model> arrSaleData)
     {
-        super(context, R.layout.row_customer,name);
         this.context=context;
-        this.product = name;
-        this.rate = adress;
-        this.quantity = mobile;
+        this.arrSaleData = arrSaleData;
     }
 
+    @Override
+    public int getCount() {
+        return arrSaleData.size();
+    }
 
+    @Override
+    public Object getItem(int position) {
+        return arrSaleData.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-
         View rowView;
-
 
         LayoutInflater inflater = context.getLayoutInflater();
         rowView = inflater.inflate(R.layout.row_sample,null,true);
@@ -46,15 +57,12 @@ public class Sample_Addapter  extends ArrayAdapter<String>
         TextView Rate = (TextView) rowView.findViewById(R.id.rate_sam);
         TextView Quantity = (TextView) rowView.findViewById(R.id.quantity_sam);
 
-
-        Product.setText(product[position]);
-        Rate.setText(rate[position]);
-        Quantity.setText(quantity[position]);
-
-
-
+        Product.setText(arrSaleData.get(position).getProductName());
+        Rate.setText(arrSaleData.get(position).getProductRate());
+        Quantity.setText(arrSaleData.get(position).getProductQuantity());
 
         return rowView;
+
     }
 }
 

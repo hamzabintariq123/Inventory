@@ -160,6 +160,7 @@ public class Products extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Products.this, Add_Products.class);
                 intent.putExtra("buss_id",strbuss_id);
+                intent.putExtra("from","products");
                 startActivity(intent);
             }
         });
@@ -174,7 +175,7 @@ public class Products extends AppCompatActivity {
                 for (int k =0 ; k<arrSaleData.size();k++)
                 {
                     Sales= Sales+"{"+user_id+","+strbuss_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
-                            arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+
+                            arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+"Sale"+","+
                             arrSaleData.get(k).getProductAmount()+","+date+"}";
 
                 }
@@ -183,6 +184,7 @@ public class Products extends AppCompatActivity {
                 if (checkBox.isChecked()) {
 
                     String strJsonSaleData = arrJsonSaleData.toString();
+                    EnterSales();
 
                     //send strJsonSaleData in string reques
 
@@ -191,7 +193,7 @@ public class Products extends AppCompatActivity {
                 } else {
 
                     EnterSales();
-                  // Intent intent = new Intent(Products.this, Customers.class);
+                    // Intent intent = new Intent(Products.this, Customers.class);
                     //startActivity(intent);
                 }
 
@@ -256,7 +258,7 @@ public class Products extends AppCompatActivity {
                     {
 
                         database.insertSales(Integer.valueOf(user_id),Integer.valueOf(strbuss_id),Integer.valueOf(arrSaleData.get(k).getProductRate()),date.toString(),arrSaleData.get(k).getProductName()
-                                ,Integer.valueOf(arrSaleData.get(k).getProductQuantity()),Integer.valueOf(arrSaleData.get(k).getDiscount()),"sales",Integer.valueOf(arrSaleData.get(k).getProductAmount()));
+                                ,Integer.valueOf(arrSaleData.get(k).getProductQuantity()),Integer.valueOf(arrSaleData.get(k).getDiscount()),"Sale",Integer.valueOf(arrSaleData.get(k).getProductAmount()));
                     }
 
                 } else if (error instanceof TimeoutError) {

@@ -24,6 +24,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -126,14 +127,11 @@ public class Customers extends AppCompatActivity {
                     finish();
                     startActivity(intent);
                 }
-                if(heading.equals("balance"))
-                {
-                    Toast.makeText(Customers.this, " pop up with balance", Toast.LENGTH_SHORT).show();
-                }
 
                 if (heading.equals("sample"))
                 {
                     Intent intent= new Intent(Customers.this,Sample.class);
+                    intent.putExtra("buss_id",buss_id);
                     finish();
                     startActivity(intent);
                 }
@@ -191,37 +189,12 @@ public class Customers extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError)
                 {
-                    Cursor cus =  database.getData("customers");
-
-                    if (cus.getCount() == 0)
-                    {
-                        return;
-                    }
-
-                    while (cus.moveToNext())
-                    {
-                        String id =cus.getString(0);
-                        String bussines_name = cus.getString(1);
-                        String personal_name =cus.getString(2);
-                        String address = cus.getString(3);
-                        String distrcit = cus.getString(4);
-                        String mobile = cus.getString(5);
-
-                        Customer_model data = new Customer_model();
-                        data.setAdress(address);
-                        data.setB_name(bussines_name);
-                        data.setDistrcit(distrcit);
-                        data.setMobile(mobile);
-                        data.setPeronal_name(personal_name);
-                        data.setId(id);
-
-                        list.add(data);
-
-                    }
-
-                    listView.setAdapter(customer_addapter);
+                   loadFromDB();
                 }
-
+                else if (error instanceof TimeoutError)
+                {
+                    loadFromDB();
+                }
             }
         }) {
             @Override
@@ -292,5 +265,38 @@ public class Customers extends AppCompatActivity {
            database.insertBussines(bussines_name,personal_name,address,mobile,district);
 
         }
+    }
+
+    public void loadFromDB()
+    {
+        Cursor cus =  database.getData("customers");
+
+        if (cus.getCount() == 0)
+        {
+            return;
+        }
+
+        while (cus.moveToNext())
+        {
+            String id =cus.getString(0);
+            String bussines_name = cus.getString(1);
+            String personal_name =cus.getString(2);
+            String address = cus.getString(3);
+            String distrcit = cus.getString(4);
+            String mobile = cus.getString(5);
+
+            Customer_model data = new Customer_model();
+            data.setAdress(address);
+            data.setB_name(bussines_name);
+            data.setDistrcit(distrcit);
+            data.setMobile(mobile);
+            data.setPeronal_name(personal_name);
+            data.setId(id);
+
+            list.add(data);
+
+        }
+
+        listView.setAdapter(customer_addapter);
     }
 }

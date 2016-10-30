@@ -50,14 +50,14 @@ public class Add_Products extends AppCompatActivity {
     Spinner product, discount_sppiner;
     Toolbar toolbar;
     Button add_item,calculate;
-    String heading,price;
+    String price;
     EditText productQuantity,productRate;
     TextView Total,quantity;
     RadioGroup productsRate;
     String discount;
     String total,strbuss_id;
     ProgressDialog ringProgressDialog;
-    String  strProduct;
+    String  strProduct,from;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     private ArrayList<Products_model> list = new ArrayList<>();
     SQLiteDatabase db;
@@ -70,7 +70,7 @@ public class Add_Products extends AppCompatActivity {
         setContentView(R.layout.activity_add_products);
 
         Intent intent = getIntent();
-        heading = intent.getStringExtra("from");
+
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -80,7 +80,7 @@ public class Add_Products extends AppCompatActivity {
 
         Intent i = getIntent();
         strbuss_id = i .getStringExtra("buss_id");
-
+        from = i.getStringExtra("from");
 
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -106,32 +106,6 @@ public class Add_Products extends AppCompatActivity {
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-                Cursor cus =  database.getData("Products");
-
-                if (cus.getCount() == 0)
-                {
-
-
-                    return;
-                }
-
-                StringBuffer stringBuffer = new StringBuffer();
-                while (cus.moveToNext())
-                {
-                    stringBuffer.append(cus.getString(0)+"\n");
-                    stringBuffer.append(cus.getString(1)+"\n");
-                    stringBuffer.append(cus.getString(2)+"\n");
-                    stringBuffer.append(cus.getString(3)+"\n");
-                    stringBuffer.append(cus.getString(4)+"\n\n");
-
-                }
-
-                showmessage("Product details",stringBuffer.toString());
-
-
 
 
                 int rate = Integer.parseInt(productRate.getText().toString());
@@ -165,13 +139,36 @@ public class Add_Products extends AppCompatActivity {
         add_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                if (from.equals("sample"))
+                {
+                    int rate = Integer.parseInt(productRate.getText().toString());
+                    int quantity = Integer.parseInt(productQuantity.getText().toString());
+                    String productName = strProduct;
+
+                    Intent intent = new Intent(Add_Products.this,Sample.class);
+                    intent.putExtra("from",from);
+                    intent.putExtra("rate",rate);
+                    intent.putExtra("Rotal",total);
+                    intent.putExtra("quantity",quantity);
+                    intent.putExtra("productName",productName);
+                    intent.putExtra("discount",discount);
+                    intent.putExtra("buss_id",strbuss_id);
+                    finish();
+                    startActivity(intent);
+
+                }
+
+                else  if(from.equals("products"))
+                {
+
                 int rate = Integer.parseInt(productRate.getText().toString());
                 int quantity = Integer.parseInt(productQuantity.getText().toString());
-               String productName = strProduct;
-
+                String productName = strProduct;
 
                 Intent intent = new Intent(Add_Products.this,Products.class);
-                intent.putExtra("from",heading);
+                intent.putExtra("from",from);
                 intent.putExtra("rate",rate);
                 intent.putExtra("Rotal",total);
                 intent.putExtra("quantity",quantity);
@@ -180,6 +177,8 @@ public class Add_Products extends AppCompatActivity {
                 intent.putExtra("buss_id",strbuss_id);
                 finish();
                 startActivity(intent);
+
+                }
             }
         });
 
@@ -187,7 +186,7 @@ public class Add_Products extends AppCompatActivity {
 
     }
 
-    public void showmessage(String title,String message)
+   /* public void showmessage(String title,String message)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(Add_Products.this);
         builder.setTitle(title);
@@ -195,7 +194,7 @@ public class Add_Products extends AppCompatActivity {
         builder.setMessage(message);
         builder.show();
 
-    }
+    }*/
 
 
     private void setSpinner() {
@@ -205,11 +204,11 @@ public class Add_Products extends AppCompatActivity {
         List<String> discount_list = new ArrayList<String>();
 
         discount_list.add("0");
+        discount_list.add("5");
         discount_list.add("10");
+        discount_list.add("15");
         discount_list.add("20");
-        discount_list.add("30");
-        discount_list.add("40");
-        discount_list.add("50");
+        discount_list.add("25");
 
 
         for (int i = 0; i < list.size(); i++) {
@@ -344,17 +343,24 @@ public class Add_Products extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 String message = null;
+
+                    ringProgressDialog.dismiss();
+
                   if (error instanceof NoConnectionError)
                   {
 
-                       ringProgressDialog.dismiss();
+
                        list = database.getAllProductss();
 
                       setSpinner();
 
                   } else if (error instanceof TimeoutError) {
 
-                      message = "Connection TimeOut! Please check your internet connection.";
+                      list = database.getAllProductss();
+
+                      setSpinner();
+
+                      message = "Connection TimeOut! Loading from local data base";
                       Toast.makeText(Add_Products.this,message, Toast.LENGTH_SHORT).show();
                 }
             }

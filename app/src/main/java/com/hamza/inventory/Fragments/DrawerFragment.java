@@ -33,8 +33,8 @@ public class DrawerFragment extends Fragment {
 
     Drawer_Addapter drawer_addapter = null;
 
-    String[] nameArray = new String[] {"Sale","Recovery","Balance","Sample","Supply","Expense","Parcel","Logout"};
-    int[] images =  new int[] {R.drawable.sales,R.drawable.recovry,R.drawable.balance,R.drawable.sample,R.drawable.supply,
+    String[] nameArray = new String[] {"Sale","Recovery","Sample","Supply","Expense","Parcel","Logout"};
+    int[] images =  new int[] {R.drawable.sales,R.drawable.recovry,R.drawable.sample,R.drawable.supply,
     R.drawable.expense,R.drawable.parcel,R.drawable.logout};
     ListView listView;
 
@@ -89,30 +89,21 @@ public class DrawerFragment extends Fragment {
 
                 }
 
-               if (position == 2 )
-                {
-                    Intent intent = new Intent(getActivity(), Customers.class);
-                    intent.putExtra("from","balance");
-                    getActivity().startActivity(intent);
 
-
-
-                }
-
-                if (position == 3 )
+                if (position == 2 )
                 {
                     Intent intent = new Intent(getActivity(), Customers.class);
                     intent.putExtra("from","sample");
                     getActivity().startActivity(intent);
                 }
 
-                if (position == 4 )
+                if (position == 3 )
                 {
                     Intent intent = new Intent(getActivity(), Supply.class);
                     getActivity().startActivity(intent);
 
                 }
-                if (position == 5 )
+                if (position == 4 )
                 {
                     Intent intent = new Intent(getActivity(), Expence.class);
                     getActivity().startActivity(intent);
@@ -120,12 +111,12 @@ public class DrawerFragment extends Fragment {
 
                 }
 
-                if (position == 6)
+                if (position == 5)
                 {
 
 
                 }
-                if (position == 7 )
+                if (position == 6 )
                 {
 
                     SharedPreferences pref = getActivity().getSharedPreferences("User Prefs", getActivity().MODE_PRIVATE);
