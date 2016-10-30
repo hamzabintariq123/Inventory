@@ -39,7 +39,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,6 +113,7 @@ public class Products extends AppCompatActivity {
             objSaleModel.setProductQuantity(String.valueOf(quantity));
             objSaleModel.setDiscount(strdiscount);
 
+
             try {
                 jObjSaleModel.put("product_name" , strProduct);
                 jObjSaleModel.put("product_rate" , String.valueOf(rate));
@@ -164,13 +168,15 @@ public class Products extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
+
                 for (int k =0 ; k<arrSaleData.size();k++)
                 {
-
-
-                    Sales= Sales+"{"+strbuss_id+","+user_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
+                    Sales= Sales+"{"+user_id+","+strbuss_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
                             arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+
-                            arrSaleData.get(k).getProductAmount()+"}";
+                            arrSaleData.get(k).getProductAmount()+","+date+"}";
+
                 }
 
 
@@ -242,6 +248,19 @@ public class Products extends AppCompatActivity {
                 if (error instanceof NoConnectionError)
                 {
 
+                    Toast.makeText(Products.this, "NO Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
+
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    Date date = new Date();
+
+                    database.clearTable("Sales");
+                    for (int k =0 ; k<arrSaleData.size();k++)
+                    {
+
+                        database.insertSales(Integer.valueOf(user_id),Integer.valueOf(strbuss_id),Integer.valueOf(arrSaleData.get(k).getProductRate()),date.toString(),arrSaleData.get(k).getProductName()
+                                ,Integer.valueOf(arrSaleData.get(k).getProductQuantity()),Integer.valueOf(arrSaleData.get(k).getDiscount()),Integer.valueOf(arrSaleData.get(k).getProductAmount()));
+
+                    }
 
                 } else if (error instanceof TimeoutError) {
 

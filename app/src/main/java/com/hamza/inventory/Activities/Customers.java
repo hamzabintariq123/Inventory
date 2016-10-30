@@ -184,7 +184,7 @@ public class Customers extends AppCompatActivity {
                         parseJSONResponce(response);
 
 
-
+                        addCustomerToLocal();
 
                         listView.setAdapter(customer_addapter);
 
@@ -260,6 +260,10 @@ public class Customers extends AppCompatActivity {
 
     public void addCustomerToLocal()
     {
+
+        database.clearTable("customers");
+
+
         for (int i = 0; i < list.size(); i++) {
 
             String bussines_name = list.get(i).getB_name();
@@ -267,8 +271,8 @@ public class Customers extends AppCompatActivity {
             String address =  list.get(i).getAdress();
             String mobile = list.get(i).getMobile();
 
-            //TODO
-          //  database.insertProduct(Productname,qauntity,T_price,R_price);
+
+           database.insertBussines(bussines_name,personal_name,address,mobile);
 
 
         }
