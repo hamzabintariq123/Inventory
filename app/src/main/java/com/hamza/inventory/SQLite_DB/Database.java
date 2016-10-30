@@ -2,6 +2,7 @@ package com.hamza.inventory.SQLite_DB;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -27,7 +28,7 @@ public class Database {
     static final String DATABASE_ACCOUNTS = "create table " + "Sales" + "( "
             + "SalesID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "productName  varchar, salesman_id INTEGER , bussines_id INTEGER ,product_price INTEGER ," +
-            "quantity INTEGER ,discount INTEGER , total INTEGER , amount_paid INTEGER , amount_remaining INTEGER);); ";
+            "quantity INTEGER ,discount INTEGER , total INTEGER );); ";
 
     private static final String CUSTOMERS_TABLE = "customers";
     static final String DATABASE_CUSTOMER = "create table " + "customers" + "( "
@@ -79,6 +80,13 @@ public class Database {
     }
 
 
+
+    public void clearTable(String TABLE_NAME)
+    {
+            dbHelper.getWritableDatabase();
+            db.execSQL("delete from "+ TABLE_NAME );
+
+    }
 
 
 
@@ -138,8 +146,8 @@ public class Database {
     }
 
 
-    public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,Integer amount_remaining,
-                               String product_name,Integer quantity,Integer discount,Integer amount_paid,Integer total) {
+    public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,
+                               String product_name,Integer quantity,Integer discount,Integer total) {
 
       /*  Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Products" + " WHERE  Productname=?", new String[]{product_name});
         if (mCursor.getCount() > 0) {
@@ -157,8 +165,6 @@ public class Database {
                 newValues.put("quantity", quantity);
                 newValues.put("discount", discount);
                 newValues.put("total", total);
-                newValues.put("amount_remaining", amount_remaining);
-                newValues.put("amount_paid", amount_paid);
                 newValues.put("Date_added", Date_added);
 
                 db.insert("Account", null, newValues);
@@ -186,21 +192,27 @@ public class Database {
         return cursor;
     }
 
-    public Cursor products() {
+    public Cursor getData(String tablename) {
 
 
         db = dbHelper.getReadableDatabase();
-        Cursor cursor;
-        String[] formdb  = new String[]{"Productname","Quantity"};
-        cursor = db.query(PRODUCTS_TABLE,formdb,null,null,null,null,null);
+
+        String selectQuery = "SELECT  * FROM " + tablename;
+        Cursor cursor = db.rawQuery(selectQuery, null);
         return cursor;
     }
-    public  Cursor getqty()
+    public Integer getqty( String product_name)
     {
-        db = dbHelper.getReadableDatabase();
-        Cursor mCursor = db.rawQuery("SELECT Quantity FROM Products",null,null);
-        return mCursor;
+        int entry = 0;
+        Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Products" + " WHERE  Productname=?", new String[]{product_name});
+        if (mCursor.getCount() > 0) {
+            mCursor.moveToFirst();
 
+            entry = mCursor.getInt(mCursor.getColumnIndex("Quantity"));
+
+        }
+
+        return  entry;
     }
 
 

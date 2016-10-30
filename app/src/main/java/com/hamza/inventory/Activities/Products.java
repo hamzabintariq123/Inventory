@@ -248,18 +248,18 @@ public class Products extends AppCompatActivity {
                 if (error instanceof NoConnectionError)
                 {
 
+                    ringProgressDialog.dismiss();
                     Toast.makeText(Products.this, "NO Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     Date date = new Date();
 
-                    database.clearTable("Sales");
+                    //database.clearTable("Sales");
                     for (int k =0 ; k<arrSaleData.size();k++)
                     {
 
                         database.insertSales(Integer.valueOf(user_id),Integer.valueOf(strbuss_id),Integer.valueOf(arrSaleData.get(k).getProductRate()),date.toString(),arrSaleData.get(k).getProductName()
                                 ,Integer.valueOf(arrSaleData.get(k).getProductQuantity()),Integer.valueOf(arrSaleData.get(k).getDiscount()),Integer.valueOf(arrSaleData.get(k).getProductAmount()));
-
                     }
 
                 } else if (error instanceof TimeoutError) {

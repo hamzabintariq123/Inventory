@@ -3,8 +3,10 @@ package com.hamza.inventory.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -71,7 +73,6 @@ public class Customers extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("Customers");
 
-
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
 
@@ -80,7 +81,6 @@ public class Customers extends AppCompatActivity {
         String[] buss_name = new String[] {"Test Bussines 1","Test Bussines 2"};
         String[] mobile = new String[] {"03201234556","03214567891"};
         String[] adress = new String[] {"Test Adress 1","Test Adress 2"};
-
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
 
@@ -93,9 +93,7 @@ public class Customers extends AppCompatActivity {
         addcustomer = (ImageView) findViewById(R.id.addcustomer);
         customer_addapter = new Customer_Addapter(getApplicationContext(), R.layout.row_customer, list, this);
 
-
         getCustomer();
-
 
         addcustomer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +101,6 @@ public class Customers extends AppCompatActivity {
                 Intent intent= new Intent(Customers.this,Add_New_Customer.class);
                 finish();
                 startActivity(intent);
-
             }
         });
 
@@ -112,7 +109,6 @@ public class Customers extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
                 String buss_id = list.get(position).getId();
                 if(heading.equals("sale"))
@@ -136,23 +132,22 @@ public class Customers extends AppCompatActivity {
 
                 if (heading.equals("sample"))
                 {
-
                     Intent intent= new Intent(Customers.this,Sample.class);
                     finish();
                     startActivity(intent);
-
                 }
 
             }
         });
     }
 
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
         return super.onOptionsItemSelected(item);
-
-
     }
 
 
@@ -180,9 +175,7 @@ public class Customers extends AppCompatActivity {
 
                        // Toast.makeText(Customers.this, response, Toast.LENGTH_SHORT).show();
 
-
                         parseJSONResponce(response);
-
 
                         addCustomerToLocal();
 
@@ -193,10 +186,39 @@ public class Customers extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                ringProgressDialog.dismiss();
 
                 if (error instanceof NoConnectionError)
                 {
+                    Cursor cus =  database.getData("customers");
 
+                    if (cus.getCount() == 0)
+                    {
+                        return;
+                    }
+
+                    while (cus.moveToNext())
+                    {
+                        String id =cus.getString(0);
+                        String bussines_name = cus.getString(1);
+                        String personal_name =cus.getString(2);
+                        String address = cus.getString(3);
+                        String distrcit = cus.getString(4);
+                        String mobile = cus.getString(5);
+
+                        Customer_model data = new Customer_model();
+                        data.setAdress(address);
+                        data.setB_name(bussines_name);
+                        data.setDistrcit(distrcit);
+                        data.setMobile(mobile);
+                        data.setPeronal_name(personal_name);
+                        data.setId(id);
+
+                        list.add(data);
+
+                    }
+
+                    listView.setAdapter(customer_addapter);
                 }
 
             }
@@ -205,8 +227,6 @@ public class Customers extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("user_id",id);
-
-
                 return params;
             }
         };
@@ -228,7 +248,6 @@ public class Customers extends AppCompatActivity {
 
             JSONArray array = new JSONArray(responce);
 
-
             for (int i = 0; i < array.length(); i++) {
 
                 JSONObject Information = array.getJSONObject(i);
@@ -240,7 +259,6 @@ public class Customers extends AppCompatActivity {
                 String distrcit = Information.getString("distrcit");
                 String mobile = Information.getString("mobile");
 
-
                 Customer_model data = new Customer_model();
                 data.setAdress(address);
                 data.setB_name(bussines_name);
@@ -250,7 +268,6 @@ public class Customers extends AppCompatActivity {
                 data.setId(id);
 
                  list.add(data);
-
 
             }
         } catch (JSONException e) {
@@ -263,17 +280,15 @@ public class Customers extends AppCompatActivity {
 
         database.clearTable("customers");
 
-
         for (int i = 0; i < list.size(); i++) {
 
             String bussines_name = list.get(i).getB_name();
             String  personal_name= list.get(i).getPeronal_name();
             String address =  list.get(i).getAdress();
             String mobile = list.get(i).getMobile();
+            String district = list.get(i).getDistrcit();
 
-
-           database.insertBussines(bussines_name,personal_name,address,mobile);
-
+           database.insertBussines(bussines_name,personal_name,address,mobile,district);
 
         }
     }

@@ -19,6 +19,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         _db.execSQL(Database.DATABASE_ACCOUNTS);
         _db.execSQL(Database.DATABASE_CUSTOMER);
 
+
     }
 
     @Override

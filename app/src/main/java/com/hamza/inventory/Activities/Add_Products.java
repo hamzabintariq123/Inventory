@@ -2,7 +2,9 @@ package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -50,7 +52,7 @@ public class Add_Products extends AppCompatActivity {
     Button add_item,calculate;
     String heading,price;
     EditText productQuantity,productRate;
-    TextView Total;
+    TextView Total,quantity;
     RadioGroup productsRate;
     String discount;
     String total,strbuss_id;
@@ -89,6 +91,7 @@ public class Add_Products extends AppCompatActivity {
         calculate = (Button) findViewById(R.id.calculate);
         productQuantity = (EditText) findViewById(R.id.quantity);
         productRate = (EditText) findViewById(R.id.rate);
+        quantity = (TextView) findViewById(R.id.qty);
         Total = (TextView) findViewById(R.id.total);
         discount_sppiner = (Spinner) findViewById(R.id.discount_sppiner);
 
@@ -103,6 +106,32 @@ public class Add_Products extends AppCompatActivity {
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+                Cursor cus =  database.getData("Products");
+
+                if (cus.getCount() == 0)
+                {
+
+
+                    return;
+                }
+
+                StringBuffer stringBuffer = new StringBuffer();
+                while (cus.moveToNext())
+                {
+                    stringBuffer.append(cus.getString(0)+"\n");
+                    stringBuffer.append(cus.getString(1)+"\n");
+                    stringBuffer.append(cus.getString(2)+"\n");
+                    stringBuffer.append(cus.getString(3)+"\n");
+                    stringBuffer.append(cus.getString(4)+"\n\n");
+
+                }
+
+                showmessage("Product details",stringBuffer.toString());
+
+
 
 
                 int rate = Integer.parseInt(productRate.getText().toString());
@@ -158,6 +187,17 @@ public class Add_Products extends AppCompatActivity {
 
     }
 
+    public void showmessage(String title,String message)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Add_Products.this);
+        builder.setTitle(title);
+        builder.setCancelable(true);
+        builder.setMessage(message);
+        builder.show();
+
+    }
+
+
     private void setSpinner() {
 
 
@@ -207,7 +247,11 @@ public class Add_Products extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, final int pos,
                                    long id) {
 
-             strProduct = parent.getItemAtPosition(pos).toString();
+            strProduct = parent.getItemAtPosition(pos).toString();
+
+            int qty = database.getqty(strProduct);
+            quantity.setText(qty+"");
+
 
             productsRate=(RadioGroup) findViewById(R.id.radioGroup);
             price =  list.get(pos).getRetail();
@@ -267,6 +311,7 @@ public class Add_Products extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
         return super.onOptionsItemSelected(item);
 
 
@@ -302,7 +347,10 @@ public class Add_Products extends AppCompatActivity {
                   if (error instanceof NoConnectionError)
                   {
 
+                       ringProgressDialog.dismiss();
                        list = database.getAllProductss();
+
+                      setSpinner();
 
                   } else if (error instanceof TimeoutError) {
 
