@@ -106,13 +106,10 @@ public class Sample extends AppCompatActivity {
             objSaleModel.setProductRate(String.valueOf(rate));
             objSaleModel.setProductQuantity(String.valueOf(quantity));
 
-
-
             try {
                 jObjSaleModel.put("product_name", strProduct);
                 jObjSaleModel.put("product_rate", String.valueOf(rate));
                 jObjSaleModel.put("product_quantity" , String.valueOf(quantity));
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -120,11 +117,6 @@ public class Sample extends AppCompatActivity {
             }
                 arrSaleData.add(objSaleModel);
                 arrJsonSaleData.put(jObjSaleModel);
-
-
-
-
-
 
                 sample_addapter = new Sample_Addapter(Sample.this, arrSaleData);
 
@@ -155,7 +147,6 @@ public class Sample extends AppCompatActivity {
                         Sales= Sales+"{"+user_id+","+strbuss_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
                                 arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+","+"Sale"+","+
                                 arrSaleData.get(k).getProductAmount()+","+date+"}";
-
                     }
 
                 }
@@ -177,8 +168,6 @@ public class Sample extends AppCompatActivity {
         startActivity(intent);
         finish();
         return super.onOptionsItemSelected(item);
-
-
     }
 
 
