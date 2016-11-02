@@ -133,11 +133,6 @@ public class Products extends AppCompatActivity {
 
             }
 
-
-
-
-
-
             total.setText(total_am + "");
 
        /* String[] product = new String[] {"Product 1","Product 2"};
@@ -189,6 +184,7 @@ public class Products extends AppCompatActivity {
                     //send strJsonSaleData in string reques
 
                     Intent intent = new Intent(Products.this, Payment.class);
+                    intent.putExtra("total_amount",total_am);
                     startActivity(intent);
                 } else {
 

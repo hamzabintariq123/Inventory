@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -28,8 +29,9 @@ public class Payment extends AppCompatActivity {
 
 
     Toolbar toolbar;
-    Button send;
+    Button send,calculate;
     EditText amount,remainingamount;
+    TextView Total;
     String sAmount,sRemianing;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
@@ -51,9 +53,26 @@ public class Payment extends AppCompatActivity {
         send = (Button) findViewById(R.id.send_rec);
         amount = (EditText) findViewById(R.id.name);
         remainingamount = (EditText) findViewById(R.id.password);
+        calculate = (Button) findViewById(R.id.calculate);
+        Total = (TextView) findViewById(R.id.total_amount);
+
 
         getValus();
 
+        Intent intent = getIntent();
+        final int[] total = {intent.getIntExtra("total_amount", 0)};
+
+       Total.setText(total[0]);
+
+
+        calculate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                total[0] = total[0] -Integer.parseInt(sAmount);
+                remainingamount.setText(total[0]);
+            }
+        });
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
