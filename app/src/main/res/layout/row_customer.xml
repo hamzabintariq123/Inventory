@@ -8,14 +8,14 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Bussiness Name"
+        android:text="Bussiness"
         android:paddingTop="5dp"
-        android:layout_margin="5dp"
+        android:layout_margin="1dp"
         android:textColor="#000"
         android:textSize="15sp"
         android:id="@+id/breakfast"
-        android:layout_weight="2"
-        android:paddingLeft="10dp"/>
+        android:layout_weight="1"
+        android:paddingLeft="20dp"/>
 
     <TextView
         android:layout_width="0dp"

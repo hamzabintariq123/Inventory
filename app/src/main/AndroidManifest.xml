@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hamza.inventory">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,6 +29,7 @@
         <activity android:name=".Activities.Expence" />
         <activity android:name=".Activities.Supply" />
         <activity android:name=".Activities.Supply_details" />
+        <activity android:name=".Activities.Printer"></activity>
     </application>
 
 </manifest>

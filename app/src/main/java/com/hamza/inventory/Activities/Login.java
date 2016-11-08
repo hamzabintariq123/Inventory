@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -161,6 +163,15 @@ public class Login extends AppCompatActivity {
             public void onErrorResponse(VolleyError error)
             {
                 ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError)
+                {
+                    Toast.makeText(Login.this,"No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+                else if (error instanceof TimeoutError) {
+
+
+                    Toast.makeText(Login.this, "Connection TimeOut! Please check your internet connection.", Toast.LENGTH_SHORT).show();
+                }
             }
         }) {
             @Override

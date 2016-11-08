@@ -146,7 +146,7 @@ public class Sample extends AppCompatActivity {
                     {
                         Sales= Sales+"{"+user_id+","+strbuss_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
                                 arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+","+"Sale"+","+
-                                arrSaleData.get(k).getProductAmount()+","+date+"}";
+                                arrSaleData.get(k).getProductAmount()+","+date;
                     }
 
                 }

@@ -30,7 +30,7 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Bussiness Name"
+        android:text="Bussiness"
         android:paddingTop="5dp"
         android:layout_margin="5dp"
 
@@ -38,7 +38,7 @@
         android:textStyle="bold"
         android:textSize="19sp"
         android:id="@+id/textView4"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:background="#bdbdbd"
         android:paddingLeft="10dp"/>
 
@@ -50,7 +50,7 @@
         android:textColor="#000"
         android:background="#bdbdbd"
         android:paddingTop="5dp"
-        android:paddingLeft="5dp"
+        android:paddingLeft="20dp"
         android:textSize="19sp"
         android:textStyle="bold"
         android:id="@+id/textView5"
@@ -66,7 +66,7 @@
         android:textStyle="bold"
         android:textSize="19sp"
         android:background="#bdbdbd"
-        android:paddingLeft="10dp"
+        android:paddingLeft="25dp"
         android:paddingTop="5dp"
         android:id="@+id/textView6"
         android:layout_margin="5dp"

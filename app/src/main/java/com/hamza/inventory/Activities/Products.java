@@ -171,7 +171,7 @@ public class Products extends AppCompatActivity {
                 {
                     Sales= Sales+"{"+user_id+","+strbuss_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
                             arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+"Sale"+","+
-                            arrSaleData.get(k).getProductAmount()+","+date+"}";
+                            arrSaleData.get(k).getProductAmount()+","+date;
 
                 }
 
@@ -188,7 +188,10 @@ public class Products extends AppCompatActivity {
                     startActivity(intent);
                 } else {
 
-                    EnterSales();
+                    Intent intent = new Intent(Products.this, Printer.class);
+                    intent.putExtra("sale",Sales);
+                    startActivity(intent);
+
                     // Intent intent = new Intent(Products.this, Customers.class);
                     //startActivity(intent);
                 }
