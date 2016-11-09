@@ -184,17 +184,14 @@ public class Sales extends AppCompatActivity {
                     if (checkBox.isChecked()) {
 
 
-                        EnterSales();
+                        EnterSales("0");
 
-                        Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Payment.class);
-                        intent.putExtra("total_amount",total_am);
-                        intent.putExtra("ids",ids);
-                        startActivity(intent);
+
 
 
                     } else {
 
-                        EnterSales();
+                        EnterSales("1");
 
                     }
 
@@ -228,7 +225,7 @@ public class Sales extends AppCompatActivity {
     }
 
 
-    public void EnterSales() {
+    public void EnterSales(final String form) {
 
         ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
         ringProgressDialog.setCancelable(false);
@@ -252,15 +249,27 @@ public class Sales extends AppCompatActivity {
 
                         else
                         {
-                            ids = response;
-                            Toast.makeText(Sales.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
+                            if(form.equals("0") )
+                            {
+                                Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Payment.class);
+                                intent.putExtra("total_amount",total_am);
+                                intent.putExtra("ids",ids);
+                                startActivity(intent);
+                            }
 
-                            // Intent intent = new Intent(Sales.this, Printer.class);
-                            // intent.putExtra("sale",arrSaleData);
-                            // startActivity(intent);
+                            else
+                            {
+                                ids = response;
+                                Toast.makeText(Sales.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
 
-                            // Intent intent = new Intent(Sales.this, Customers.class);
-                            //startActivity(intent);
+                                // Intent intent = new Intent(Sales.this, Printer.class);
+                                // intent.putExtra("sale",arrSaleData);
+                                // startActivity(intent);
+
+                                // Intent intent = new Intent(Sales.this, Customers.class);
+                                //startActivity(intent);
+                            }
+
 
                         }
 

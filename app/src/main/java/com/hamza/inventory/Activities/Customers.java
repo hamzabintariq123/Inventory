@@ -77,10 +77,10 @@ public class Customers extends AppCompatActivity {
 
         drawerFragment.setup((DrawerLayout) findViewById(R.id.drawerlayout), toolbar);
 
-        String[] buss_name = new String[] {"Test Bussines 1","Test Bussines 2"};
+      /*  String[] buss_name = new String[] {"Test Bussines 1","Test Bussines 2"};
         String[] mobile = new String[] {"03201234556","03214567891"};
         String[] adress = new String[] {"Test Adress 1","Test Adress 2"};
-
+*/
         SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
 
         id=  pref.getString("id", null);
@@ -262,13 +262,14 @@ public class Customers extends AppCompatActivity {
 
         for (int i = 0; i < list.size(); i++) {
 
+            String id= list.get(i).getId();
             String bussines_name = list.get(i).getB_name();
             String  personal_name= list.get(i).getPeronal_name();
             String address =  list.get(i).getAdress();
             String mobile = list.get(i).getMobile();
             String district = list.get(i).getDistrcit();
 
-           database.insertBussines(bussines_name,personal_name,address,mobile,district);
+           database.insertBussines(bussines_name,id,personal_name,address,mobile,district);
 
         }
     }

@@ -32,7 +32,7 @@ public class Database {
 
     private static final String CUSTOMERS_TABLE = "customers";
     static final String DATABASE_CUSTOMER = "create table " + "customers" + "( "
-            + "CustomerID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "CustomerID" + " INTEGER PRIMARY KEY , "
             + "bussiness_name  varchar, personal_name varchar , address varchar ,distrcit varchar ," +
             "mobile INTEGER ,salesman INTEGER );); ";
 
@@ -68,10 +68,11 @@ public class Database {
 
              }
 
-    public void insertBussines(String bussines_name, String personal_name ,String address ,String mobile,String distrcit )
+    public void insertBussines(String bussines_name,String id, String personal_name ,String address ,String mobile,String distrcit )
     {
         ContentValues newValues = new ContentValues();
         newValues.put("bussiness_name", bussines_name);
+        newValues.put("CustomerID", bussines_name);
         newValues.put("personal_name", personal_name);
         newValues.put("address", address);
         newValues.put("mobile", mobile);

@@ -27,6 +27,9 @@ import com.android.volley.toolbox.Volley;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +41,7 @@ public class Payment extends AppCompatActivity {
     EditText amount,remainingamount;
     TextView Total;
     String sAmount,sRemianing,id,sColums;
+    Date date;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
 
@@ -96,6 +100,9 @@ public class Payment extends AppCompatActivity {
 
                 else
                 {
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    date= new Date();
+
                     paymnet();
 
                    /*
@@ -145,7 +152,15 @@ public class Payment extends AppCompatActivity {
                     public void onResponse(String response)
                     {
 
-                            ringProgressDialog.dismiss();
+                           if(response.equals("")||response ==  null)
+                           {
+                               Toast.makeText(Payment.this, "Not Entered", Toast.LENGTH_SHORT).show();
+                           }
+                            else
+                           {
+
+                           }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -168,9 +183,11 @@ public class Payment extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("amount", sAmount);
+                params.put("total",Total.getText().toString());
                 params.put("Remaining", sRemianing);
                 params.put("ids", sColums);
                 params.put("buss_id", id);
+                params.put("date", date.toString());
 
 
                 return params;

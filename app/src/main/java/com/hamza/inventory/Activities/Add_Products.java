@@ -54,7 +54,7 @@ public class Add_Products extends AppCompatActivity {
     TextView Total,quantity;
     RadioGroup productsRate;
     String discount;
-    String total,strbuss_id,salesid;
+    String total="",strbuss_id,salesid;
     ProgressDialog ringProgressDialog;
     String  strProduct,from;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -153,45 +153,53 @@ public class Add_Products extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                if (from.equals("sample"))
+                if(total.equals("") || total == null)
                 {
-                    int rate = Integer.parseInt(productRate.getText().toString());
-                    int quantity = Integer.parseInt(productQuantity.getText().toString());
-                    String productName = strProduct;
-
-                    Intent intent = new Intent(Add_Products.this,Sample.class);
-                    intent.putExtra("from",from);
-                    intent.putExtra("rate",rate);
-                    intent.putExtra("Rotal",total);
-                    intent.putExtra("quantity",quantity);
-                    intent.putExtra("productName",productName);
-                    intent.putExtra("discount",discount);
-                    intent.putExtra("buss_id",strbuss_id);
-                    finish();
-                    startActivity(intent);
-
+                    Toast.makeText(Add_Products.this, "Pleae Calculate the amount first", Toast.LENGTH_SHORT).show();
                 }
 
-                else  if(from.equals("products"))
+                else
                 {
+                    if (from.equals("sample"))
+                    {
+                        int rate = Integer.parseInt(productRate.getText().toString());
+                        int quantity = Integer.parseInt(productQuantity.getText().toString());
+                        String productName = strProduct;
 
-                int rate = Integer.parseInt(productRate.getText().toString());
-                int quantity = Integer.parseInt(productQuantity.getText().toString());
-                String productName = strProduct;
+                        Intent intent = new Intent(Add_Products.this,Sample.class);
+                        intent.putExtra("from",from);
+                        intent.putExtra("rate",rate);
+                        intent.putExtra("Rotal",total);
+                        intent.putExtra("quantity",quantity);
+                        intent.putExtra("productName",productName);
+                        intent.putExtra("discount",discount);
+                        intent.putExtra("buss_id",strbuss_id);
+                        finish();
+                        startActivity(intent);
 
-                Intent intent = new Intent(Add_Products.this,Sales.class);
-                intent.putExtra("from",from);
-                intent.putExtra("rate",rate);
-                intent.putExtra("Rotal",total);
-                intent.putExtra("quantity",quantity);
-                intent.putExtra("productName",productName);
-                intent.putExtra("discount",discount);
-                intent.putExtra("buss_id",strbuss_id);
-                finish();
-                startActivity(intent);
+                    }
 
+                    else  if(from.equals("products"))
+                    {
+
+                        int rate = Integer.parseInt(productRate.getText().toString());
+                        int quantity = Integer.parseInt(productQuantity.getText().toString());
+                        String productName = strProduct;
+
+                        Intent intent = new Intent(Add_Products.this,Sales.class);
+                        intent.putExtra("from",from);
+                        intent.putExtra("rate",rate);
+                        intent.putExtra("Rotal",total);
+                        intent.putExtra("quantity",quantity);
+                        intent.putExtra("productName",productName);
+                        intent.putExtra("discount",discount);
+                        intent.putExtra("buss_id",strbuss_id);
+                        finish();
+                        startActivity(intent);
+
+                    }
                 }
+
             }
         });
 

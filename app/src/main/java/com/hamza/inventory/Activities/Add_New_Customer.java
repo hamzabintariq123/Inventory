@@ -32,7 +32,7 @@ public class Add_New_Customer extends AppCompatActivity {
 
     Toolbar toolbar;
     Button add_customer;
-    String heading, id;
+    String heading, id ,strdistrict;
     EditText bussines, adress, mobile, name, district;
     String sbussines, sadress, smobile, sname, sdistrict;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -66,6 +66,14 @@ public class Add_New_Customer extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
 
         id = pref.getString("id", null);
+        strdistrict = pref.getString("district", null);
+
+        district.setText(strdistrict);
+
+        district.setFocusable(false);
+        district.setClickable(true);
+
+
 
         add_customer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,11 +81,20 @@ public class Add_New_Customer extends AppCompatActivity {
 
                 getValues();
 
-                newCustomer();
-                Intent intent = new Intent(Add_New_Customer.this, Customers.class);
-                finish();
-                intent.putExtra("from", heading);
-                startActivity(intent);
+                if (sbussines.equals("")||sadress.equals("")|| smobile.equals("")|| sname.equals("")|| sdistrict.equals(""))
+                {
+                    Toast.makeText(Add_New_Customer.this, "Required Fields are empty", Toast.LENGTH_SHORT).show();
+                }
+
+                else
+                {
+                    newCustomer();
+                    Intent intent = new Intent(Add_New_Customer.this, Customers.class);
+                    finish();
+                    intent.putExtra("from", heading);
+                    startActivity(intent);
+                }
+
 
 
             }

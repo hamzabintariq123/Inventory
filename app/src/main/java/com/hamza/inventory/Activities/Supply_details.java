@@ -39,7 +39,7 @@ public class Supply_details extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
         supply_list = (ListView) findViewById(R.id.supply_list);
-        add = (ImageView) findViewById(R.id.add_sample);
+        add = (ImageView) findViewById(R.id.add_return);
 
 
         add.setOnClickListener(new View.OnClickListener() {
