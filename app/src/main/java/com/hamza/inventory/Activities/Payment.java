@@ -37,7 +37,7 @@ public class Payment extends AppCompatActivity {
     Button send,calculate;
     EditText amount,remainingamount;
     TextView Total;
-    String sAmount,sRemianing,id;
+    String sAmount,sRemianing,id,sColums;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
 
@@ -70,6 +70,7 @@ public class Payment extends AppCompatActivity {
 
         Intent intent = getIntent();
         final int[] total = {intent.getIntExtra("total_amount", 0)};
+         sColums = intent.getStringExtra("ids");
 
        Total.setText(total[0]+"");
 
@@ -95,9 +96,13 @@ public class Payment extends AppCompatActivity {
 
                 else
                 {
+                    paymnet();
+
+                   /*
                     Intent intent = new Intent(Payment.this,Printer.class);
                     intent.putExtra("from","sales");
                     startActivity(intent);
+                    */
                 }
             }
         });
@@ -164,6 +169,7 @@ public class Payment extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("amount", sAmount);
                 params.put("Remaining", sRemianing);
+                params.put("ids", sColums);
                 params.put("buss_id", id);
 
 

@@ -59,5 +59,15 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/linearLayout" />
 
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/add_return"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="79dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/plus" />
+
 
 </RelativeLayout>

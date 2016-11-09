@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.hamza.inventory.Adapters.Recovry_Addapter;
@@ -16,6 +18,7 @@ public class Supply_details extends AppCompatActivity {
     Toolbar toolbar;
     Recovry_Addapter recovry_addapter = null;
     ListView supply_list;
+    ImageView add;
 
 
     @Override
@@ -36,6 +39,16 @@ public class Supply_details extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
         supply_list = (ListView) findViewById(R.id.supply_list);
+        add = (ImageView) findViewById(R.id.add_sample);
+
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+            }
+        });
 
 
         recovry_addapter =  new Recovry_Addapter(Supply_details.this,product,quantity);

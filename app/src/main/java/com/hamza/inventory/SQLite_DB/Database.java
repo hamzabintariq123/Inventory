@@ -149,7 +149,7 @@ public class Database {
     public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,
                                String product_name,Integer quantity,Integer discount,String type,Integer total) {
 
-      /*  Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Products" + " WHERE  Productname=?", new String[]{product_name});
+      /*  Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Sales" + " WHERE  Productname=?", new String[]{product_name});
         if (mCursor.getCount() > 0) {
             mCursor.moveToFirst();
             int entry;

@@ -143,7 +143,7 @@ public class Printer extends AppCompatActivity {
                 {
                     String strlogo =  logo.getSelectedItem().toString();
 
-                    printer_addapter.printData(strlogo,Printer.this);
+                    printer_addapter.printData(strlogo,"",Printer.this);
 
 
                 }
@@ -199,11 +199,7 @@ public class Printer extends AppCompatActivity {
     }
 
 
-    public void setDialog()
-    {
 
-        dialog.create().show();
-    }
 
     }
 

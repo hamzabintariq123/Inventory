@@ -43,7 +43,8 @@ public class Supply extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(Supply.this,Supply_details.class);
+                Intent intent = new Intent(Supply.this,Customers.class);
+                intent.putExtra("from","supply");
                 startActivity(intent);
             }
         });
@@ -52,7 +53,8 @@ public class Supply extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(Supply.this,Supply_details.class);
+                Intent intent = new Intent(Supply.this,Customers.class);
+                intent.putExtra("from","supply");
                 startActivity(intent);
             }
         });

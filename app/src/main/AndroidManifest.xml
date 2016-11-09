@@ -22,7 +22,7 @@
         <activity android:name=".Activities.Customers" />
         <activity android:name=".Activities.Add_New_Customer" />
         <activity android:name=".Activities.Add_Products" />
-        <activity android:name=".Activities.Products" />
+        <activity android:name=".Activities.Sales" />
         <activity android:name=".Activities.Payment" />
         <activity android:name=".Activities.Recovery" />
         <activity android:name=".Activities.Sample" />

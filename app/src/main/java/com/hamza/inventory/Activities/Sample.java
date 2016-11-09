@@ -127,6 +127,7 @@ public class Sample extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Sample.this, Add_Products.class);
+                    intent.putExtra("buss_id",strbuss_id);
                     intent.putExtra("from","sample");
                     startActivity(intent);
                 }
@@ -145,8 +146,8 @@ public class Sample extends AppCompatActivity {
                     for (int k =0 ; k<arrSaleData.size();k++)
                     {
                         Sales= Sales+"{"+user_id+","+strbuss_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
-                                arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+","+"Sale"+","+
-                                arrSaleData.get(k).getProductAmount()+","+date;
+                                arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+"Sample"+","+
+                                "No Amount"+","+date;
                     }
 
                 }
@@ -185,6 +186,15 @@ public class Sample extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
+                        if(response.equals(""))
+                        {
+                            Toast.makeText(Sample.this, "Error in entring data ", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Sales = "";
+                            Toast.makeText(Sample.this, "Added Successfully ", Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -219,7 +229,7 @@ public class Sample extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("sale",Sales);
+                params.put("sales",Sales);
 
                 return params;
             }

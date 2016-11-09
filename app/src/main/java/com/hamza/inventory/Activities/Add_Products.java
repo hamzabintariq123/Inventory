@@ -2,9 +2,8 @@ package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -55,7 +54,7 @@ public class Add_Products extends AppCompatActivity {
     TextView Total,quantity;
     RadioGroup productsRate;
     String discount;
-    String total,strbuss_id;
+    String total,strbuss_id,salesid;
     ProgressDialog ringProgressDialog;
     String  strProduct,from;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -75,7 +74,7 @@ public class Add_Products extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Add Products");
+        toolbar.setTitle("Add Sales");
 
 
         Intent i = getIntent();
@@ -103,32 +102,46 @@ public class Add_Products extends AppCompatActivity {
 
         getProducts();
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
+
+        salesid=  pref.getString("id", null);
+
+
+
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                int rate = Integer.parseInt(productRate.getText().toString());
-                int quantity = Integer.parseInt(productQuantity.getText().toString());
+        if(productRate.getText().toString().equals("") || productQuantity.getText().toString().equals(""))
+        {
+            Toast.makeText(Add_Products.this, "Please Add the Fields To calculate Amount", Toast.LENGTH_SHORT).show();
+        }
 
-                // Calculating Discount
-                if(discount != "0")
-                {
-                    int amount  = rate*quantity;
-                    int discount_calculate = Integer.parseInt(discount);
-                    discount_calculate = ((amount)/100)*discount_calculate;
-                    amount = amount-discount_calculate;
-                     total = String.valueOf(amount);
-                     Total.setText(total);
+            else
+        {
+            int rate = Integer.parseInt(productRate.getText().toString());
+            int quantity = Integer.parseInt(productQuantity.getText().toString());
 
-                }
-                else
-                {
-                    int amount  = rate*quantity;
-                     total = String.valueOf(amount);
-                     Total.setText(total);
-                }
+            // Calculating Discount
+            if(discount != "0")
+            {
+                int amount  = rate*quantity;
+                int discount_calculate = Integer.parseInt(discount);
+                discount_calculate = ((amount)/100)*discount_calculate;
+                amount = amount-discount_calculate;
+                total = String.valueOf(amount);
+                Total.setText(total);
 
+            }
+            else
+            {
+                int amount  = rate*quantity;
+                total = String.valueOf(amount);
+                Total.setText(total);
+            }
+
+        }
 
 
 
@@ -167,7 +180,7 @@ public class Add_Products extends AppCompatActivity {
                 int quantity = Integer.parseInt(productQuantity.getText().toString());
                 String productName = strProduct;
 
-                Intent intent = new Intent(Add_Products.this,Products.class);
+                Intent intent = new Intent(Add_Products.this,Sales.class);
                 intent.putExtra("from",from);
                 intent.putExtra("rate",rate);
                 intent.putExtra("Rotal",total);
@@ -349,7 +362,7 @@ public class Add_Products extends AppCompatActivity {
                   if (error instanceof NoConnectionError)
                   {
 
-
+                      Toast.makeText(Add_Products.this, "No internet Connection !! Loading from local database", Toast.LENGTH_SHORT).show();
                        list = database.getAllProductss();
 
                       setSpinner();
@@ -368,6 +381,7 @@ public class Add_Products extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("sales_id",salesid);
 
 
                 return params;
@@ -397,10 +411,10 @@ public class Add_Products extends AppCompatActivity {
                 JSONObject Information = array.getJSONObject(i);
 
                 String id = Information.getString("id");
-                String product_name = Information.getString("product_name");
+                String product_name = Information.getString("Product");
                 String retail_price = Information.getString("retail_price");
                 String trade_price = Information.getString("trade_price");
-                String quantity = Information.getString("product_quantity");
+                String quantity = Information.getString("Quantity");
 
 
 

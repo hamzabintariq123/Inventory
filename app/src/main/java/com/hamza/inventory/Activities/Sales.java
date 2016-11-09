@@ -28,7 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hamza.inventory.Adapters.Product_Addapter;
-import com.hamza.inventory.Date_Models.Customer_model;
 import com.hamza.inventory.Date_Models.Sale_model;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
@@ -46,7 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Products extends AppCompatActivity {
+public class Sales extends AppCompatActivity {
 
 
     Toolbar toolbar;
@@ -57,7 +56,7 @@ public class Products extends AppCompatActivity {
     TextView total;
     SQLiteDatabase db;
     Database database = new Database(this);
-    String Sales = "",user_id,strbuss_id;
+    String Sales = "",user_id,strbuss_id,ids;
     int total_am;
     JSONObject jObjSaleModel =  new JSONObject();
     Product_Addapter product_addapter = null;
@@ -85,7 +84,7 @@ public class Products extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Products");
+        toolbar.setTitle("Sales");
 
         Intent i = getIntent();
         int rate = i.getIntExtra("rate", 0);
@@ -140,7 +139,7 @@ public class Products extends AppCompatActivity {
         String[] rate = new String[] {"400","250"};
         String[] amount = new String[] {"20000","10000"};
 */
-            product_addapter = new Product_Addapter(Products.this,arrSaleData);
+            product_addapter = new Product_Addapter(com.hamza.inventory.Activities.Sales.this,arrSaleData);
 
             product_list.setAdapter(product_addapter);
         }
@@ -153,7 +152,7 @@ public class Products extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Products.this, Add_Products.class);
+                Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Add_Products.class);
                 intent.putExtra("buss_id",strbuss_id);
                 intent.putExtra("from","products");
                 startActivity(intent);
@@ -175,26 +174,32 @@ public class Products extends AppCompatActivity {
 
                 }
 
-
-                if (checkBox.isChecked()) {
-
-                    String strJsonSaleData = arrJsonSaleData.toString();
-                    EnterSales();
-
-                    //send strJsonSaleData in string reques
-
-                    Intent intent = new Intent(Products.this, Payment.class);
-                    intent.putExtra("total_amount",total_am);
-                    startActivity(intent);
-                } else {
-
-                    Intent intent = new Intent(Products.this, Printer.class);
-                    intent.putExtra("sale",Sales);
-                    startActivity(intent);
-
-                    // Intent intent = new Intent(Products.this, Customers.class);
-                    //startActivity(intent);
+                if(Sales.equals("") || Sales ==  null)
+                {
+                    Toast.makeText(Sales.this, "Please Enter Som records", Toast.LENGTH_SHORT).show();
                 }
+
+                else
+                {
+                    if (checkBox.isChecked()) {
+
+
+                        EnterSales();
+
+                        Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Payment.class);
+                        intent.putExtra("total_amount",total_am);
+                        intent.putExtra("ids",ids);
+                        startActivity(intent);
+
+
+                    } else {
+
+                        EnterSales();
+
+                    }
+
+                }
+
 
             }
         });
@@ -213,7 +218,7 @@ public class Products extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent= new Intent(Products.this, Customers.class);
+        Intent intent= new Intent(com.hamza.inventory.Activities.Sales.this, Customers.class);
         intent.putExtra("from","sale");
         startActivity(intent);
         finish();
@@ -236,7 +241,30 @@ public class Products extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
+
+
                         ringProgressDialog.dismiss();
+
+                        if(response.equals(""))
+                        {
+                            Toast.makeText(Sales.this, "Records not entered ! Wome thing went wrong", Toast.LENGTH_SHORT).show();
+                        }
+
+                        else
+                        {
+                            ids = response;
+                            Toast.makeText(Sales.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
+
+                            // Intent intent = new Intent(Sales.this, Printer.class);
+                            // intent.putExtra("sale",arrSaleData);
+                            // startActivity(intent);
+
+                            // Intent intent = new Intent(Sales.this, Customers.class);
+                            //startActivity(intent);
+
+                        }
+
+
 
                     }
                 }, new Response.ErrorListener() {
@@ -247,7 +275,7 @@ public class Products extends AppCompatActivity {
                 {
 
                     ringProgressDialog.dismiss();
-                    Toast.makeText(Products.this, "NO Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(com.hamza.inventory.Activities.Sales.this, "No Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     Date date = new Date();
@@ -263,7 +291,7 @@ public class Products extends AppCompatActivity {
                 } else if (error instanceof TimeoutError) {
 
                     message = "Connection TimeOut! Please check your internet connection.";
-                    Toast.makeText(Products.this, message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(com.hamza.inventory.Activities.Sales.this, message, Toast.LENGTH_SHORT).show();
                 }
             }
         }) {
@@ -271,7 +299,7 @@ public class Products extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("sale",Sales);
+                params.put("sales",Sales);
 
                 return params;
             }

@@ -32,11 +32,12 @@ public class Add_New_Customer extends AppCompatActivity {
 
     Toolbar toolbar;
     Button add_customer;
-    String heading,id;
-    EditText bussines,adress,mobile,name,district;
-    String sbussines,sadress,smobile,sname,sdistrict;
+    String heading, id;
+    EditText bussines, adress, mobile, name, district;
+    String sbussines, sadress, smobile, sname, sdistrict;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,24 +61,22 @@ public class Add_New_Customer extends AppCompatActivity {
         heading = intent.getStringExtra("from");
 
 
-
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
 
-        id=  pref.getString("id", null);
+        id = pref.getString("id", null);
 
         add_customer.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
                 getValues();
 
                 newCustomer();
-                Intent intent = new Intent(Add_New_Customer.this,Customers.class);
+                Intent intent = new Intent(Add_New_Customer.this, Customers.class);
                 finish();
-                intent.putExtra("from",heading);
+                intent.putExtra("from", heading);
                 startActivity(intent);
 
 
@@ -94,22 +93,21 @@ public class Add_New_Customer extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(Add_New_Customer.this,Customers.class);
+        Intent intent = new Intent(Add_New_Customer.this, Customers.class);
         startActivity(intent);
         return super.onOptionsItemSelected(item);
 
 
     }
 
-    public void getValues()
-    {
+    public void getValues() {
 
 
         sbussines = bussines.getText().toString();
-        sadress=adress.getText().toString();
-        smobile=mobile.getText().toString();
-        sname=name.getText().toString();
-        sdistrict =district.getText().toString();
+        sadress = adress.getText().toString();
+        smobile = mobile.getText().toString();
+        sname = name.getText().toString();
+        sdistrict = district.getText().toString();
 
     }
 
@@ -119,14 +117,14 @@ public class Add_New_Customer extends AppCompatActivity {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-         String URL =null;
+        String URL = null;
 
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.ADD_CUSTOMER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-                        Toast.makeText(Add_New_Customer.this,response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Add_New_Customer.this, response, Toast.LENGTH_SHORT).show();
 
 
                     }

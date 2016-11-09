@@ -30,8 +30,8 @@ import java.util.Map;
 public class Expence extends AppCompatActivity {
 
     Toolbar toolbar;
-    EditText breakfsat,luch,dinner,fuel,rent,other,gifts;
-    String  sbreakfsat,sluch,sdinner,sfuel,srent,sother,sgifts;
+    EditText breakfsat, luch, dinner, fuel, rent, other, gifts;
+    String sbreakfsat, sluch, sdinner, sfuel, srent, sother, sgifts;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     Button add;
@@ -58,19 +58,24 @@ public class Expence extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getvalues();
+                if (sbreakfsat.equals("") || sluch.equals("") || sdinner.equals("") || equals("") || sfuel.equals("")
+                        || srent.equals("") || sother.equals("") || sgifts.equals("")) {
+                    Toast.makeText(Expence.this, "Requied Field are empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    addExpence();
+                }
 
-                addExpence();
             }
         });
 
-        getvalues();
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
     }
 
     @Override
-         public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
@@ -84,8 +89,7 @@ public class Expence extends AppCompatActivity {
 
     }
 
-    public  void  getvalues()
-    {
+    public void getvalues() {
         sbreakfsat = breakfsat.getText().toString();
         sluch = luch.getText().toString();
         sdinner = dinner.getText().toString();
@@ -102,24 +106,22 @@ public class Expence extends AppCompatActivity {
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
 
-        String URL =null;
+        String URL = null;
 
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.ADD_EXPENCE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-
+                        ringProgressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ringProgressDialog.dismiss();
-                if (error instanceof NoConnectionError)
-                {
-                    Toast.makeText(Expence.this,"No Internet Connection", Toast.LENGTH_SHORT).show();
-                }
-                else if (error instanceof TimeoutError) {
+                if (error instanceof NoConnectionError) {
+                    Toast.makeText(Expence.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof TimeoutError) {
 
 
                     Toast.makeText(Expence.this, "Connection TimeOut! Please check your internet connection.", Toast.LENGTH_SHORT).show();

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -114,7 +112,7 @@ public class Customers extends AppCompatActivity {
                 String buss_id = list.get(position).getId();
                 if(heading.equals("sale"))
                 {
-                    Intent intent= new Intent(Customers.this,Products.class);
+                    Intent intent= new Intent(Customers.this,Sales.class);
                     intent.putExtra("buss_id",buss_id);
                     finish();
                     startActivity(intent);
@@ -131,6 +129,14 @@ public class Customers extends AppCompatActivity {
                 if (heading.equals("sample"))
                 {
                     Intent intent= new Intent(Customers.this,Sample.class);
+                    intent.putExtra("buss_id",buss_id);
+                    finish();
+                    startActivity(intent);
+                }
+
+                if (heading.equals("supply"))
+                {
+                    Intent intent= new Intent(Customers.this,Supply_details.class);
                     intent.putExtra("buss_id",buss_id);
                     finish();
                     startActivity(intent);
