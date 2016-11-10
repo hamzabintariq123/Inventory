@@ -63,10 +63,7 @@ public class Database {
                     newValues.put("Trade_Price", T_price);
                     newValues.put("Retail_Price", R_price);
                     db.insert(PRODUCTS_TABLE, null, newValues);
-
-
-
-             }
+            }
 
     public void insertBussines(String bussines_name,String id, String personal_name ,String address ,String mobile,String distrcit )
     {

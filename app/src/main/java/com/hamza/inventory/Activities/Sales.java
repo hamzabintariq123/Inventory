@@ -248,7 +248,7 @@ public class Sales extends AppCompatActivity {
                             {
                                 Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Payment.class);
                                 intent.putExtra("total_amount",total_am);
-                                intent.putExtra("ids",ids);
+                                intent.putExtra("ids",response);
                                 startActivity(intent);
                             }
 

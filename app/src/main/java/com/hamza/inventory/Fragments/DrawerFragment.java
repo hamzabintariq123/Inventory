@@ -94,13 +94,14 @@ public class DrawerFragment extends Fragment {
                 if (position == 2 )
                 {
                     Intent intent = new Intent(getActivity(), Customers.class);
-                    intent.putExtra("from","sample");
+
                     getActivity().startActivity(intent);
                 }
 
                 if (position == 3 )
                 {
-                    Intent intent = new Intent(getActivity(), Supply.class);
+                    Intent intent = new Intent(getActivity(), Customers.class);
+                    intent.putExtra("from","supply");
                     getActivity().startActivity(intent);
 
                 }

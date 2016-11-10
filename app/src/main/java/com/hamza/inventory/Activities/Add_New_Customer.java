@@ -89,10 +89,10 @@ public class Add_New_Customer extends AppCompatActivity {
                 else
                 {
                     newCustomer();
-                    Intent intent = new Intent(Add_New_Customer.this, Customers.class);
+                /*    Intent intent = new Intent(Add_New_Customer.this, Customers.class);
                     finish();
                     intent.putExtra("from", heading);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
 
 
@@ -141,6 +141,7 @@ public class Add_New_Customer extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
+                        ringProgressDialog.dismiss();
                         Toast.makeText(Add_New_Customer.this, response, Toast.LENGTH_SHORT).show();
 
 
