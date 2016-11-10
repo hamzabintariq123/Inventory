@@ -69,6 +69,7 @@ public class Customers extends AppCompatActivity {
     Timer timer;
     TimerTask timerTask;
     String sales;
+    ArrayList<String> list_sale = new ArrayList<>();
     final Handler handler = new Handler();
 
     @Override
@@ -118,11 +119,15 @@ public class Customers extends AppCompatActivity {
             // actionBar.setTitle(getString(R.string.app_name) + "             " + "Connection UP");
 
 
-           sales = database.getAllSales();
-            if (sales.equals("") || sales == null) {
+            list_sale = database.getAllSales();
+            if (list_sale.equals("") || list_sale == null) {
 
             } else {
-                EnterSales();
+                for(int i=0;i<list_sale.size();i++)
+                {
+                    EnterSales(list_sale.get(i));
+                }
+
             }
 
         }
@@ -362,7 +367,7 @@ public class Customers extends AppCompatActivity {
 
 
 
-    public void EnterSales() {
+    public void EnterSales(final String list) {
 
        // ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
         //ringProgressDialog.setCancelable(false);
@@ -398,7 +403,7 @@ public class Customers extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("sales",sales);
+                params.put("sales",list);
 
                 return params;
             }

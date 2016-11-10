@@ -147,15 +147,15 @@ public class Database {
         return contactList;
     }
 
-    public String getAllSales() {
+    public  ArrayList<String> getAllSales() {
 
         // Select All Query
         String selectQuery = "SELECT  * FROM " + ACCOUNTS_TABLE;
-
+        ArrayList<String> list = new ArrayList<>();
         db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        String sales = "";
+
         // looping through all rows and adding to list
         if(cursor.equals(""))
         {
@@ -166,14 +166,14 @@ public class Database {
         {
             if (cursor.moveToFirst()) {
                 do {
-                    sales = cursor.getString(1);
+                     list.add(cursor.getString(1));
                 } while (cursor.moveToNext());
             }
         }
 
 
         // return contact list
-        return sales;
+        return list;
     }
 
     public Integer insertSales(String salesString) {
