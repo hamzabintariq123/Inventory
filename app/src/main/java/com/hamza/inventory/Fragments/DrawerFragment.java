@@ -19,6 +19,7 @@ import com.hamza.inventory.Activities.Customers;
 import com.hamza.inventory.Activities.Expence;
 import com.hamza.inventory.Activities.Login;
 import com.hamza.inventory.Activities.MainActivity;
+import com.hamza.inventory.Activities.Parcel;
 import com.hamza.inventory.Activities.Recovery;
 import com.hamza.inventory.Activities.Supply;
 import com.hamza.inventory.Adapters.Drawer_Addapter;
@@ -114,6 +115,8 @@ public class DrawerFragment extends Fragment {
                 if (position == 5)
                 {
 
+                    Intent intent = new Intent(getActivity(), Parcel.class);
+                    getActivity().startActivity(intent);
 
                 }
                 if (position == 6 )

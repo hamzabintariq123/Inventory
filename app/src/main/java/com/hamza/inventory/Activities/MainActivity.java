@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         drawerFragment.setup((DrawerLayout) findViewById(R.id.drawerlayout), toolbar);
 
         existingCustomer = (Button) findViewById(R.id.ret_customer);
-        newCustomer = (Button) findViewById(R.id.remaining);
+        newCustomer = (Button) findViewById(R.id.quantty);
         from = (TextView) findViewById(R.id.from_screen);
 
         if(heading == null)

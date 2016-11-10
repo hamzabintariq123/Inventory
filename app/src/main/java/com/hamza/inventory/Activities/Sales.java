@@ -176,18 +176,14 @@ public class Sales extends AppCompatActivity {
 
                 if(Sales.equals("") || Sales ==  null)
                 {
-                    Toast.makeText(Sales.this, "Please Enter Som records", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Sales.this, "Please Enter Some records", Toast.LENGTH_SHORT).show();
                 }
 
                 else
                 {
                     if (checkBox.isChecked()) {
 
-
                         EnterSales("0");
-
-
-
 
                     } else {
 
@@ -215,6 +211,7 @@ public class Sales extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        arrSaleData.clear();
         Intent intent= new Intent(com.hamza.inventory.Activities.Sales.this, Customers.class);
         intent.putExtra("from","sale");
         startActivity(intent);
@@ -238,13 +235,11 @@ public class Sales extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-
-
                         ringProgressDialog.dismiss();
 
                         if(response.equals(""))
                         {
-                            Toast.makeText(Sales.this, "Records not entered ! Wome thing went wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Sales.this, "Records not entered ! Some thing went wrong", Toast.LENGTH_SHORT).show();
                         }
 
                         else
@@ -263,7 +258,7 @@ public class Sales extends AppCompatActivity {
                                 Toast.makeText(Sales.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
 
                                 // Intent intent = new Intent(Sales.this, Printer.class);
-                                // intent.putExtra("sale",arrSaleData);
+                                // intent.putExtra("sale",Sales);
                                 // startActivity(intent);
 
                                 // Intent intent = new Intent(Sales.this, Customers.class);
@@ -286,16 +281,12 @@ public class Sales extends AppCompatActivity {
                     ringProgressDialog.dismiss();
                     Toast.makeText(com.hamza.inventory.Activities.Sales.this, "No Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
 
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    Date date = new Date();
+                    database.insertSales(Sales);
 
-                    //database.clearTable("Sales");
-                    for (int k =0 ; k<arrSaleData.size();k++)
-                    {
 
-                        database.insertSales(Integer.valueOf(user_id),Integer.valueOf(strbuss_id),Integer.valueOf(arrSaleData.get(k).getProductRate()),date.toString(),arrSaleData.get(k).getProductName()
-                                ,Integer.valueOf(arrSaleData.get(k).getProductQuantity()),Integer.valueOf(arrSaleData.get(k).getDiscount()),"Sale",Integer.valueOf(arrSaleData.get(k).getProductAmount()));
-                    }
+                    // Intent intent = new Intent(Sales.this, Printer.class);
+                    // intent.putExtra("sale",Sales);
+                    // startActivity(intent);
 
                 } else if (error instanceof TimeoutError) {
 
@@ -325,5 +316,13 @@ public class Sales extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        arrSaleData.clear();
+        Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this,Customers.class);
+        intent.putExtra("from","sale");
+        startActivity(intent);
 
+        super.onBackPressed();
+    }
 }

@@ -64,13 +64,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/remaining"
+        android:id="@+id/quantty"
         android:textColor="#000000"
         android:textStyle="bold"
 
         android:layout_marginRight="10dp"
         android:layout_alignTop="@+id/textView14"
-        android:layout_alignStart="@+id/paid" />
+        android:layout_alignStart="@+id/date_send" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_alignTop="@+id/paid"
+        android:layout_alignTop="@+id/date_send"
         android:layout_alignStart="@+id/imageView3"
         android:layout_marginBottom="10dp" />
 
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/paid"
+        android:id="@+id/date_send"
         android:textColor="#000000"
         android:textStyle="bold"
         android:layout_marginLeft="40dp"
@@ -121,6 +121,6 @@
         android:textStyle="bold"
         android:layout_marginRight="10dp"
         android:layout_alignTop="@+id/textView18"
-        android:layout_alignStart="@+id/paid" />
+        android:layout_alignStart="@+id/date_send" />
 
 </RelativeLayout>

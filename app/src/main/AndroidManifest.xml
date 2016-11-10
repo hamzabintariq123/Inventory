@@ -3,7 +3,9 @@
     package="com.hamza.inventory">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -29,7 +31,8 @@
         <activity android:name=".Activities.Expence" />
         <activity android:name=".Activities.Supply" />
         <activity android:name=".Activities.Supply_details" />
-        <activity android:name=".Activities.Printer"></activity>
+        <activity android:name=".Activities.Printer" />
+        <activity android:name=".Activities.Parcel"></activity>
     </application>
 
 </manifest>

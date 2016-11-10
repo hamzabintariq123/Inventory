@@ -14,5 +14,6 @@ public class EndPoints
     public static String GET_BALANCE=BASE_URL+"Welcome/getBalance";
     public static String SEND_RECOVRY=BASE_URL+"Welcome/subtractRemaining";
     public static String UPDATE_RECORD=BASE_URL+"Welcome/addPayment";
+    public static String GET_PARCEL=BASE_URL+"Welcome/getParcels";
 
 }

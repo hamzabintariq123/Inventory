@@ -66,8 +66,8 @@ public class Recovery extends AppCompatActivity {
 
 
         Total = (TextView) findViewById(R.id.total);
-        Remaining = (TextView) findViewById(R.id.remaining);
-        Piad = (TextView) findViewById(R.id.paid);
+        Remaining = (TextView) findViewById(R.id.quantty);
+        Piad = (TextView) findViewById(R.id.date_send);
         rec_amount = (Button) findViewById(R.id.send_rec);
         recovry_amount = (EditText) findViewById(R.id.name);
 

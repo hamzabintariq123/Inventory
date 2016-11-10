@@ -6,10 +6,10 @@
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Bussiness"
-        android:paddingTop="5dp"
+        android:paddingTop="15dp"
         android:layout_margin="1dp"
         android:textColor="#000"
         android:textSize="15sp"
@@ -19,28 +19,27 @@
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Address"
         android:textColor="#000"
-        android:paddingTop="5dp"
+        android:paddingTop="15dp"
         android:paddingLeft="5dp"
         android:textSize="15sp"
         android:id="@+id/dinnet"
-        android:layout_margin="5dp"
+
         android:layout_weight="1" />
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Mobile"
         android:textColor="#000"
         android:textSize="15sp"
         android:paddingLeft="10dp"
-        android:paddingTop="5dp"
+        android:paddingTop="15dp"
         android:id="@+id/fuel"
-        android:layout_margin="5dp"
         android:layout_weight="1" />
 
 </LinearLayout>

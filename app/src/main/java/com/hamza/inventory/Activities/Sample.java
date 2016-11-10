@@ -214,8 +214,7 @@ public class Sample extends AppCompatActivity {
                     for (int k =0 ; k<arrSaleData.size();k++)
                     {
 
-                        database.insertSales(Integer.valueOf(user_id),Integer.valueOf(strbuss_id),Integer.valueOf(arrSaleData.get(k).getProductRate()),date.toString(),arrSaleData.get(k).getProductName()
-                                ,Integer.valueOf(arrSaleData.get(k).getProductQuantity()),Integer.valueOf(arrSaleData.get(k).getDiscount()),"Sample",Integer.valueOf(arrSaleData.get(k).getProductAmount()));
+                        database.insertSales(Sales);
                     }
 
                 } else if (error instanceof TimeoutError) {

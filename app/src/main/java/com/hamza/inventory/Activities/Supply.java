@@ -8,9 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 
-import com.hamza.inventory.Adapters.Recovry_Addapter;
 import com.hamza.inventory.R;
 
 public class Supply extends AppCompatActivity {
@@ -36,7 +34,7 @@ public class Supply extends AppCompatActivity {
 
 
         return_customer = (Button) findViewById(R.id.ret_customer);
-        remaining = (Button) findViewById(R.id.remaining);
+        remaining = (Button) findViewById(R.id.quantty);
 
 
         return_customer.setOnClickListener(new View.OnClickListener() {

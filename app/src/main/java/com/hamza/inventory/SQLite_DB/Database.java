@@ -12,6 +12,7 @@ import com.hamza.inventory.Date_Models.Products_model;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 
 
 public class Database {
@@ -27,12 +28,11 @@ public class Database {
     private static final String ACCOUNTS_TABLE = "Sales";
     static final String DATABASE_ACCOUNTS = "create table " + "Sales" + "( "
             + "SalesID" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + "productName  varchar, salesman_id INTEGER , bussines_id INTEGER ,product_price INTEGER ," +
-            "quantity INTEGER ,discount INTEGER , total INTEGER ,type varhar);); ";
+            + "saleString  varchar);); ";
 
     private static final String CUSTOMERS_TABLE = "customers";
     static final String DATABASE_CUSTOMER = "create table " + "customers" + "( "
-            + "CustomerID" + " INTEGER PRIMARY KEY , "
+            + "CustomerID" + " varchar PRIMARY KEY , "
             + "bussiness_name  varchar, personal_name varchar , address varchar ,distrcit varchar ," +
             "mobile INTEGER ,salesman INTEGER );); ";
 
@@ -72,7 +72,7 @@ public class Database {
     {
         ContentValues newValues = new ContentValues();
         newValues.put("bussiness_name", bussines_name);
-        newValues.put("CustomerID", bussines_name);
+        newValues.put("CustomerID", id);
         newValues.put("personal_name", personal_name);
         newValues.put("address", address);
         newValues.put("mobile", mobile);
@@ -86,6 +86,7 @@ public class Database {
     {
             dbHelper.getWritableDatabase();
             db.execSQL("delete from "+ TABLE_NAME );
+
 
     }
 
@@ -146,9 +147,36 @@ public class Database {
         return contactList;
     }
 
+    public String getAllSales() {
 
-    public Integer insertSales(Integer salesman_id, Integer bussines_id, Integer product_price, String 	Date_added,
-                               String product_name,Integer quantity,Integer discount,String type,Integer total) {
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + ACCOUNTS_TABLE;
+
+        db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        String sales = "";
+        // looping through all rows and adding to list
+        if(cursor.equals(""))
+        {
+
+
+        }
+        else
+        {
+            if (cursor.moveToFirst()) {
+                do {
+                    sales = cursor.getString(1);
+                } while (cursor.moveToNext());
+            }
+        }
+
+
+        // return contact list
+        return sales;
+    }
+
+    public Integer insertSales(String salesString) {
 
       /*  Cursor mCursor = db.rawQuery("SELECT Quantity FROM " + "Sales" + " WHERE  Productname=?", new String[]{product_name});
         if (mCursor.getCount() > 0) {
@@ -159,17 +187,10 @@ public class Database {
 
             if (entry >= 0) {*/
                 ContentValues newValues = new ContentValues();
-                newValues.put("salesman_id", salesman_id);
-                newValues.put("bussines_id", bussines_id);
-                newValues.put("product_name", product_name);
-                newValues.put("product_price", product_price);
-                newValues.put("quantity", quantity);
-                newValues.put("discount", discount);
-                newValues.put("total", total);
-                newValues.put("type", type);
-                newValues.put("Date_added", Date_added);
+                newValues.put("saleString", salesString);
+                long result = db.insert("Sales", null, newValues);
 
-                db.insert("Account", null, newValues);
+
                /* ContentValues Values = new ContentValues();
                 Values.put("Quantity", entry);
                 db.update(PRODUCTS_TABLE, Values, "product_name=?", new String[]{product_name});

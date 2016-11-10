@@ -1,11 +1,19 @@
 package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -41,6 +50,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Customers extends AppCompatActivity {
 
@@ -55,6 +66,10 @@ public class Customers extends AppCompatActivity {
     private ArrayList<Customer_model> list = new ArrayList<>();
     SQLiteDatabase db;
     Database database = new Database(this);
+    Timer timer;
+    TimerTask timerTask;
+    String sales;
+    final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +106,31 @@ public class Customers extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.customer_list);
         addcustomer = (ImageView) findViewById(R.id.addcustomer);
         customer_addapter = new Customer_Addapter(getApplicationContext(), R.layout.row_customer, list, this);
+
+
+
+       // NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+
+        Boolean check = isNetworkAvailable();
+
+        if (check.equals(true)) {
+             Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+            // actionBar.setTitle(getString(R.string.app_name) + "             " + "Connection UP");
+
+
+           sales = database.getAllSales();
+            if (sales.equals("") || sales == null) {
+
+            } else {
+                EnterSales();
+            }
+
+        }
+        else
+        {
+            Toast.makeText(Customers.this, "Not Connected", Toast.LENGTH_SHORT).show();
+        }
+
 
         getCustomer();
 
@@ -146,7 +186,12 @@ public class Customers extends AppCompatActivity {
         });
     }
 
-
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 
     @Override
@@ -306,4 +351,91 @@ public class Customers extends AppCompatActivity {
 
         listView.setAdapter(customer_addapter);
     }
+
+
+
+
+
+
+
+
+
+
+
+    public void EnterSales() {
+
+       // ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
+        //ringProgressDialog.setCancelable(false);
+        //ringProgressDialog.show();
+
+        String URL =null;
+
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.BASE_URL+"Welcome/sale",
+                new Response.Listener<String>() {
+                    @Override
+                        public void onResponse(String response) {
+
+                      //  ringProgressDialog.dismiss();
+
+                        Toast.makeText(Customers.this, "Entered from local data base ", Toast.LENGTH_SHORT).show();
+
+                        database.clearTable("Sales");
+                        sales = "";
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message = null;
+                 if (error instanceof TimeoutError) {
+
+                    message = "Connection TimeOut! Please check your internet connection.";
+                    Toast.makeText(Customers.this, message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("sales",sales);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+
+        new AlertDialog.Builder(this)
+                .setTitle("Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        timer.cancel();
+                        Intent a = new Intent(Intent.ACTION_MAIN);
+                        a.addCategory(Intent.CATEGORY_HOME);
+                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(a);
+                    }
+                }).create().show();
+
+        super.onBackPressed();
+    }
 }
+
+
