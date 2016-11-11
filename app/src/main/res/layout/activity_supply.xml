@@ -35,7 +35,7 @@
         android:layout_marginRight="10dp" />
 
     <EditText
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="50dp"
         android:inputType="number"
         android:ems="10"
@@ -48,7 +48,7 @@
         android:layout_alignEnd="@+id/product_spinner" />
 
     <EditText
-        android:layout_width="190dp"
+        android:layout_width="140dp"
         android:layout_height="50dp"
         android:inputType="number"
         android:ems="10"

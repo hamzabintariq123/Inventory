@@ -24,6 +24,9 @@ import com.android.volley.toolbox.Volley;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +66,8 @@ public class Expence extends AppCompatActivity {
                         || srent.equals("") || sother.equals("") || sgifts.equals("")) {
                     Toast.makeText(Expence.this, "Requied Field are empty", Toast.LENGTH_SHORT).show();
                 } else {
+
+
                     addExpence();
                 }
 
@@ -131,10 +136,14 @@ public class Expence extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
+
                 Map<String, String> params = new HashMap<>();
                 params.put("breakfast", sbreakfsat);
                 params.put("lunch", sluch);
                 params.put("dinner", sdinner);
+                params.put("date",date.toString());
                 params.put("fuel", sfuel);
                 params.put("rent", srent);
                 params.put("other", sother);
