@@ -16,51 +16,156 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="supply Screen "
-        android:id="@+id/from_screen"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Select Product : "
+        android:id="@+id/textView7"
         android:layout_below="@+id/app_bar"
-        android:textSize="25sp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="42dp"
+        android:layout_margin="10dp"
+        android:textColor="#000"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_spinner"
+        android:layout_below="@+id/textView7"
+        android:layout_alignStart="@+id/textView7"
+        android:layout_marginRight="10dp" />
+
+    <EditText
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:ems="10"
+        android:background="@drawable/edittext_style"
+        android:hint="Purchase Rate"
+        android:id="@+id/rate"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/radioGroup"
+        android:layout_alignEnd="@+id/product_spinner" />
+
+    <EditText
+        android:layout_width="190dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:ems="10"
+        android:background="@drawable/edittext_style"
+        android:hint="Quantity"
+        android:id="@+id/quantity"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/rate"
+        android:layout_alignParentStart="true" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/product_spinner"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/radioGroup">
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retail Price"
+            android:id="@+id/retail"
+            android:layout_below="@+id/product_spinner"
+            android:layout_alignParentEnd="true"
+
+            android:layout_gravity="right"
+            android:layout_marginLeft="70dp"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trade Price"
+            android:id="@+id/trade"
+            android:checked="false"
+            android:layout_marginLeft="30dp" />
+    </RadioGroup>
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/discount_sppiner"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/textView13"
+        android:layout_alignEnd="@+id/rate"
+        android:layout_toEndOf="@+id/textView13" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Discount Recieved: "
+        android:id="@+id/textView13"
         android:textStyle="bold"
-        android:typeface="serif" />
+        android:typeface="serif"
+        android:textColor="#000000"
 
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/quantity"
+        android:layout_alignStart="@+id/quantity"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Total Amount Return ="
+        android:id="@+id/textView20"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textColor="#000"
+        android:background="#bdbdbd"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="80dp"
+        android:layout_above="@+id/return_customer"
+        android:layout_alignStart="@+id/cal_amount" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="0000"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textColor="#000"
+        android:background="#bdbdbd"
+        android:layout_marginLeft="250dp"
+        android:id="@+id/total"
+        android:layout_alignBottom="@+id/textView20"
+         />
 
     <Button
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RETURN FORM Customers"
-        android:id="@+id/ret_customer"
-        android:textSize="20sp"
+        android:text="Return "
+        android:id="@+id/return_customer"
         android:background="@drawable/edittext_style"
         android:padding="20dp"
-        android:layout_below="@+id/from_screen"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="56dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/rate"
+        android:layout_marginBottom="10dp" />
 
     <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="REMAINING SUPPLY"
-        android:id="@+id/quantty"
-        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="Calculate Amount"
         android:background="@drawable/edittext_style"
-        android:padding="20dp"
-        android:layout_below="@+id/ret_customer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp" />
-
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="UPDATE"
-        android:id="@+id/button"
-        android:textSize="20sp"
-        android:background="@drawable/edittext_style"
-        android:padding="20dp"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/quantty"
-        android:layout_alignStart="@+id/from_screen" />
-
+        android:id="@+id/cal_amount"
+        android:padding="10dp"
+        android:layout_alignTop="@+id/return_customer"
+        android:layout_alignStart="@+id/quantity" />
 </RelativeLayout>

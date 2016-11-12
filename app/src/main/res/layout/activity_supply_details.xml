@@ -57,17 +57,29 @@
         android:layout_height="wrap_content"
         android:id="@+id/supply_list"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/linearLayout" />
+        android:layout_below="@+id/linearLayout"
+        android:layout_above="@+id/return_customer" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/add_return"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="79dp"
+        android:layout_marginBottom="131dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/plus" />
+        android:background="@drawable/plus"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Return "
+        android:id="@+id/return_customer"
+        android:background="@drawable/edittext_style"
+        android:padding="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp" />
 
 
 </RelativeLayout>

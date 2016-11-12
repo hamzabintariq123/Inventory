@@ -63,7 +63,10 @@ public class Database {
                     newValues.put("Trade_Price", T_price);
                     newValues.put("Retail_Price", R_price);
                     db.insert(PRODUCTS_TABLE, null, newValues);
-            }
+
+
+
+             }
 
     public void insertBussines(String bussines_name,String id, String personal_name ,String address ,String mobile,String distrcit )
     {
@@ -144,15 +147,15 @@ public class Database {
         return contactList;
     }
 
-    public  ArrayList<String> getAllSales() {
+    public String getAllSales() {
 
         // Select All Query
         String selectQuery = "SELECT  * FROM " + ACCOUNTS_TABLE;
-        ArrayList<String> list = new ArrayList<>();
+
         db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-
+        String sales = "";
         // looping through all rows and adding to list
         if(cursor.equals(""))
         {
@@ -163,14 +166,14 @@ public class Database {
         {
             if (cursor.moveToFirst()) {
                 do {
-                     list.add(cursor.getString(1));
+                    sales = cursor.getString(1);
                 } while (cursor.moveToNext());
             }
         }
 
 
         // return contact list
-        return list;
+        return sales;
     }
 
     public Integer insertSales(String salesString) {
