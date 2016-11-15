@@ -21,7 +21,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.Customers" />
+        <activity android:name=".Activities.Customers"
+            android:windowSoftInputMode="stateHidden"
+            >
+
+        </activity>
         <activity android:name=".Activities.Add_New_Customer" />
         <activity android:name=".Activities.Add_Products" />
         <activity android:name=".Activities.Sales" />

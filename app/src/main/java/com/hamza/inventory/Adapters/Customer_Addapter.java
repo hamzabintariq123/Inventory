@@ -2,6 +2,7 @@ package com.hamza.inventory.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,7 @@ public class Customer_Addapter extends ArrayAdapter<String>
         super(context, resource);
         this.list = list;
         this.activity = activity;
-        this.arraylist = new ArrayList<Customer_model>();
-        this.arraylist.addAll(list);
+
 
     }
 
@@ -87,7 +87,10 @@ public class Customer_Addapter extends ArrayAdapter<String>
         charText = charText.toLowerCase(Locale.getDefault());
         list.clear();
         if (charText.length() == 0) {
-            list.addAll(arraylist);
+
+            Intent intent = new Intent(activity,Customers.class);
+            intent.putExtra("from","sale");
+            activity.startActivity(intent);
         } else {
             for (Customer_model wp : arraylist) {
                 if (wp.getB_name().toLowerCase(Locale.getDefault())

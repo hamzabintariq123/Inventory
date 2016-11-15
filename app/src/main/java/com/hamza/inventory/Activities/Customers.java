@@ -22,6 +22,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +63,7 @@ public class Customers extends AppCompatActivity {
 
     ListView listView;
     Customer_Addapter customer_addapter = null;
+    Customer_Addapter reload = null;
     Toolbar toolbar;
     EditText searchEDt;
     String heading,id,saleman_name;
@@ -81,6 +83,9 @@ public class Customers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customers);
 
+
+
+
         try {
             database=database.open();
         } catch (SQLException e) {
@@ -94,6 +99,9 @@ public class Customers extends AppCompatActivity {
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
+
+
+
 
         drawerFragment.setup((DrawerLayout) findViewById(R.id.drawerlayout), toolbar);
 
@@ -113,8 +121,7 @@ public class Customers extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.customer_list);
         addcustomer = (ImageView) findViewById(R.id.addcustomer);
         searchEDt = (EditText) findViewById(R.id.search);
-        customer_addapter = new Customer_Addapter(getApplicationContext(), R.layout.row_customer, list, this);
-
+        customer_addapter = new Customer_Addapter(Customers.this, R.layout.row_customer, list, Customers.this);
 
         searchEDt.addTextChangedListener(new TextWatcher() {
 
@@ -122,7 +129,11 @@ public class Customers extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
                 String text = searchEDt.getText().toString().toLowerCase(Locale.getDefault());
-                customer_addapter.filter(text);
+
+
+                    customer_addapter.filter(text);
+
+
             }
 
             @Override
@@ -142,7 +153,7 @@ public class Customers extends AppCompatActivity {
         Boolean check = isNetworkAvailable();
 
         if (check.equals(true)) {
-             Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+             //Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
             // actionBar.setTitle(getString(R.string.app_name) + "             " + "Connection UP");
 
 
@@ -176,7 +187,6 @@ public class Customers extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(Customers.this,Add_New_Customer.class);
-                finish();
                 startActivity(intent);
             }
         });
