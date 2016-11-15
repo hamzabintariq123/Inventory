@@ -70,8 +70,6 @@ public class Add_New_Customer extends AppCompatActivity {
 
         district.setText(strdistrict);
 
-        district.setFocusable(false);
-        district.setClickable(true);
 
 
 
@@ -111,6 +109,7 @@ public class Add_New_Customer extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(Add_New_Customer.this, Customers.class);
+        intent.putExtra("form","sale");
         startActivity(intent);
         return super.onOptionsItemSelected(item);
 

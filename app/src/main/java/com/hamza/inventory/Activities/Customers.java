@@ -17,10 +17,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -49,6 +53,7 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,7 +63,8 @@ public class Customers extends AppCompatActivity {
     ListView listView;
     Customer_Addapter customer_addapter = null;
     Toolbar toolbar;
-    String heading,id;
+    EditText searchEDt;
+    String heading,id,saleman_name;
     DrawerFragment drawerFragment = new DrawerFragment();
     ImageView addcustomer;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -66,9 +72,8 @@ public class Customers extends AppCompatActivity {
     private ArrayList<Customer_model> list = new ArrayList<>();
     SQLiteDatabase db;
     Database database = new Database(this);
-    Timer timer;
-    TimerTask timerTask;
     String sales;
+    ArrayList<String> List = new ArrayList<>();
     final Handler handler = new Handler();
 
     @Override
@@ -99,16 +104,39 @@ public class Customers extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
 
         id=  pref.getString("id", null);
+        saleman_name = pref.getString("salesman_name",null);
+
 
         Intent intent = getIntent();
         heading = intent.getStringExtra("from");
 
         listView = (ListView) findViewById(R.id.customer_list);
         addcustomer = (ImageView) findViewById(R.id.addcustomer);
+        searchEDt = (EditText) findViewById(R.id.search);
         customer_addapter = new Customer_Addapter(getApplicationContext(), R.layout.row_customer, list, this);
 
 
+        searchEDt.addTextChangedListener(new TextWatcher() {
 
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+                String text = searchEDt.getText().toString().toLowerCase(Locale.getDefault());
+                customer_addapter.filter(text);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                                          int arg2, int arg3) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+                                      int arg3) {
+                // TODO Auto-generated method stub
+            }
+        });
        // NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
 
         Boolean check = isNetworkAvailable();
@@ -118,11 +146,21 @@ public class Customers extends AppCompatActivity {
             // actionBar.setTitle(getString(R.string.app_name) + "             " + "Connection UP");
 
 
-           sales = database.getAllSales();
-            if (sales.equals("") || sales == null) {
+           List = database.getAllSales();
+            if (List.equals("") || List.size() == 0) {
 
             } else {
-                EnterSales();
+
+                ringProgressDialog = ProgressDialog.show(this, "please wait", "Adding To Server From Local DataBase", true);
+                ringProgressDialog.setCancelable(false);
+                ringProgressDialog.show();
+
+                for(int i=0;i<List.size();i++)
+                {
+                    EnterSales(List.get(i));
+                }
+
+                ringProgressDialog.dismiss();
             }
 
         }
@@ -150,10 +188,26 @@ public class Customers extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String buss_id = list.get(position).getId();
+
+
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("Buss_details", MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+
+                editor.putString("b_name",list.get(position).b_name);
+                editor.putString("b_personal",list.get(position).peronal_name);
+                editor.putString("b_mobile",list.get(position).mobile);
+                editor.putString("salesman_name",saleman_name);
+
+                editor.commit();
+
+
+
+
+
                 if(heading.equals("sale"))
                 {
                     Intent intent= new Intent(Customers.this,Sales.class);
-                    intent.putExtra("buss_id",buss_id);
+                    intent.putExtra("buss_id", buss_id);
                     finish();
                     startActivity(intent);
                 }
@@ -161,7 +215,7 @@ public class Customers extends AppCompatActivity {
                 if(heading.equals("recovry"))
                 {
                     Intent intent= new Intent(Customers.this,Recovery.class);
-                    intent.putExtra("bussid",buss_id);
+                    intent.putExtra("buss_id", buss_id);
                     finish();
                     startActivity(intent);
                 }
@@ -362,11 +416,9 @@ public class Customers extends AppCompatActivity {
 
 
 
-    public void EnterSales() {
+    public void EnterSales(final String sale) {
 
-       // ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
-        //ringProgressDialog.setCancelable(false);
-        //ringProgressDialog.show();
+
 
         String URL =null;
 
@@ -380,7 +432,7 @@ public class Customers extends AppCompatActivity {
                         Toast.makeText(Customers.this, "Entered from local data base ", Toast.LENGTH_SHORT).show();
 
                         database.clearTable("Sales");
-                        sales = "";
+                        List.clear();
 
                     }
                 }, new Response.ErrorListener() {
@@ -398,7 +450,7 @@ public class Customers extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("sales",sales);
+                params.put("sales",sale);
 
                 return params;
             }
@@ -426,7 +478,6 @@ public class Customers extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
-                        timer.cancel();
                         Intent a = new Intent(Intent.ACTION_MAIN);
                         a.addCategory(Intent.CATEGORY_HOME);
                         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -434,7 +485,7 @@ public class Customers extends AppCompatActivity {
                     }
                 }).create().show();
 
-        super.onBackPressed();
+
     }
 }
 

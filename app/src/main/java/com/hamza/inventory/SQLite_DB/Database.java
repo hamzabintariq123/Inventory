@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.ListView;
 
 import com.hamza.inventory.Date_Models.Customer_model;
 import com.hamza.inventory.Date_Models.Products_model;
@@ -147,8 +148,8 @@ public class Database {
         return contactList;
     }
 
-    public String getAllSales() {
-
+    public ArrayList<String> getAllSales() {
+        ArrayList<String> List = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + ACCOUNTS_TABLE;
 
@@ -166,14 +167,16 @@ public class Database {
         {
             if (cursor.moveToFirst()) {
                 do {
-                    sales = cursor.getString(1);
+
+                    List.add(cursor.getString(1));
+
                 } while (cursor.moveToNext());
             }
         }
 
 
         // return contact list
-        return sales;
+        return List;
     }
 
     public Integer insertSales(String salesString) {

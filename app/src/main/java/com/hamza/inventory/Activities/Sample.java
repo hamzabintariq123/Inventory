@@ -147,7 +147,7 @@ public class Sample extends AppCompatActivity {
                     {
                         Sales= Sales+"{"+user_id+","+strbuss_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
                                 arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+"Sample"+","+
-                                "No Amount"+","+date;
+                                "sample"+","+date;
                     }
 
                 }
@@ -164,10 +164,10 @@ public class Sample extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent= new Intent(Sample.this, Customers.class);
-        intent.putExtra("from","sample");
+        arrSaleData.clear();
+        Intent intent = new Intent(Sample.this,Customers.class);
+        intent.putExtra("from", "sample");
         startActivity(intent);
-        finish();
         return super.onOptionsItemSelected(item);
     }
 
@@ -192,8 +192,20 @@ public class Sample extends AppCompatActivity {
                         }
                         else
                         {
-                            Sales = "";
                             Toast.makeText(Sample.this, "Added Successfully ", Toast.LENGTH_SHORT).show();
+
+
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("Buss_details", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putString("total","0   ");
+                            editor.putString("remaining","0   ");
+                            editor.putString("paid","0   ");
+                            editor.commit();
+
+                            Intent intent = new Intent(Sample.this, Printer.class);
+                            intent.putExtra("sale",Sales);
+                            startActivity(intent);
+
                         }
 
                     }
@@ -210,12 +222,11 @@ public class Sample extends AppCompatActivity {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     Date date = new Date();
 
-                    //database.clearTable("Sales");
-                    for (int k =0 ; k<arrSaleData.size();k++)
-                    {
-
                         database.insertSales(Sales);
-                    }
+
+                    Intent intent = new Intent(Sample.this, Printer.class);
+                    intent.putExtra("sale",Sales);
+                    startActivity(intent);
 
                 } else if (error instanceof TimeoutError) {
 
@@ -243,6 +254,16 @@ public class Sample extends AppCompatActivity {
         requestQueue.add(request);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        arrSaleData.clear();
+        Intent intent = new Intent(Sample.this,Customers.class);
+        intent.putExtra("from", "sample");
+        startActivity(intent);
+
+        super.onBackPressed();
     }
 
 }

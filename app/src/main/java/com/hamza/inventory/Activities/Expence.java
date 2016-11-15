@@ -1,6 +1,8 @@
 package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -34,7 +36,7 @@ public class Expence extends AppCompatActivity {
 
     Toolbar toolbar;
     EditText breakfsat, luch, dinner, fuel, rent, other, gifts;
-    String sbreakfsat, sluch, sdinner, sfuel, srent, sother, sgifts;
+    String sbreakfsat, sluch, sdinner, sfuel, srent, sother, sgifts,id;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     Button add;
@@ -57,6 +59,11 @@ public class Expence extends AppCompatActivity {
         other = (EditText) findViewById(R.id.others);
         gifts = (EditText) findViewById(R.id.gifts);
         add = (Button) findViewById(R.id.add);
+
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
+
+        id=  pref.getString("id", null);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +126,10 @@ public class Expence extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
+                        Toast.makeText(Expence.this, "Expence Added Sucessfully ", Toast.LENGTH_SHORT).show();
+                        Intent intent= new Intent(Expence.this,Customers.class);
+                        intent.putExtra("from","sale");
+                        startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -141,6 +152,7 @@ public class Expence extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("breakfast", sbreakfsat);
+                params.put("user_id", id);
                 params.put("lunch", sluch);
                 params.put("dinner", sdinner);
                 params.put("date",date.toString());

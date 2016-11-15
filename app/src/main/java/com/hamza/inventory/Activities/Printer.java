@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -34,6 +37,8 @@ public class Printer extends AppCompatActivity {
     Printer_addapter printer_addapter;
     private List<String> mlogoAddapter=new ArrayList<String>();
     private ArrayAdapter<String> mAdapter;
+    String sale;
+    Toolbar toolbar;
 
 
 
@@ -47,7 +52,16 @@ public class Printer extends AppCompatActivity {
         print  = (Button) findViewById(R.id.print_button);
         Connect = (Button) findViewById(R.id.connect);
 
+        Intent intent = getIntent();
+        sale = intent.getStringExtra("sale");
 
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Payment");
+
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
         dialog=new AlertDialog.Builder(this);
         dialog.setTitle("posPrinter hint:");
@@ -77,9 +91,9 @@ public class Printer extends AppCompatActivity {
         printer_addapter = new Printer_addapter();
         // setting logo spiiner
         mBluetoothAdapter=BluetoothAdapter.getDefaultAdapter();
-        mlogoAddapter.add("LOGO 1");
-        mlogoAddapter.add("LOGO 2");
-        mlogoAddapter.add("LOGO 1 LOGO 2");
+        mlogoAddapter.add("Neelam Labs");
+        mlogoAddapter.add("Natures Health");
+        mlogoAddapter.add("Neelam Labs& Natures Health");
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,mlogoAddapter);
         logo.setAdapter(mAdapter);
 
@@ -143,7 +157,7 @@ public class Printer extends AppCompatActivity {
                 {
                     String strlogo =  logo.getSelectedItem().toString();
 
-                    printer_addapter.printData(strlogo,"",Printer.this);
+                    printer_addapter.printData(strlogo,sale,Printer.this);
 
 
                 }
@@ -198,10 +212,33 @@ public class Printer extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent= new Intent(Printer.this, Customers.class);
+        intent.putExtra("from","sale");
+        startActivity(intent);
+        finish();
+        return super.onOptionsItemSelected(item);
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent= new Intent(Printer.this, Customers.class);
+        intent.putExtra("from","sale");
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
+}
 
 
 

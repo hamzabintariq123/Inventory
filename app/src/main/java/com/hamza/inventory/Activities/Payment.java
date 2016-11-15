@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
+import com.hamza.inventory.SQLite_DB.Database;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,8 +41,9 @@ public class Payment extends AppCompatActivity {
     Button send,calculate;
     EditText amount,remainingamount;
     TextView Total;
-    String sAmount,sRemianing,id,sColums;
+    String sAmount,sRemianing,id,sColums,Sales;
     Date date;
+    Database database = new Database(this);
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
 
@@ -62,6 +64,7 @@ public class Payment extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
         id=  pref.getString("id", null);
+        Sales = pref.getString("sales",null);
 
         send = (Button) findViewById(R.id.send_rec);
         amount = (EditText) findViewById(R.id.name);
@@ -74,7 +77,8 @@ public class Payment extends AppCompatActivity {
 
         Intent intent = getIntent();
         final int[] total = {intent.getIntExtra("total_amount", 0)};
-         sColums = intent.getStringExtra("ids");
+        Sales = intent.getStringExtra("sales");
+      //   sColums = intent.getStringExtra("ids");
 
        Total.setText(total[0]+"");
 
@@ -104,6 +108,13 @@ public class Payment extends AppCompatActivity {
                     date= new Date();
 
                     paymnet();
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("Buss_details", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("total",Total.getText().toString());
+                    editor.putString("remaining",remainingamount.getText().toString());
+                    editor.putString("paid",sAmount+"");
+                    editor.commit();
 
                    /*
                     Intent intent = new Intent(Payment.this,Printer.class);
@@ -152,13 +163,15 @@ public class Payment extends AppCompatActivity {
                     public void onResponse(String response)
                     {
 
+                        ringProgressDialog.dismiss();
                            if(response.equals("")||response ==  null)
                            {
                                Toast.makeText(Payment.this, "Not Entered", Toast.LENGTH_SHORT).show();
                            }
                             else
                            {
-
+                               Toast.makeText(Payment.this, " Entered Succes", Toast.LENGTH_SHORT).show();
+                               EnterSales();
                            }
 
                     }
@@ -185,7 +198,7 @@ public class Payment extends AppCompatActivity {
                 params.put("amount", sAmount);
                 params.put("total",Total.getText().toString());
                 params.put("Remaining", sRemianing);
-                params.put("ids", sColums);
+              //  params.put("ids", sColums);
                 params.put("buss_id", id);
                 params.put("date", date.toString());
 
@@ -205,4 +218,92 @@ public class Payment extends AppCompatActivity {
 
     }
 
+
+    public void EnterSales() {
+
+        ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        String URL =null;
+
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.BASE_URL+"Welcome/sale",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        ringProgressDialog.dismiss();
+
+                        if(response.equals(""))
+                        {
+                            Toast.makeText(Payment.this, "Records not entered ! Some thing went wrong", Toast.LENGTH_SHORT).show();
+                        }
+
+                        else
+                        {
+
+                            Toast.makeText(Payment.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(Payment.this, Printer.class);
+                            intent.putExtra("sale",Sales);
+                            startActivity(intent);
+
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message = null;
+                if (error instanceof NoConnectionError)
+                {
+
+                    ringProgressDialog.dismiss();
+                    Toast.makeText(Payment.this, "No Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
+
+                    database.insertSales(Sales);
+
+
+
+                    Intent intent = new Intent(Payment.this, Printer.class);
+                    intent.putExtra("sale", Sales);
+                    startActivity(intent);
+
+                    // Intent intent = new Intent(Sales.this, Printer.class);
+                    // intent.putExtra("sale",Sales);
+                    // startActivity(intent);
+
+                } else if (error instanceof TimeoutError) {
+
+                    message = "Connection TimeOut! Please check your internet connection.";
+                    Toast.makeText(Payment.this, message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("sales",Sales);
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+
+    }
+
+
 }
+
+

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,12 +102,12 @@ public class Sales extends AppCompatActivity {
         product_list = (ListView) findViewById(R.id.sample_list);
         total = (TextView) findViewById(R.id.total_amount);
 
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
         user_id = pref.getString("id",null);
 
         if(i.hasExtra("rate"))
         {
+
             objSaleModel.setProductName(strProduct);
             objSaleModel.setProductRate(String.valueOf(rate));
             objSaleModel.setProductAmount(String.valueOf(strTotal));
@@ -152,6 +154,8 @@ public class Sales extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Add_Products.class);
                 intent.putExtra("buss_id",strbuss_id);
                 intent.putExtra("from","products");
@@ -163,14 +167,18 @@ public class Sales extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Date date = new Date();
+
+                Calendar c = Calendar.getInstance();
+                System.out.println("Current time => "+c.getTime());
+
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String formattedDate = df.format(c.getTime());
 
                 for (int k =0 ; k<arrSaleData.size();k++)
                 {
                     Sales= Sales+"{"+user_id+","+strbuss_id+","+arrSaleData.get(k).getProductName()+","+arrSaleData.get(k).getProductRate()+","+
                             arrSaleData.get(k).getProductQuantity()+","+arrSaleData.get(k).getDiscount()+","+"Sale"+","+
-                            arrSaleData.get(k).getProductAmount()+","+date;
+                            arrSaleData.get(k).getProductAmount()+","+formattedDate;
 
                 }
 
@@ -183,11 +191,26 @@ public class Sales extends AppCompatActivity {
                 {
                     if (checkBox.isChecked()) {
 
-                        EnterSales("0");
+                        Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Payment.class);
+                        intent.putExtra("sales",Sales);
+                        intent.putExtra("total_amount",total_am);
+                        startActivity(intent);
+
 
                     } else {
 
-                        EnterSales("1");
+
+                        EnterSales();
+
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("Buss_details", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("total",total_am+"");
+                        editor.putString("remaining",total_am+"");
+                        editor.putString("paid","0");
+                        editor.commit();
+
+                        // Intent intent = new Intent(Sales.this, Customers.class);
+                        //startActivity(intent);
 
                     }
 
@@ -222,7 +245,7 @@ public class Sales extends AppCompatActivity {
     }
 
 
-    public void EnterSales(final String form) {
+    public void EnterSales() {
 
         ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
         ringProgressDialog.setCancelable(false);
@@ -244,27 +267,11 @@ public class Sales extends AppCompatActivity {
 
                         else
                         {
-                            if(form.equals("0") )
-                            {
-                                Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Payment.class);
-                                intent.putExtra("total_amount",total_am);
-                                intent.putExtra("ids",response);
-                                startActivity(intent);
-                            }
+                            Toast.makeText(Sales.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
 
-                            else
-                            {
-                                ids = response;
-                                Toast.makeText(Sales.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
-
-                                // Intent intent = new Intent(Sales.this, Printer.class);
-                                // intent.putExtra("sale",Sales);
-                                // startActivity(intent);
-
-                                // Intent intent = new Intent(Sales.this, Customers.class);
-                                //startActivity(intent);
-                            }
-
+                            Intent intent = new Intent(Sales.this, Printer.class);
+                            intent.putExtra("sale",Sales);
+                            startActivity(intent);
 
                         }
 
@@ -284,12 +291,17 @@ public class Sales extends AppCompatActivity {
                     database.insertSales(Sales);
 
 
+
+                    Intent intent = new Intent(Sales.this, Printer.class);
+                    intent.putExtra("sale", Sales);
+                    startActivity(intent);
+
                     // Intent intent = new Intent(Sales.this, Printer.class);
                     // intent.putExtra("sale",Sales);
                     // startActivity(intent);
 
                 } else if (error instanceof TimeoutError) {
-
+                    ringProgressDialog.dismiss();
                     message = "Connection TimeOut! Please check your internet connection.";
                     Toast.makeText(com.hamza.inventory.Activities.Sales.this, message, Toast.LENGTH_SHORT).show();
                 }
@@ -323,6 +335,5 @@ public class Sales extends AppCompatActivity {
         intent.putExtra("from","sale");
         startActivity(intent);
 
-        super.onBackPressed();
     }
 }

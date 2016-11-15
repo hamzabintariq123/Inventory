@@ -51,7 +51,7 @@ public class Add_Products extends AppCompatActivity {
     Button add_item,calculate;
     String price;
     EditText productQuantity,productRate;
-    TextView Total,quantity;
+    TextView Total,txtquantity;
     RadioGroup productsRate;
     String discount;
     String total="",strbuss_id,salesid;
@@ -82,6 +82,7 @@ public class Add_Products extends AppCompatActivity {
         from = i.getStringExtra("from");
 
 
+
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
@@ -90,7 +91,7 @@ public class Add_Products extends AppCompatActivity {
         calculate = (Button) findViewById(R.id.calculate);
         productQuantity = (EditText) findViewById(R.id.quantity);
         productRate = (EditText) findViewById(R.id.rate);
-        quantity = (TextView) findViewById(R.id.qty);
+        txtquantity = (TextView) findViewById(R.id.qty);
         Total = (TextView) findViewById(R.id.total);
         discount_sppiner = (Spinner) findViewById(R.id.discount_sppiner);
 
@@ -123,22 +124,30 @@ public class Add_Products extends AppCompatActivity {
             int rate = Integer.parseInt(productRate.getText().toString());
             int quantity = Integer.parseInt(productQuantity.getText().toString());
 
-            // Calculating Discount
-            if(discount != "0")
+            int  left = Integer.parseInt(txtquantity.getText().toString());
+            if (quantity>left)
             {
-                int amount  = rate*quantity;
-                int discount_calculate = Integer.parseInt(discount);
-                discount_calculate = ((amount)/100)*discount_calculate;
-                amount = amount-discount_calculate;
-                total = String.valueOf(amount);
-                Total.setText(total);
-
+                Toast.makeText(Add_Products.this, "You dont have enought quantity !! ", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                int amount  = rate*quantity;
-                total = String.valueOf(amount);
-                Total.setText(total);
+                // Calculating Discount
+                if(discount != "0")
+                {
+                    int amount  = rate*quantity;
+                    int discount_calculate = Integer.parseInt(discount);
+                    discount_calculate = ((amount)/100)*discount_calculate;
+                    amount = amount-discount_calculate;
+                    total = String.valueOf(amount);
+                    Total.setText(total);
+
+                }
+                else
+                {
+                    int amount  = rate*quantity;
+                    total = String.valueOf(amount);
+                    Total.setText(total);
+                }
             }
 
         }
@@ -270,7 +279,7 @@ public class Add_Products extends AppCompatActivity {
             strProduct = parent.getItemAtPosition(pos).toString();
 
             int qty = database.getqty(strProduct);
-            quantity.setText(qty+"");
+            txtquantity.setText(qty + "");
 
 
             productsRate=(RadioGroup) findViewById(R.id.radioGroup);

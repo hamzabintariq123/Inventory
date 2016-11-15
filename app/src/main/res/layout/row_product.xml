@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+
+    android:id="@+id/linearLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Product Name"
+        android:paddingTop="5dp"
+        android:layout_margin="5dp"
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Product"
-            android:paddingTop="5dp"
-            android:layout_margin="5dp"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:id="@+id/products"
-            android:layout_weight="1"
-            android:paddingLeft="10dp"/>
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:id="@+id/products"
+        android:layout_weight="2.5"
+        android:paddingLeft="10dp"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Rate"
-            android:textColor="#000"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:id="@+id/rate"
-            android:layout_margin="5dp"
-            android:layout_weight="1" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Rate"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:id="@+id/rate"
+        android:layout_margin="5dp"
+        android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Quantity"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:id="@+id/quantity"
-            android:layout_margin="5dp"
-            android:layout_weight="1" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="QTY"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:id="@+id/quantity"
+        android:layout_margin="5dp"
+        android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Amount"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:id="@+id/amount"
-            android:layout_margin="5dp"
-            android:layout_weight="1" />
-
-
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Total"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:id="@+id/amount"
+        android:layout_margin="5dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

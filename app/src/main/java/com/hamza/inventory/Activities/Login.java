@@ -37,7 +37,7 @@ public class Login extends AppCompatActivity {
     EditText username,password;
     String name,pass;
     CheckBox loggedin;
-    String id,district;
+    String id,district,strname;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
 
@@ -127,6 +127,8 @@ public class Login extends AppCompatActivity {
 
                                 id = object.getString("id");
                                 district =object.getString("area_of_supply");
+                                strname =object.getString("salesman_name");
+
 
 
                                 SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
@@ -134,6 +136,7 @@ public class Login extends AppCompatActivity {
 
                                 editor.putString("id", id);// Saving string
                                 editor.putString("district", district);
+                                editor.putString("salesman_name", strname);
 
 
 
@@ -178,8 +181,8 @@ public class Login extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("user_name", "hamza");
-                params.put("password", "1234");
+                params.put("user_name", name);
+                params.put("password", pass);
 
                 return params;
             }

@@ -5,11 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.hamza.inventory.Activities.Expence">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar">
 
-    </include>
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="650dp">
@@ -17,10 +13,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="650dp">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar">
+
+        </include>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/breakfast"
+        android:inputType="number"
         android:hint="Breakfast"
         android:padding="10dp"
         android:layout_marginLeft="10dp"
@@ -36,6 +39,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:id="@+id/luch"
+        android:inputType="number"
         android:layout_marginBottom="15dp"
         android:hint="Lunch"
         android:padding="10dp"
@@ -50,6 +54,7 @@
         android:hint="Dinner"
         android:padding="10dp"
         android:layout_marginLeft="10dp"
+        android:inputType="number"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/edittext_style"
@@ -61,6 +66,7 @@
         android:layout_height="50dp"
         android:id="@+id/rent"
         android:hint="Hotel Rent"
+        android:inputType="number"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:padding="10dp"
@@ -76,6 +82,7 @@
         android:hint="Fuel"
         android:padding="10dp"
         android:layout_marginLeft="10dp"
+        android:inputType="number"
         android:layout_marginRight="10dp"
         android:background="@drawable/edittext_style"
         android:layout_below="@+id/rent"
@@ -115,6 +122,7 @@
         android:id="@+id/others"
         android:hint="Others"
         android:padding="10dp"
+        android:inputType="number"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/edittext_style"
@@ -124,6 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/gifts"
+            android:inputType="number"
             android:hint="Gifts"
             android:padding="10dp"
             android:layout_marginTop="15dp"

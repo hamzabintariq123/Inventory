@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="LOGO"
+        android:text="Neelam Labs Pvt Ltd"
         android:id="@+id/textView"
         android:textSize="30sp"
         android:layout_alignParentTop="true"
@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="All Rights Reserved ."
+        android:text="Neelam Labs .pvt Ltd All Rights Reserved ."
         android:id="@+id/textView2"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

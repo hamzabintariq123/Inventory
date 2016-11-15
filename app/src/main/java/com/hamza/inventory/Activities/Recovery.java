@@ -60,7 +60,7 @@ public class Recovery extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
         Intent intent= getIntent();
-        buss_id = intent.getStringExtra("bussid");
+        buss_id = intent.getStringExtra("buss_id");
 
         getBalance(buss_id);
 
@@ -82,15 +82,24 @@ public class Recovery extends AppCompatActivity {
 
                 remaining  = Integer.parseInt(Remaining.getText().toString());
                 paid = Integer.parseInt(Piad.getText().toString());
+                int strrecovry = Integer.parseInt(recovry_amount.getText().toString());
 
-                paid = paid +Integer.parseInt(recovry);
-                remaining = remaining-Integer.parseInt(recovry);
+                if (strrecovry > remaining)
+                {
+                    Toast.makeText(Recovery.this, "You entered amount is greater than remaining amount !!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    paid = paid +Integer.parseInt(recovry);
+                    remaining = remaining-Integer.parseInt(recovry);
 
-                sendRecovry();
+                    sendRecovry();
 
-                Intent intent = new Intent(Recovery.this,Customers.class);
-                intent.putExtra("from","recovry");
-                startActivity(intent);
+                    Intent intent = new Intent(Recovery.this,Customers.class);
+                    intent.putExtra("from","recovry");
+                    startActivity(intent);
+                }
+
             }
         });
     }
@@ -228,6 +237,7 @@ public class Recovery extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         ringProgressDialog.dismiss();
+                        Toast.makeText(Recovery.this, "Recovery done succesfully", Toast.LENGTH_SHORT).show();
 
                     }
                 }, new Response.ErrorListener() {

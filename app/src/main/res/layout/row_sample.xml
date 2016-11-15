@@ -16,7 +16,7 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:id="@+id/produt"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:paddingLeft="12dp"/>
 
     <TextView
@@ -26,7 +26,7 @@
         android:text="Rate"
         android:textColor="#000"
         android:paddingTop="5dp"
-        android:paddingLeft="35dp"
+        android:paddingLeft="15dp"
         android:textSize="15sp"
         android:textStyle="bold"
         android:id="@+id/rate_sam"
@@ -37,7 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Quantity"
+        android:text="QTY"
         android:textColor="#000"
         android:textStyle="bold"
         android:textSize="15sp"
