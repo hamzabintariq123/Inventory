@@ -18,6 +18,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         _db.execSQL(Database.DATABASE_CREATE);
         _db.execSQL(Database.DATABASE_ACCOUNTS);
         _db.execSQL(Database.DATABASE_CUSTOMER);
+        _db.execSQL(Database.DATABASE_RECOVRY);
 
 
     }

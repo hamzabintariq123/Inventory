@@ -80,25 +80,37 @@ public class Recovery extends AppCompatActivity {
 
                 getValues();
 
-                remaining  = Integer.parseInt(Remaining.getText().toString());
-                paid = Integer.parseInt(Piad.getText().toString());
-                int strrecovry = Integer.parseInt(recovry_amount.getText().toString());
 
-                if (strrecovry > remaining)
+                if(Remaining.getText().toString().equals("")||Piad.getText().toString().equals("")||
+                Remaining.getText().toString() == null||Piad.getText().toString()==null
+                       || recovry_amount.getText().toString().equals("")||recovry_amount.getText().toString() == null)
                 {
-                    Toast.makeText(Recovery.this, "You entered amount is greater than remaining amount !!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Recovery.this, "No values Entered", Toast.LENGTH_SHORT).show();
                 }
+
                 else
                 {
-                    paid = paid +Integer.parseInt(recovry);
-                    remaining = remaining-Integer.parseInt(recovry);
+                    remaining  = Integer.parseInt(Remaining.getText().toString());
+                    paid = Integer.parseInt(Piad.getText().toString());
+                    int strrecovry = Integer.parseInt(recovry_amount.getText().toString());
 
-                    sendRecovry();
+                    if (strrecovry > remaining)
+                    {
+                        Toast.makeText(Recovery.this, "You entered amount is greater than remaining amount !!", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        paid = paid +Integer.parseInt(recovry);
+                        remaining = remaining-Integer.parseInt(recovry);
 
-                    Intent intent = new Intent(Recovery.this,Customers.class);
-                    intent.putExtra("from","recovry");
-                    startActivity(intent);
+                        sendRecovry();
+
+                        Intent intent = new Intent(Recovery.this,Customers.class);
+                        intent.putExtra("from","recovry");
+                        startActivity(intent);
+                    }
                 }
+
 
             }
         });

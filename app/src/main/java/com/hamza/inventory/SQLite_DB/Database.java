@@ -37,6 +37,13 @@ public class Database {
             + "bussiness_name  varchar, personal_name varchar , address varchar ,distrcit varchar ," +
             "mobile INTEGER ,salesman INTEGER );); ";
 
+    private static final String RECOVRY_TABLE = "recovry";
+    static final String DATABASE_RECOVRY = "create table " + "recovry" + "( "
+            + "id" + " varchar PRIMARY KEY AUTOINCREMENT , "
+            + "businnes_name  varchar, amount_paid varchar , amount_remaining varchar ,total_bill varchar ," +
+            "salesman_id INTEGER );); ";
+
+
 
 
     public static SQLiteDatabase db;
@@ -56,18 +63,32 @@ public class Database {
         return this;
     }
 
-    public void insertProduct(String Productname, Integer qauntity ,Integer T_price ,Integer R_price )
+    public void insertProduct(String businnes_name, Integer amount_paid ,Integer amount_remaining ,Integer total_bill )
             {
                     ContentValues newValues = new ContentValues();
-                    newValues.put("Productname", Productname);
-                    newValues.put("Quantity", qauntity);
-                    newValues.put("Trade_Price", T_price);
-                    newValues.put("Retail_Price", R_price);
+                    newValues.put("businnes_name", businnes_name);
+                    newValues.put("amount_paid", amount_paid);
+                    newValues.put("amount_remaining", amount_remaining);
+                    newValues.put("total_bill", total_bill);
                     db.insert(PRODUCTS_TABLE, null, newValues);
 
 
 
              }
+
+    public void insertRecovry(String Productname, Integer qauntity ,Integer T_price ,Integer R_price ,Integer salesman_id)
+    {
+        ContentValues newValues = new ContentValues();
+        newValues.put("Productname", Productname);
+        newValues.put("Quantity", qauntity);
+        newValues.put("Trade_Price", T_price);
+        newValues.put("Retail_Price", R_price);
+        newValues.put("salesman_id", salesman_id);
+        db.insert(RECOVRY_TABLE, null, newValues);
+
+
+
+    }
 
     public void insertBussines(String bussines_name,String id, String personal_name ,String address ,String mobile,String distrcit )
     {

@@ -9,11 +9,11 @@
 
     <ImageView
         android:layout_width="320dp"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         android:id="@+id/imageView"
-        android:background="#1565c0"
+        android:background="#7cb342"
         android:layout_alignParentTop="true"
-        />
+        android:layout_alignParentStart="true" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -29,25 +29,37 @@
         android:dividerHeight="0px"/>
 
     <ImageView
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="90dp"
         android:id="@+id/imageView2"
+        android:background="@drawable/logo_neelam"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="App Name"
-        android:id="@+id/textView11"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Hamza Bin Tariq"
+        android:textColor="#FFF"
+
         android:textStyle="bold"
-        android:textColor="#fff"
-        android:textSize="20sp"
+        android:typeface="serif"
+        android:id="@+id/name"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/imageView2"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/listView1"
+        android:layout_alignEnd="@+id/imageView2"
+        android:layout_marginBottom="10dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView5"
+        android:layout_alignTop="@+id/imageView2"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -177,7 +177,7 @@ public class Customers extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(Customers.this, "Not Connected", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(Customers.this, "Not Connected", Toast.LENGTH_SHORT).show();
         }
 
 

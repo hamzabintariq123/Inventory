@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hamza.inventory.Activities.Customers;
 import com.hamza.inventory.Activities.Expence;
@@ -30,7 +31,7 @@ public class DrawerFragment extends Fragment {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-
+    TextView name;
 
     Drawer_Addapter drawer_addapter = null;
 
@@ -53,10 +54,19 @@ public class DrawerFragment extends Fragment {
         v.setClickable(true);
 
         listView = (ListView) v.findViewById(R.id.listView1);
+        name = (TextView) v.findViewById(R.id.name);
+
+
 
         drawer_addapter = new Drawer_Addapter(getActivity(),nameArray,images);
 
         listView.setAdapter(drawer_addapter);
+
+        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("User Prefs", getActivity().MODE_PRIVATE);
+        String user_name= pref.getString("salesman_name", null);
+
+        name.setText(user_name);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

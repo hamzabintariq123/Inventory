@@ -109,7 +109,7 @@ public class Add_New_Customer extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(Add_New_Customer.this, Customers.class);
-        intent.putExtra("form","sale");
+        intent.putExtra("from","sale");
         startActivity(intent);
         return super.onOptionsItemSelected(item);
 
@@ -176,5 +176,7 @@ public class Add_New_Customer extends AppCompatActivity {
 
 
     }
+
+
 
 }

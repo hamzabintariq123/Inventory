@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/edittext_style"
-        android:layout_marginTop="162dp" />
+        android:layout_marginTop="220dp" />
 
 
     <EditText
@@ -28,6 +28,7 @@
         android:id="@+id/password"
         android:layout_marginTop="20dp"
         android:hint="Password"
+        android:inputType="textPassword"
         android:background="@drawable/edittext_style"
         android:padding="10dp"
         android:layout_below="@+id/name"
@@ -42,17 +43,6 @@
         android:id="@+id/submit"
         android:layout_below="@+id/password"
         android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Neelam Labs Pvt Ltd"
-        android:id="@+id/textView"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -72,5 +62,21 @@
         android:id="@+id/textView2"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="170dp"
+        android:id="@+id/imageView6"
+        android:background="@drawable/neekan"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView7"
+        android:background="@drawable/logo_neelam"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/name" />
 </RelativeLayout>
 
