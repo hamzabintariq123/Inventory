@@ -92,8 +92,8 @@ public class Printer extends AppCompatActivity {
         // setting logo spiiner
         mBluetoothAdapter=BluetoothAdapter.getDefaultAdapter();
         mlogoAddapter.add("Neelam Labs");
-        mlogoAddapter.add("Natures Health");
-        mlogoAddapter.add("Neelam Labs& Natures Health");
+        mlogoAddapter.add("Nature's Home Registered");
+        mlogoAddapter.add("Neelam Labs& Nature's Home Registered");
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,mlogoAddapter);
         logo.setAdapter(mAdapter);
 

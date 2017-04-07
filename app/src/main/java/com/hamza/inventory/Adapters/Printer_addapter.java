@@ -6,13 +6,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.hamza.inventory.R;
-
-import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -98,10 +94,10 @@ public class Printer_addapter {
 
 
             String header = "NAME              PRICE     QUANTITY    TOTAL\n";
-            String date = getCurrDateTime()+ "              "+LOGO+"\n"+line;
+            String date = getCurrDateTime()+"\n"+"   "+LOGO+"\n"+line;
 
 
-            String[] info = new String[]{date,"       "+b_name+"\n",
+            String[] info = new String[]{b_name,"\n"+date+"\n",
                    " Personal name  "+b_personal+"\n"
             +" Mobile number  "+b_mobile+"\n"+" Saleman Name   "+b_saleman_nmae+"\n",header+"\n"+line};
 
@@ -126,7 +122,10 @@ public class Printer_addapter {
 
             }
 
-            String Record = "Paid = "+b_paid+"    Remaining = "+b_amount+"   Total = "+b_total+"\n"+line+"\n";
+            String Record =  "                   Paid = "+b_paid+"\n"
+                            +"                   Remaining = "+b_amount+"\n"
+                            +"                   Total = " +b_total+"\n"
+                            +line+"\n";
 
             mOutputStream.write(Record.getBytes("GBK"));
             mOutputStream.flush();

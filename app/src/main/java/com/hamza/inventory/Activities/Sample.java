@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +25,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.hamza.inventory.Adapters.Product_Addapter;
 import com.hamza.inventory.Adapters.Sample_Addapter;
 import com.hamza.inventory.Date_Models.Sale_model;
 import com.hamza.inventory.Network.EndPoints;
@@ -239,7 +238,7 @@ public class Sample extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("sales",Sales);
+                params.put("sales",Sales+"{"+"sample"+","+"sample"+","+"sample");
 
                 return params;
             }

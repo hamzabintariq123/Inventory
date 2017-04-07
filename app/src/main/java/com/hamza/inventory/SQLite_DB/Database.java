@@ -2,18 +2,14 @@ package com.hamza.inventory.SQLite_DB;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.ListView;
+import android.widget.Toast;
 
-import com.hamza.inventory.Date_Models.Customer_model;
 import com.hamza.inventory.Date_Models.Products_model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 
 public class Database {
@@ -39,9 +35,9 @@ public class Database {
 
     private static final String RECOVRY_TABLE = "recovry";
     static final String DATABASE_RECOVRY = "create table " + "recovry" + "( "
-            + "id" + " varchar PRIMARY KEY AUTOINCREMENT , "
-            + "businnes_name  varchar, amount_paid varchar , amount_remaining varchar ,total_bill varchar ," +
-            "salesman_id INTEGER );); ";
+            + "id" + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "businnes_name  INTEGER, amount_paid INTEGER , amount_remaining INTEGER ,total_bill INTEGER ," +
+            "salesman_id INTEGER , isupdated INTERGER);); ";
 
 
 
@@ -63,42 +59,83 @@ public class Database {
         return this;
     }
 
-    public void insertProduct(String businnes_name, Integer amount_paid ,Integer amount_remaining ,Integer total_bill )
+    public void insertProduct(String Productname, Integer Quantity ,Integer Trade_Price ,Integer Retail_Price )
             {
                     ContentValues newValues = new ContentValues();
-                    newValues.put("businnes_name", businnes_name);
-                    newValues.put("amount_paid", amount_paid);
-                    newValues.put("amount_remaining", amount_remaining);
-                    newValues.put("total_bill", total_bill);
-                    db.insert(PRODUCTS_TABLE, null, newValues);
+                    newValues.put("Productname", Productname);
+                    newValues.put("Quantity", Quantity);
+                    newValues.put("Trade_Price", Trade_Price);
+                    newValues.put("Retail_Price", Retail_Price);
+                   long res =  db.insert(PRODUCTS_TABLE, null, newValues);
 
 
 
              }
 
-    public void insertRecovry(String Productname, Integer qauntity ,Integer T_price ,Integer R_price ,Integer salesman_id)
+    public void insertRecovry(String businnes_name, Integer total_bill ,Integer amount_remaining ,Integer amount_paid ,Integer salesman_id)
     {
-        ContentValues newValues = new ContentValues();
-        newValues.put("Productname", Productname);
-        newValues.put("Quantity", qauntity);
-        newValues.put("Trade_Price", T_price);
-        newValues.put("Retail_Price", R_price);
-        newValues.put("salesman_id", salesman_id);
-        db.insert(RECOVRY_TABLE, null, newValues);
+
+        String selectQuery = "SELECT  * FROM " +RECOVRY_TABLE+" WHERE businnes_name = "+businnes_name;
+
+        db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
 
+        if (cursor != null && cursor.getCount() > 0)
+        {
+            ContentValues newValues = new ContentValues();
+            newValues.put("businnes_name", businnes_name);
+            newValues.put("total_bill", total_bill);
+            newValues.put("amount_remaining", amount_remaining);
+            newValues.put("amount_paid", amount_paid);
+            newValues.put("salesman_id", salesman_id);
+            newValues.put("isupdated", 0);
+            int res = db.update(RECOVRY_TABLE, newValues, "businnes_name" + "="+businnes_name,
+                    null);
+            Toast.makeText(context, "Updated in local data base", Toast.LENGTH_SHORT).show();
+
+
+       }
+        else
+        {
+
+            ContentValues newValues = new ContentValues();
+            newValues.put("businnes_name", businnes_name);
+            newValues.put("total_bill", total_bill);
+            newValues.put("amount_remaining", amount_remaining);
+            newValues.put("amount_paid", amount_paid);
+            newValues.put("salesman_id", salesman_id);
+            newValues.put("isupdated", 0);
+            long res =  db.insert(RECOVRY_TABLE, null, newValues);
+            Toast.makeText(context, "Enterd in local data base", Toast.LENGTH_SHORT).show();
+
+
+        }
 
     }
 
-    public void insertBussines(String bussines_name,String id, String personal_name ,String address ,String mobile,String distrcit )
+
+    public void updateRecovry(int amount_remaining,int amount_paid,String businnes_name)
+    {
+        ContentValues newValues = new ContentValues();
+
+        newValues.put("amount_remaining", amount_remaining);
+        newValues.put("amount_paid", amount_paid);
+        newValues.put("isupdated", 1);
+        int res = db.update(RECOVRY_TABLE, newValues, "businnes_name" + "="+businnes_name,
+                null);
+    }
+
+    public void insertBussines(String bussines_name,String id,String personal_name, String address ,String distrcit ,String mobile,String salesman )
     {
         ContentValues newValues = new ContentValues();
         newValues.put("bussiness_name", bussines_name);
         newValues.put("CustomerID", id);
         newValues.put("personal_name", personal_name);
         newValues.put("address", address);
-        newValues.put("mobile", mobile);
         newValues.put("distrcit", distrcit);
+        newValues.put("mobile", mobile);
+        newValues.put("salesman", salesman);
         long test = db.insert(CUSTOMERS_TABLE, null, newValues);
     }
 
@@ -140,7 +177,7 @@ public class Database {
         return contactList;
     }
 
-    public ArrayList<Customer_model> getAllCustomers() {
+   /* public ArrayList<Customer_model> getAllCustomers() {
         ArrayList<Customer_model> contactList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + CUSTOMERS_TABLE;
@@ -167,7 +204,7 @@ public class Database {
 
         // return contact list
         return contactList;
-    }
+    }*/
 
     public ArrayList<String> getAllSales() {
         ArrayList<String> List = new ArrayList<>();
@@ -229,13 +266,13 @@ public class Database {
     }
 
 
-    public Cursor showdata() {
+    public Cursor showRecovry() {
 
 
         db = dbHelper.getReadableDatabase();
-        Cursor cursor;
-        String[] formdb  = new String[]{"Productname","Quantity","Total","Date","Soldto"};
-        cursor = db.query("Account", formdb, null, null, null, null, null);
+
+        String selectQuery = "SELECT * FROM " + RECOVRY_TABLE +" WHERE isupdated = 1" ;
+        Cursor cursor = db.rawQuery(selectQuery, null);
         return cursor;
     }
 
@@ -248,6 +285,28 @@ public class Database {
         Cursor cursor = db.rawQuery(selectQuery, null);
         return cursor;
     }
+
+
+    public void updatestatus(String bussid)
+    {
+        ContentValues newValues = new ContentValues();
+
+
+        newValues.put("isupdated", 0);
+        int res = db.update(RECOVRY_TABLE, newValues, "businnes_name" + "="+bussid,
+                null);
+    }
+
+    public Cursor getRecords(String tablename,String bussinesid) {
+
+
+        db = dbHelper.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + tablename +" WHERE businnes_name = " + bussinesid;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor;
+    }
+
     public Integer getqty( String product_name)
     {
         int entry = 0;

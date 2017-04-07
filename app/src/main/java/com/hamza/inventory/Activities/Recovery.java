@@ -1,9 +1,15 @@
 package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,11 +30,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
+import com.hamza.inventory.SQLite_DB.Database;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,11 +46,19 @@ public class Recovery extends AppCompatActivity {
     Toolbar  toolbar;
     Button rec_amount;
     EditText recovry_amount;
-    String recovry,remining,buss_id;
+    String recovry,remining,buss_id,id;
     TextView Piad, Remaining, Total;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
     int remaining,paid;
+    SQLiteDatabase db;
+    Database database = new Database(this);
+
+    String businnes_name  ;
+    String total_bill;
+    String amount_remaining ;
+    String amount_paid ;
+    String salesman_id ;
 
 
     @Override
@@ -65,11 +81,24 @@ public class Recovery extends AppCompatActivity {
         getBalance(buss_id);
 
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
+
+        id=  pref.getString("id", null);
+
+
+        try {
+            database=database.open();
+         }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         Total = (TextView) findViewById(R.id.total);
         Remaining = (TextView) findViewById(R.id.quantty);
         Piad = (TextView) findViewById(R.id.date_send);
         rec_amount = (Button) findViewById(R.id.send_rec);
         recovry_amount = (EditText) findViewById(R.id.name);
+
 
 
 
@@ -115,7 +144,12 @@ public class Recovery extends AppCompatActivity {
             }
         });
     }
-
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -176,14 +210,21 @@ public class Recovery extends AppCompatActivity {
                                     String total = Information.getString("total_bill");
 
 
-
+                                    String id = Information.getString("id");
                                     Remaining.setText(remaining);
                                     Total.setText(total);
                                     Piad.setText(paid);
 
+                                    database.insertRecovry(
+                                            buss_id,
+                                            Integer.valueOf(total),
+                                            Integer.valueOf(paid),
+                                            Integer.valueOf(remaining),
+                                            Integer.valueOf(id));
 
 
                                 }
+
                             }
                             else{
 
@@ -206,11 +247,31 @@ public class Recovery extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 ringProgressDialog.dismiss();
-                if (error instanceof NoConnectionError)
-                {
-                    Toast.makeText(Recovery.this,"No Internet Connection", Toast.LENGTH_SHORT).show();
+
+
+                Cursor cus = database.getRecords("recovry", buss_id);
+                cus.moveToFirst();
+                int count = cus.getColumnCount();
+                if (cus != null && cus.getCount() > 0) {
+                     /* int count = cus.getColumnCount();
+                        Toast.makeText(Recovery.this, count+"", Toast.LENGTH_SHORT).show();*/
+                    id = cus.getString(0);
+                    businnes_name = cus.getString(1);
+                    total_bill = cus.getString(4);
+                    amount_remaining = cus.getString(3);
+                    amount_paid = cus.getString(2);
+                    salesman_id = cus.getString(5);
+
+
+                    Remaining.setText(amount_remaining);
+                    Total.setText(total_bill);
+                    Piad.setText(amount_paid);
+                } else {
+
+                    Toast.makeText(Recovery.this, "No record found", Toast.LENGTH_SHORT).show();
                 }
 
+                Toast.makeText(Recovery.this,"No Internet Connection !! Loading from Local Data Base", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -259,7 +320,11 @@ public class Recovery extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 if (error instanceof NoConnectionError)
                 {
-                    Toast.makeText(Recovery.this,"No Internet Connection", Toast.LENGTH_SHORT).show();
+
+                    database.updateRecovry(remaining,paid,buss_id);
+
+                    Toast.makeText(Recovery.this, "No Internet Connection !! adding to local database !!", Toast.LENGTH_SHORT).show();
+
                 }
 
             }

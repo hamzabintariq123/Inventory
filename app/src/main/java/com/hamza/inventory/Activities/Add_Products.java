@@ -107,6 +107,7 @@ public class Add_Products extends AppCompatActivity {
 
         salesid=  pref.getString("id", null);
 
+        productRate.setEnabled(false);
 
 
         calculate.setOnClickListener(new View.OnClickListener() {
@@ -134,8 +135,8 @@ public class Add_Products extends AppCompatActivity {
                 // Calculating Discount
                 if(discount != "0")
                 {
-                    int amount  = rate*quantity;
-                    int discount_calculate = Integer.parseInt(discount);
+                    float amount  = rate*quantity;
+                    float discount_calculate = Integer.parseInt(discount);
                     discount_calculate = ((amount)/100)*discount_calculate;
                     amount = amount-discount_calculate;
                     total = String.valueOf(amount);

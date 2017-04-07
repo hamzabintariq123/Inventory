@@ -4,15 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,11 +37,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,12 +50,11 @@ public class Sales extends AppCompatActivity {
     Button send;
     ImageView add;
     ListView product_list;
-    CheckBox checkBox;
     TextView total;
     SQLiteDatabase db;
     Database database = new Database(this);
     String Sales = "",user_id,strbuss_id,ids;
-    int total_am;
+    float total_am;
     JSONObject jObjSaleModel =  new JSONObject();
     Product_Addapter product_addapter = null;
     Sale_model objSaleModel = new Sale_model();
@@ -98,7 +93,6 @@ public class Sales extends AppCompatActivity {
 
         add = (ImageView) findViewById(R.id.add);
         send = (Button) findViewById(R.id.send_rec);
-        checkBox = (CheckBox) findViewById(R.id.pay_check);
         product_list = (ListView) findViewById(R.id.sample_list);
         total = (TextView) findViewById(R.id.total_amount);
 
@@ -189,7 +183,8 @@ public class Sales extends AppCompatActivity {
 
                 else
                 {
-                    if (checkBox.isChecked()) {
+
+                        arrSaleData.clear();
 
                         Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Payment.class);
                         intent.putExtra("sales",Sales);
@@ -197,10 +192,10 @@ public class Sales extends AppCompatActivity {
                         startActivity(intent);
 
 
-                    } else {
 
 
-                        EnterSales();
+
+                       // EnterSales();
 
                         SharedPreferences pref = getApplicationContext().getSharedPreferences("Buss_details", MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
@@ -212,7 +207,7 @@ public class Sales extends AppCompatActivity {
                         // Intent intent = new Intent(Sales.this, Customers.class);
                         //startActivity(intent);
 
-                    }
+
 
                 }
 
@@ -258,20 +253,43 @@ public class Sales extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
+                        arrSaleData.clear();
+
+
                         ringProgressDialog.dismiss();
 
                         if(response.equals(""))
                         {
                             Toast.makeText(Sales.this, "Records not entered ! Some thing went wrong", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
 
                         else
                         {
                             Toast.makeText(Sales.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(Sales.this, Printer.class);
-                            intent.putExtra("sale",Sales);
-                            startActivity(intent);
+                           /* if (checkBox.isChecked()) {*/
+
+                                Intent intent = new Intent(com.hamza.inventory.Activities.Sales.this, Payment.class);
+                                intent.putExtra("sales",Sales);
+                                intent.putExtra("colums",response);
+                                intent.putExtra("total_amount",total_am);
+                                startActivity(intent);
+
+
+                          /*  }
+                            else
+                            {
+
+                                Intent intent = new Intent(Sales.this, Printer.class);
+                                 intent.putExtra("sale",Sales);
+                                startActivity(intent);
+                            }*/
+
+
+
+
+
 
                         }
 
@@ -281,11 +299,13 @@ public class Sales extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
                 String message = null;
                 if (error instanceof NoConnectionError)
                 {
 
-                    ringProgressDialog.dismiss();
+
                     Toast.makeText(com.hamza.inventory.Activities.Sales.this, "No Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
 
                     database.insertSales(Sales);

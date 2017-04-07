@@ -1,30 +1,26 @@
 package com.hamza.inventory.Activities;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -56,8 +52,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Customers extends AppCompatActivity {
 
@@ -66,7 +60,7 @@ public class Customers extends AppCompatActivity {
     Customer_Addapter reload = null;
     Toolbar toolbar;
     EditText searchEDt;
-    String heading,id,saleman_name;
+    String heading,saleman_id,saleman_name;
     DrawerFragment drawerFragment = new DrawerFragment();
     ImageView addcustomer;
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -74,7 +68,7 @@ public class Customers extends AppCompatActivity {
     private ArrayList<Customer_model> list = new ArrayList<>();
     SQLiteDatabase db;
     Database database = new Database(this);
-    String sales;
+    String sales,isFirst;
     ArrayList<String> List = new ArrayList<>();
     final Handler handler = new Handler();
 
@@ -111,8 +105,9 @@ public class Customers extends AppCompatActivity {
 */
         SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
 
-        id=  pref.getString("id", null);
+        saleman_id=  pref.getString("id", null);
         saleman_name = pref.getString("salesman_name",null);
+        isFirst = pref.getString("isFirst","");
 
 
         Intent intent = getIntent();
@@ -152,9 +147,26 @@ public class Customers extends AppCompatActivity {
 
         Boolean check = isNetworkAvailable();
 
-        if (check.equals(true)) {
+        if (check.equals(true) && isFirst.equals("Done"))
+        {
              //Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
             // actionBar.setTitle(getString(R.string.app_name) + "             " + "Connection UP");
+
+
+
+
+            String amount , remaining , bussid;
+            Cursor cus =database.showRecovry();
+
+            if (cus.moveToFirst()) {
+                do {
+                    bussid=  cus.getString(1);
+                    amount=  cus.getString(2);
+                    remaining=  cus.getString(3);
+
+                    sendRecovryLocal(amount,remaining,bussid);
+                } while (cus.moveToNext());
+            }
 
 
            List = database.getAllSales();
@@ -162,16 +174,20 @@ public class Customers extends AppCompatActivity {
 
             } else {
 
-                ringProgressDialog = ProgressDialog.show(this, "please wait", "Adding To Server From Local DataBase", true);
+              /*  ringProgressDialog = ProgressDialog.show(this, "please wait", "Adding To Server From Local DataBase", true);
                 ringProgressDialog.setCancelable(false);
-                ringProgressDialog.show();
+                ringProgressDialog.show();*/
 
                 for(int i=0;i<List.size();i++)
                 {
                     EnterSales(List.get(i));
                 }
 
-                ringProgressDialog.dismiss();
+               /* ringProgressDialog.dismiss();*/
+
+
+
+
             }
 
         }
@@ -179,6 +195,10 @@ public class Customers extends AppCompatActivity {
         {
            // Toast.makeText(Customers.this, "Not Connected", Toast.LENGTH_SHORT).show();
         }
+
+
+
+
 
 
         getCustomer();
@@ -289,6 +309,13 @@ public class Customers extends AppCompatActivity {
 
                        // Toast.makeText(Customers.this, response, Toast.LENGTH_SHORT).show();
 
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("User Prefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("isFirst","Done");
+                        editor.apply();
+
+
+
                         parseJSONResponce(response);
 
                         addCustomerToLocal();
@@ -315,7 +342,7 @@ public class Customers extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("user_id",id);
+                params.put("user_id",saleman_id);
                 return params;
             }
         };
@@ -378,7 +405,7 @@ public class Customers extends AppCompatActivity {
             String mobile = list.get(i).getMobile();
             String district = list.get(i).getDistrcit();
 
-           database.insertBussines(bussines_name,id,personal_name,address,mobile,district);
+           database.insertBussines(bussines_name,id,personal_name,address,mobile,district,saleman_id);
 
         }
     }
@@ -418,6 +445,61 @@ public class Customers extends AppCompatActivity {
 
 
 
+    public void sendRecovryLocal(final String amount, final String remaining , final String bussines ) {
+
+        /*ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();*/
+
+        String URL =null;
+
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.SEND_RECOVRY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                      //  ringProgressDialog.dismiss();
+
+                        database.updatestatus(bussines);
+                        Toast.makeText(Customers.this, "Recovery added succesfully", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+               // ringProgressDialog.dismiss();
+                if (error instanceof NoConnectionError)
+                {
+
+                    Toast.makeText(Customers.this, "Net disconnected !!", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("recovry",amount);
+                params.put("remaining",remaining);
+                params.put("buss_id",bussines);
+
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+
+    }
 
 
 

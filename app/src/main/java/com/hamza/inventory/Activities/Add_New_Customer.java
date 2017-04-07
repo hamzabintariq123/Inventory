@@ -142,6 +142,7 @@ public class Add_New_Customer extends AppCompatActivity {
 
                         ringProgressDialog.dismiss();
                         Toast.makeText(Add_New_Customer.this, response, Toast.LENGTH_SHORT).show();
+                        finish();
 
 
                     }

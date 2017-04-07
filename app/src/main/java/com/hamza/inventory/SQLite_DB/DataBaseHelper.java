@@ -16,9 +16,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase _db) {
         _db.execSQL(Database.DATABASE_CREATE);
+        _db.execSQL(Database.DATABASE_RECOVRY);
         _db.execSQL(Database.DATABASE_ACCOUNTS);
         _db.execSQL(Database.DATABASE_CUSTOMER);
-        _db.execSQL(Database.DATABASE_RECOVRY);
+
 
 
     }

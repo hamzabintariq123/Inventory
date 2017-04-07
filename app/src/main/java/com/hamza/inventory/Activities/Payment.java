@@ -3,8 +3,8 @@ package com.hamza.inventory.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +28,6 @@ import com.hamza.inventory.Network.EndPoints;
 import com.hamza.inventory.R;
 import com.hamza.inventory.SQLite_DB.Database;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,11 +39,13 @@ public class Payment extends AppCompatActivity {
     Button send,calculate;
     EditText amount,remainingamount;
     TextView Total;
-    String sAmount,sRemianing,id,sColums,Sales;
+    String sAmount,sRemianing,id,sColums,Sales,prinitnng;
     Date date;
     Database database = new Database(this);
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
+     int total;
+    int remaining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +76,16 @@ public class Payment extends AppCompatActivity {
         getValus();
 
         Intent intent = getIntent();
-        final int[] total = {intent.getIntExtra("total_amount", 0)};
+        total = intent.getIntExtra("total_amount", 0);
         Sales = intent.getStringExtra("sales");
-      //   sColums = intent.getStringExtra("ids");
+      //  sColums = intent.getStringExtra("colums");
 
-       Total.setText(total[0]+"");
+        prinitnng =Sales;
+
+
+
+       Total.setText(total+"");
+
 
 
         calculate.setOnClickListener(new View.OnClickListener() {
@@ -88,8 +93,19 @@ public class Payment extends AppCompatActivity {
             public void onClick(View v)
             {
                 getValus();
-                total[0] = total[0] -Integer.parseInt(sAmount);
-                remainingamount.setText(total[0]+"");
+
+                if(sAmount.equals("") || sAmount == null)
+                {
+                    Toast.makeText(Payment.this, "No Amount Entered ", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    remaining = total -Integer.parseInt(sAmount);
+                    remainingamount.setText(remaining+"");
+
+                }
+
+
             }
         });
         send.setOnClickListener(new View.OnClickListener() {
@@ -104,10 +120,13 @@ public class Payment extends AppCompatActivity {
 
                 else
                 {
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    date= new Date();
+                   /* DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    date= new Date();*/
+                    Sales = Sales+"{"+total+","+sAmount+","+remaining;
 
-                    paymnet();
+                    //paymnet();
+
+                    EnterSales();
 
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("Buss_details", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
@@ -116,11 +135,10 @@ public class Payment extends AppCompatActivity {
                     editor.putString("paid",sAmount+"");
                     editor.commit();
 
-                   /*
-                    Intent intent = new Intent(Payment.this,Printer.class);
+                    /*Intent intent = new Intent(Payment.this,Printer.class);
                     intent.putExtra("from","sales");
-                    startActivity(intent);
-                    */
+                    startActivity(intent);*/
+
                 }
             }
         });
@@ -149,7 +167,120 @@ public class Payment extends AppCompatActivity {
 
     }
 
-    public void paymnet() {
+    public void EnterSales() {
+
+        ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+
+        String URL =null;
+
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.BASE_URL+"Welcome/sale",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+
+
+                        ringProgressDialog.dismiss();
+
+                        if(response.equals(""))
+                        {
+                            Toast.makeText(Payment.this, "Records not entered ! Some thing went wrong", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                        else
+                        {
+                            Toast.makeText(Payment.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(Payment.this, Printer.class);
+                            intent.putExtra("sale",prinitnng);
+                            startActivity(intent);
+
+
+                           /* if (checkBox.isChecked()) {*/
+
+                            /*Intent intent = new Intent(Payment.this, Payment.class);
+                            intent.putExtra("sales",Sales);
+                            intent.putExtra("colums",response);
+                            intent.putExtra("total_amount",total);
+                            startActivity(intent);*/
+
+
+                          /*  }
+                            else
+                            {
+
+
+                            }*/
+
+
+
+
+
+
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ringProgressDialog.dismiss();
+                String message = null;
+                if (error instanceof NoConnectionError)
+                {
+
+
+                    Toast.makeText(Payment.this, "No Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
+
+                    database.insertSales(Sales);
+
+
+
+                    Intent intent = new Intent(Payment.this, Printer.class);
+                    intent.putExtra("sale", prinitnng);
+                    startActivity(intent);
+
+                    // Intent intent = new Intent(Sales.this, Printer.class);
+                    // intent.putExtra("sale",Sales);
+                    // startActivity(intent);
+
+                } else if (error instanceof TimeoutError) {
+                   //ringProgressDialog.dismiss();
+                    message = "Connection TimeOut! Please check your internet connection.";
+                    Toast.makeText(Payment.this, message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("sales",Sales);
+
+
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+
+    }
+
+
+    /*public void paymnet() {
 
         ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
         ringProgressDialog.setCancelable(false);
@@ -171,7 +302,7 @@ public class Payment extends AppCompatActivity {
                             else
                            {
                                Toast.makeText(Payment.this, " Entered Succes", Toast.LENGTH_SHORT).show();
-                               EnterSales();
+                              // EnterSales();
                            }
 
                     }
@@ -179,6 +310,7 @@ public class Payment extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ringProgressDialog.dismiss();
+
 
                 if (error instanceof NoConnectionError)
                 {
@@ -198,9 +330,9 @@ public class Payment extends AppCompatActivity {
                 params.put("amount", sAmount);
                 params.put("total",Total.getText().toString());
                 params.put("Remaining", sRemianing);
-              //  params.put("ids", sColums);
+                *//*params.put("ids", sColums);
                 params.put("buss_id", id);
-                params.put("date", date.toString());
+                params.put("date", date.toString());*//*
 
 
                 return params;
@@ -216,92 +348,10 @@ public class Payment extends AppCompatActivity {
         requestQueue.add(request);
 
 
-    }
-
-
-    public void EnterSales() {
-
-        ringProgressDialog = ProgressDialog.show(this, "", "please wait", true);
-        ringProgressDialog.setCancelable(false);
-        ringProgressDialog.show();
-
-        String URL =null;
-
-        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.BASE_URL+"Welcome/sale",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        ringProgressDialog.dismiss();
-
-                        if(response.equals(""))
-                        {
-                            Toast.makeText(Payment.this, "Records not entered ! Some thing went wrong", Toast.LENGTH_SHORT).show();
-                        }
-
-                        else
-                        {
-
-                            Toast.makeText(Payment.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(Payment.this, Printer.class);
-                            intent.putExtra("sale",Sales);
-                            startActivity(intent);
-
-                        }
+    }*/
 
 
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String message = null;
-                if (error instanceof NoConnectionError)
-                {
-
-                    ringProgressDialog.dismiss();
-                    Toast.makeText(Payment.this, "No Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
-
-                    database.insertSales(Sales);
-
-
-
-                    Intent intent = new Intent(Payment.this, Printer.class);
-                    intent.putExtra("sale", Sales);
-                    startActivity(intent);
-
-                    // Intent intent = new Intent(Sales.this, Printer.class);
-                    // intent.putExtra("sale",Sales);
-                    // startActivity(intent);
-
-                } else if (error instanceof TimeoutError) {
-
-                    message = "Connection TimeOut! Please check your internet connection.";
-                    Toast.makeText(Payment.this, message, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("sales",Sales);
-
-                return params;
-            }
-        };
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(request);
-
-
-    }
 
 
 }

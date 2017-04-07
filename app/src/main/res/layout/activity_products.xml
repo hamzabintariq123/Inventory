@@ -91,16 +91,17 @@
         android:layout_below="@+id/linearLayout" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/send_rec"
         android:padding="20dp"
+        android:textStyle="bold"
         android:background="@drawable/edittext_style"
-        android:text="Print &amp; Send"
-        android:layout_below="@+id/sample_list"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp" />
+        android:text="Proceed To Payment"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/add"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,9 +109,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Total  :"
         android:id="@+id/textView10"
-        android:layout_marginStart="53dp"
+
         android:layout_below="@+id/sample_list"
-        android:layout_toEndOf="@+id/send_rec"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="100dp"
         android:layout_marginTop="10dp" />
 
     <TextView
@@ -122,18 +124,10 @@
         android:layout_marginLeft="5dp"
         android:textColor="#000"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
         android:layout_alignTop="@+id/textView10"
-        android:layout_alignStart="@+id/pay_check"
         android:textStyle="bold" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Payment"
-        android:id="@+id/pay_check"
-        android:checked="false"
-        android:layout_alignBottom="@+id/send_rec"
-        android:layout_toEndOf="@+id/textView10" />
 
     <ImageView
         android:layout_width="40dp"
@@ -141,7 +135,7 @@
         android:id="@+id/add"
         android:background="@drawable/plus"
         android:layout_alignBottom="@+id/sample_list"
-        android:layout_alignEnd="@+id/total_amount"
+        android:layout_alignParentRight="true"
         android:layout_margin="10dp" />
 
 
