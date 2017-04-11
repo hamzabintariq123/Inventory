@@ -72,11 +72,11 @@ public class Add_Products extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("Add Sales");
 
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent i = getIntent();
         strbuss_id = i .getStringExtra("buss_id");
         from = i.getStringExtra("from");
@@ -94,6 +94,8 @@ public class Add_Products extends AppCompatActivity {
         txtquantity = (TextView) findViewById(R.id.qty);
         Total = (TextView) findViewById(R.id.total);
         discount_sppiner = (Spinner) findViewById(R.id.discount_sppiner);
+
+        setRetailSpinner();
 
         try {
             database=database.open();
@@ -152,6 +154,8 @@ public class Add_Products extends AppCompatActivity {
             }
 
         }
+
+
 
 
 
@@ -232,14 +236,6 @@ public class Add_Products extends AppCompatActivity {
 
 
         List<String> product_list = new ArrayList<String>();
-        List<String> discount_list = new ArrayList<String>();
-
-        discount_list.add("0");
-        discount_list.add("5");
-        discount_list.add("10");
-        discount_list.add("15");
-        discount_list.add("20");
-        discount_list.add("25");
 
 
         for (int i = 0; i < list.size(); i++) {
@@ -260,6 +256,21 @@ public class Add_Products extends AppCompatActivity {
         product.setOnItemSelectedListener(new CustomOnItemSelectedListener_Product());
 
 
+
+    }
+
+
+    public void setRetailSpinner()
+    {
+        List<String> discount_list = new ArrayList<String>();
+
+        discount_list.add("0");
+        discount_list.add("5");
+        discount_list.add("10");
+        discount_list.add("15");
+        discount_list.add("20");
+        discount_list.add("25");
+
         //  setting discount_sppiner spinner
         ArrayAdapter<String> discountAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_spinner_item, discount_list);
@@ -270,7 +281,33 @@ public class Add_Products extends AppCompatActivity {
         discount_sppiner.setAdapter(discountAdapter);
 
         discount_sppiner.setOnItemSelectedListener(new CustomOnItemSelectedListener_discount());
+
     }
+
+    public void setTradeSpinner()
+    {
+        List<String> discount_list = new ArrayList<String>();
+
+        discount_list.add("0");
+        discount_list.add("10");
+        discount_list.add("20");
+        discount_list.add("30");
+        discount_list.add("40");
+
+
+        //  setting discount_sppiner spinner
+        ArrayAdapter<String> discountAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item, discount_list);
+
+        discountAdapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
+
+        discount_sppiner.setAdapter(discountAdapter);
+
+        discount_sppiner.setOnItemSelectedListener(new CustomOnItemSelectedListener_discount());
+
+    }
+
 
     public class CustomOnItemSelectedListener_Product implements AdapterView.OnItemSelectedListener {
 
@@ -292,10 +329,12 @@ public class Add_Products extends AppCompatActivity {
                     case R.id.retail:
                        price =  list.get(pos).getRetail();
                         productRate.setText(price);
+                        setRetailSpinner();
                         break;
                     case R.id.trade:
                          price =  list.get(pos).getTrade();
                         productRate.setText(price);
+                        setTradeSpinner();
                         break;
                 }
             }

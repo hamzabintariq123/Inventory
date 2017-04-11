@@ -44,8 +44,8 @@ public class Payment extends AppCompatActivity {
     Database database = new Database(this);
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     ProgressDialog ringProgressDialog;
-     int total;
-    int remaining;
+     float total;
+    float remaining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +54,9 @@ public class Payment extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Payment");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Payment");
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
@@ -75,8 +75,9 @@ public class Payment extends AppCompatActivity {
 
         getValus();
 
+        float def = (float) 0.0;
         Intent intent = getIntent();
-        total = intent.getIntExtra("total_amount", 0);
+        total = intent.getFloatExtra("total_amount",def);
         Sales = intent.getStringExtra("sales");
       //  sColums = intent.getStringExtra("colums");
 
@@ -97,6 +98,10 @@ public class Payment extends AppCompatActivity {
                 if(sAmount.equals("") || sAmount == null)
                 {
                     Toast.makeText(Payment.this, "No Amount Entered ", Toast.LENGTH_SHORT).show();
+                }
+                else if(Integer.parseInt(sAmount)>total)
+                {
+                    Toast.makeText(Payment.this, "Your entered amount is greater then total amount", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -193,7 +198,7 @@ public class Payment extends AppCompatActivity {
 
                         else
                         {
-                            Toast.makeText(Payment.this, "Entered Sucessfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Payment.this, "Entered Sucessfully", Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(Payment.this, Printer.class);
                             intent.putExtra("sale",prinitnng);
@@ -236,7 +241,7 @@ public class Payment extends AppCompatActivity {
                 {
 
 
-                    Toast.makeText(Payment.this, "No Internet Connection !! Adding to local DataBase", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Payment.this, "No Internet Connection !! Adding to local DataBase", Toast.LENGTH_LONG).show();
 
                     database.insertSales(Sales);
 

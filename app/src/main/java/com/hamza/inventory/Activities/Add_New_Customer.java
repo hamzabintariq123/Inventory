@@ -46,10 +46,9 @@ public class Add_New_Customer extends AppCompatActivity {
         add_customer = (Button) findViewById(R.id.add);
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Add Customer");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Add Customer");
-
         bussines = (EditText) findViewById(R.id.breakfast);
         adress = (EditText) findViewById(R.id.dinnet);
         mobile = (EditText) findViewById(R.id.fuel);

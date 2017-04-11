@@ -1,12 +1,11 @@
 package com.hamza.inventory.Activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -27,6 +26,8 @@ public class Supply_details extends AppCompatActivity {
         setContentView(R.layout.activity_supply_details);
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+
+        toolbar.setTitle("supply details");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

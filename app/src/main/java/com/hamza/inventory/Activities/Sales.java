@@ -79,9 +79,10 @@ public class Sales extends AppCompatActivity {
         }
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Sales");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Sales");
+
 
         Intent i = getIntent();
         int rate = i.getIntExtra("rate", 0);
@@ -124,7 +125,7 @@ public class Sales extends AppCompatActivity {
 
             for (int j=0;j<arrSaleData.size();j++)
             {
-                total_am = total_am+Integer.parseInt(arrSaleData.get(j).getProductAmount());
+                total_am = total_am+Float.parseFloat(arrSaleData.get(j).getProductAmount());
 
             }
 

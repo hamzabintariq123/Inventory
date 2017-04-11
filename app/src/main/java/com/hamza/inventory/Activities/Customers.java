@@ -87,10 +87,9 @@ public class Customers extends AppCompatActivity {
         }
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Customers");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Customers");
-
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
 

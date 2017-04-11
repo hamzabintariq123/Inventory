@@ -56,9 +56,10 @@ public class Printer extends AppCompatActivity {
         sale = intent.getStringExtra("sale");
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Payment");
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Payment");
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);

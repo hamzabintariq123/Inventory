@@ -131,11 +131,28 @@ public class Printer_addapter {
             mOutputStream.flush();
 
 
-            String signature = "Sales Man = _____________________ . \n\n";
+            String signature = "Sales Man = _____________________ . \n\n\n\n";
 
             mOutputStream.write(signature.getBytes("GBK"));
             mOutputStream.flush();
 
+            String PrintFotter = "";
+
+            if(LOGO.equals("Neelam Labs"))
+            {
+                PrintFotter = "“I hereby declare that goods manufactured & sold by Neelam Laboratories and Dawakhana (PVT)Ltd. are pure Unani products and are prepared strictly to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug Regulatory Authority of Pakistan (DRAP) Act 2012.”";
+            }
+            else if (LOGO.equals("Nature's Home Registered"))
+            {
+                PrintFotter = "“I hereby declare that goods manufactured & sold by Nature’s Home Registered Lahore are pure Unani products and are prepared strictly to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug Regulatory Authority of Pakistan (DRAP) Act 2012.”";
+            }
+            else if(LOGO.equals("Neelam Labs& Nature's Home Registered"))
+            {
+                PrintFotter = "“I hereby declare that goods manufactured & sold by Nature’s Home Registered Lahore & Neelam Laboratories and Dawakhana (PVT)Ltd  are pure Unani products and are prepared strictly to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug Regulatory Authority of Pakistan (DRAP) Act 2012.”";
+            }
+
+            mOutputStream.write(PrintFotter.getBytes("GBK"));
+            mOutputStream.flush();
 
             Log.d("sent", "send sucessfully");
 

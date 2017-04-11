@@ -47,9 +47,10 @@ public class Expence extends AppCompatActivity {
         setContentView(R.layout.activity_expence);
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Expence");
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Expence");
 
         breakfsat = (EditText) findViewById(R.id.breakfast);
         luch = (EditText) findViewById(R.id.luch);

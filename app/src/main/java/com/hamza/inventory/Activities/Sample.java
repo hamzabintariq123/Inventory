@@ -69,6 +69,8 @@ public class Sample extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+
+        toolbar.setTitle("Sample");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

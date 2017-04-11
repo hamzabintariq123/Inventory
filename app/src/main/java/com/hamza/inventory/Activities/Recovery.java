@@ -68,10 +68,11 @@ public class Recovery extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Recovry");
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Sales");
-
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
 
