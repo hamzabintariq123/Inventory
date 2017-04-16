@@ -226,6 +226,7 @@ public class Customers extends AppCompatActivity {
                 editor.putString("b_personal",list.get(position).peronal_name);
                 editor.putString("b_mobile",list.get(position).mobile);
                 editor.putString("salesman_name",saleman_name);
+                editor.putString("adress",list.get(position).getAdress());
 
                 editor.commit();
 
@@ -424,8 +425,8 @@ public class Customers extends AppCompatActivity {
             String bussines_name = cus.getString(1);
             String personal_name =cus.getString(2);
             String address = cus.getString(3);
-            String distrcit = cus.getString(4);
-            String mobile = cus.getString(5);
+            String distrcit = cus.getString(5);
+            String mobile = cus.getString(4);
 
             Customer_model data = new Customer_model();
             data.setAdress(address);

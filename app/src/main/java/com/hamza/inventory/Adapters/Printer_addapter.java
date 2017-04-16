@@ -79,7 +79,7 @@ public class Printer_addapter {
                 Toast.makeText(context, "Plesae Enter Sone Records", Toast.LENGTH_SHORT).show();
             }
 
-            String b_name="",b_personal="",b_mobile="",b_saleman_nmae="",b_total="",b_amount="",b_paid="";
+            String b_name="",b_personal="",b_mobile="",b_saleman_nmae="",b_total="",b_amount="",b_paid="",adress="";
           SharedPreferences pref = context.getApplicationContext().getSharedPreferences("Buss_details", context.MODE_PRIVATE);
             b_name  = pref.getString("b_name",null);
             b_personal =pref.getString("b_personal",null);
@@ -88,18 +88,20 @@ public class Printer_addapter {
             b_total= pref.getString("total",null);
             b_amount= pref.getString("remaining",null);
             b_paid= pref.getString("paid",null);
+            adress = pref.getString("adress",null);
 
 
             mOutputStream=mBluetoothSocket.getOutputStream();
 
 
             String header = "NAME              PRICE     QUANTITY    TOTAL\n";
-            String date = getCurrDateTime()+"\n"+"   "+LOGO+"\n"+line;
+            String date = LOGO+"\n"+getCurrDateTime()+"\n"+line;
 
 
-            String[] info = new String[]{b_name,"\n"+date+"\n",
+            String[] info = new String[]{date,"\n"+b_name+"\n",
+                    "Adress   "+adress+"\n"+
                    " Personal name  "+b_personal+"\n"
-            +" Mobile number  "+b_mobile+"\n"+" Saleman Name   "+b_saleman_nmae+"\n",header+"\n"+line};
+            +" Mobile number  "+b_mobile+"\n"+" Saleman Name   "+b_saleman_nmae+"\n"+line+header+"\n"+line};
 
             for(int i =0;i <info.length ;i++)
             {
@@ -122,16 +124,16 @@ public class Printer_addapter {
 
             }
 
-            String Record =  "                   Paid = "+b_paid+"\n"
-                            +"                   Remaining = "+b_amount+"\n"
-                            +"                   Total = " +b_total+"\n"
+            String Record =  "                         Total     = " +b_total+"\n"
+                            +"                         Paid      = "+b_paid+"\n"
+                            +"                         Remaining = "+b_amount+"\n"
                             +line+"\n";
 
             mOutputStream.write(Record.getBytes("GBK"));
             mOutputStream.flush();
 
 
-            String signature = "Sales Man = _____________________ . \n\n\n\n";
+            String signature = "Sales Man = _____________________ . \n\n\n";
 
             mOutputStream.write(signature.getBytes("GBK"));
             mOutputStream.flush();
@@ -140,15 +142,15 @@ public class Printer_addapter {
 
             if(LOGO.equals("Neelam Labs"))
             {
-                PrintFotter = "“I hereby declare that goods manufactured & sold by Neelam Laboratories and Dawakhana (PVT)Ltd. are pure Unani products and are prepared strictly to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug Regulatory Authority of Pakistan (DRAP) Act 2012.”";
+                PrintFotter = "I hereby declare that goods manufactured & sold by Neelam Laboratories and Dawakhana(PVT)Ltd.are pure Unani products and are prepared strictly  to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug     Regulatory Authority of Pakistan (DRAP) Act 2012.\n\n\n";
             }
             else if (LOGO.equals("Nature's Home Registered"))
             {
-                PrintFotter = "“I hereby declare that goods manufactured & sold by Nature’s Home Registered Lahore are pure Unani products and are prepared strictly to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug Regulatory Authority of Pakistan (DRAP) Act 2012.”";
+                PrintFotter = "I hereby declare that goods manufactured & sold by Nature's Home Registered Lahore are pure     Unani products and are prepared strictly to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug  Regulatory Authority of Pakistan (DRAP) Act 2012.\n\n\n";
             }
             else if(LOGO.equals("Neelam Labs& Nature's Home Registered"))
             {
-                PrintFotter = "“I hereby declare that goods manufactured & sold by Nature’s Home Registered Lahore & Neelam Laboratories and Dawakhana (PVT)Ltd  are pure Unani products and are prepared strictly to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug Regulatory Authority of Pakistan (DRAP) Act 2012.”";
+                PrintFotter = "I hereby declare that goods manufactured & sold by Nature's Home Registered Lahore &            Neelam Laboratories and Dawakhana (PVT)Ltd  are pure Unani products and are prepared strictly to the Unani and Ayuorvadic system of Medicine. We have been enlisted according to new Drug       Regulatory Authority of Pakistan (DRAP) Act 2012.\n\n\n";
             }
 
             mOutputStream.write(PrintFotter.getBytes("GBK"));
@@ -209,11 +211,18 @@ public class Printer_addapter {
         {
             String name = formatedData.get(i).get("productName"+i);
 
+            int length =name.length();
+
+            if(length>15)
+            {
+
+            }
 
 
-                data.add(formatedData.get(i).get("productName"+i)+"   ");
-                data.add(formatedData.get(i).get("productPrice"+i) + "         ");
-                data.add(formatedData.get(i).get("productQuantity"+i) + "        ");
+
+                data.add(formatedData.get(i).get("productName"+i)+" ");
+                data.add(formatedData.get(i).get("productPrice"+i) + "      ");
+                data.add(formatedData.get(i).get("productQuantity"+i) + "     ");
                 data.add(formatedData.get(i).get("total"+i)+"\n");
 
 

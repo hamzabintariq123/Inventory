@@ -95,7 +95,7 @@ public class Add_Products extends AppCompatActivity {
         Total = (TextView) findViewById(R.id.total);
         discount_sppiner = (Spinner) findViewById(R.id.discount_sppiner);
 
-        setRetailSpinner();
+        setTradeSpinner();
 
         try {
             database=database.open();
@@ -329,12 +329,12 @@ public class Add_Products extends AppCompatActivity {
                     case R.id.retail:
                        price =  list.get(pos).getRetail();
                         productRate.setText(price);
-                        setRetailSpinner();
+                        setTradeSpinner();
                         break;
                     case R.id.trade:
                          price =  list.get(pos).getTrade();
                         productRate.setText(price);
-                        setTradeSpinner();
+                        setRetailSpinner();
                         break;
                 }
             }

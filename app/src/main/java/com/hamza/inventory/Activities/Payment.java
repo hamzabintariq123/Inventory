@@ -99,10 +99,6 @@ public class Payment extends AppCompatActivity {
                 {
                     Toast.makeText(Payment.this, "No Amount Entered ", Toast.LENGTH_SHORT).show();
                 }
-                else if(Integer.parseInt(sAmount)>total)
-                {
-                    Toast.makeText(Payment.this, "Your entered amount is greater then total amount", Toast.LENGTH_SHORT).show();
-                }
                 else
                 {
                     remaining = total -Integer.parseInt(sAmount);

@@ -124,12 +124,7 @@ public class Recovery extends AppCompatActivity {
                     paid = Integer.parseInt(Piad.getText().toString());
                     int strrecovry = Integer.parseInt(recovry_amount.getText().toString());
 
-                    if (strrecovry > remaining)
-                    {
-                        Toast.makeText(Recovery.this, "You entered amount is greater than remaining amount !!", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+
                         paid = paid +Integer.parseInt(recovry);
                         remaining = remaining-Integer.parseInt(recovry);
 
@@ -138,7 +133,7 @@ public class Recovery extends AppCompatActivity {
                         Intent intent = new Intent(Recovery.this,Customers.class);
                         intent.putExtra("from","recovry");
                         startActivity(intent);
-                    }
+
                 }
 
 
